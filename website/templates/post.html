@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}Post | Shetty777{% endblock %}
+{% block content %}
+<br/><br/>
+<h1 class="text" style="font-family: Buttermilk; font-size: 4rem; text-align: center;">Post a new article</h1>
+
+<form method="POST" enctype="multipart/form-data">
+	<div class="container">
+		<div class="container d-flex justify-content-center align-items-center">
+			<div class="col-sm-12 p-sm-1 p-md-1 p-lg-5 d-flex justify-content-center align-items-center">
+				<div class="card mb-5 w-75 rounded-5 custom-border" style="padding-top:1rem; box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500); margin: auto" id="file-upload-card">
+					<div class="row g-0">
+						<div class = "col-md-5 d-flex justify-content-center align-items-center">
+							<img src="{{ url_for('static', filename='images/Post.webp') }}" class="card-img mx-auto img-fluid" alt="Post" style="width:20rem">
+						</div>
+						<div class = "col-md-7">
+							{{ form.csrf_token }}
+							{{ form.hidden_tag() }}
+							<p> </p>
+							<div class="ms-5 mb-5 me-5">
+								{{ form.category.label(class = "form-label", style="font-size: 1rem;") }}
+								<div class="input-group flex-nowrap">
+									<span class="input-group-text"><i class="bi-tags"></i></span>
+									{{ form.category(class = "form-control custom-input", placeholder="'Article' or 'Project'", id="fc-category") }}
+								</div>
+							</div>
+							<div class="ms-5 mb-5 me-5">
+								{{ form.htmlfile.label(class = "form-label", style="font-size: 1rem;") }}
+								<div class="input-group flex-nowrap">
+									<span class="input-group-text"><i class="bi-filetype-html"></i></span>
+									{{ form.htmlfile(class = "form-control custom-input", placeholder=".html file of the post", id="fc-file") }}
+								</div>
+							</div>
+							<div class="ms-5 mb-5 me-5">
+								{{ form.url.label(class = "form-label", style="font-size: 1rem;") }}
+								<div class="input-group flex-nowrap">
+									<span class="input-group-text">URL</span>
+									{{ form.url(class = "form-control custom-input", placeholder="URL address of the post", id="fc-url")}}
+								</div>
+							</div>
+							<br/>
+							<div class="container d-flex justify-content-center align-items-center">
+								<a class="btn custom-btn btn-lg ms-5 mb-5 me-5" style="width:100%" onclick="showImageUpload()">Upload Media&emsp;<i class="bi bi-arrow-right"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container d-flex justify-content-center align-items-center">
+			<div class="card mb-5 w-75 rounded-5 custom-border" style="padding-top:1rem; box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500); margin: auto; display: none" id="image-upload-card">
+				<div class="row g-0">
+					<div class = "col-md-5 d-flex justify-content-center align-items-center">
+						<img src="{{ url_for('static', filename='images/Upload-image.webp') }}" class="card-img mx-auto img-fluid" alt="Image" style="width:20rem">
+					</div>
+					<div class = "col-md-7">
+						{{ form.csrf_token }}
+						{{ form.hidden_tag() }}
+						<p> </p>
+						<div class="ms-5 mb-5 me-5" >
+							{{ form.images.label(class = "form-label", style="font-size: 1rem;") }}
+							<div class="input-group flex-nowrap">
+								<span class="input-group-text"><i class="bi-file-earmark-image"></i></span>
+								{{ form.images(class = "form-control custom-input", placeholder="Images present in the post")}}
+							</div>
+						</div>
+						<div class="ms-5 mb-5 me-5">
+							{{ form.audio.label(class = "form-label", style="font-size: 1rem;") }}
+							<div class="input-group flex-nowrap">
+								<span class="input-group-text"><i class="bi-file-earmark-music"></i></span>
+								{{ form.audio(class = "form-control custom-input", placeholder="Audio file of the post")}}
+							</div>
+						</div>
+						<div class="ms-5 mb-5 me-5">
+							<ul style="list-style-type: disc">
+								<li id="li-category"></li>
+								<li id="li-file"></li>
+								<li id="li-url"></li>
+							</ul>
+						</div>
+						<br/>
+						<div class="container d-flex justify-content-center align-items-center">
+							<a class="btn custom-btn btn-lg" style="width:50%; margin: 2rem;" onclick="showFileUpload()"><i class="bi bi-arrow-left"></i>&emsp;Go back</a>
+							{{ form.post(class = "btn custom-btn btn-lg", style="width: 50%; margin: 2rem") }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+{% endblock %}

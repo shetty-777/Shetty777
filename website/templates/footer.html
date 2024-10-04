@@ -1,0 +1,38 @@
+<div class="d-flex flex-column h-100">
+    <footer class="w-100 py-4 flex-shrink-0 bg-body-tertiary">
+        <div class="container py-4">
+            <div class="row gy-4 gx-5">
+                <div class="col-md-3">
+                    <img src="{{ url_for('static', filename='images/Profile_1.webp') }}" alt="Shashank Shetty" class="img-fluid" style="background: linear-gradient(white, white) padding-box,
+                    linear-gradient(135deg, #9000FF, #D000FF) border-box; border-radius: 50em; border: 3px solid transparent;" width=150rem>
+                </div>
+                <div class="col-md-3" style="word-wrap: break-word;">
+                    <h5>About me:</h5>
+                    <h6 class="text-body-secondary" style="font-family:Roboto">Shashank S Shetty,
+                        <br/><br/>shetty777.blog@gmail.com
+                        <br/>kmkshashank@gmail.com</h6>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="mb-3">Links:</h5>
+                    <p class="text-body-secondary">
+                        <a href="{{url_for('routes.articles')}}" class="text-reset">Articles</a>
+                        <br/><a href="{{url_for('routes.projects')}}" class="text-reset">Projects</a>
+                        <br/><a href="{{url_for('routes.blogs')}}" class="text-reset">Blogs</a>
+                        <br/><a href="{{url_for('routes.subscribe')}}" class="text-reset">Subscribe</a>
+                        <br/><a href="{{url_for('routes.login')}}" class="text-reset">Login</a>
+                    </p>
+                </div>
+                <div class="col-md-3" style="word-wrap: break-word;">
+                    <h5 class="mb-3">Attributions:</h5>
+                    <p class="text-body-secondary">
+                        <a href="https://storyset.com" class="text-reset">Storyset</a>
+                        <br/><a href="https://www.dfonts.org" class="text-reset">Dfonts</a>
+                        <br/><a href="https://fonts.google.com" class="text-reset">Google Fonts</a>
+                        <br/><a href="https://cloud.google.com/text-to-speech" class="text-reset">Google TTS</a>
+                        <br/><a href="https://blog.medium.com" class="text-reset">Medium (UI inspiration)</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>

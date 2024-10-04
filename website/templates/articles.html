@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Articles | Shetty777{% endblock %}
+
+{% block content %}
+<div class='container'>
+	<br />
+	<h1 style="font-family:Buttermilk; font-size: 4rem;">Articles</h1>
+	<h5>Explore a rich collection of thought-provoking essays, speeches, analyses and debates</h5>
+	<br />
+	<div class="row">
+		{% for article in articles_list %}
+			<div class="col-md-4">
+				<div class="card pop-up-card" style="margin: 0.5rem; border-radius: 20px;">
+					<img src="{{ url_for('.static', filename = article.banner) }}" class="card-img-top" alt="{{article.title}}" style="object-fit: cover; height:12.5rem; border-radius: 20px 20px 0px 0px;">
+					<div class="card-body">
+					<h5 class="card-title post-card-title" style="font-family: LibreFranklin; font-weight: bold">{{ article.title }} </h5>
+					<a class="stretched-link" href="{{ url_for('routes.web_posts', post_url=article.url) }}"></a>
+					<p class="card-text"><small class="text-body-secondary">Posted on:  {{ article.date }}</small></p>
+					</div>
+				</div>
+			</div>
+		{% endfor %}		  
+	</div>
+</div>
+{% endblock %}

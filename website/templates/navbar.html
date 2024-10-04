@@ -1,0 +1,65 @@
+<nav class=" autohide navbar navbar-expand-lg bg-body-tertiary fixed-top" style="box-shadow: 2px 2px 30px black">
+    <div class="container">
+        <a class="navbar-brand" href="{{url_for('routes.index')}}">
+             <img src="{{ url_for('static', filename='images/logo_text.webp') }}" alt="Shetty777" width="75" height="75">
+        </a>
+        <button class="navbar-toggler btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <div class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('routes.articles')}}">Articles</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('routes.projects')}}">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('routes.blogs')}}">Blogs</a>
+                </li>
+                <div class="vertical-separator d-none d-lg-block"></div>
+                {% if user.is_authenticated and user.userrole!='user' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('routes.dashboard', username= user.username|urlencode)}}">Dashboard</a>
+                    </li>
+                {% elif user.is_authenticated and user.userrole=='user' %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Administrator</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="nav-link" href="{{url_for('routes.dashboard', username= user.username|urlencode)}}"><i class="bi-person-badge"></i>&ensp;Dashboard</a></li>                        
+                            <li><a class="nav-link" href="{{url_for('routes.subscriber_list')}}"><i class="bi-bell"></i>&ensp;Subscribers</a></li>                            
+                            <li><a class="nav-link" href="{{url_for('routes.post_list')}}"><i class="bi-list-ul"></i>&ensp;Post list</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="nav-link" href="{{url_for('routes.post')}}"><i class="bi-send"></i>&ensp;Post</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="nav-link" href="{{url_for('routes.logout')}}"><i class="bi-box-arrow-right"></i>&ensp;Signout</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li>
+                        <a class="nav-link" href="{{url_for('routes.login')}}">Login</a>
+                    </li>
+                {% endif %}
+            </div>
+
+            <hr class="d-lg-none">
+
+            <div class="navbar-nav ms-auto">
+                <li><a class="nav-link" href="{{ url_for('routes.about') }}"><i class="bi-patch-question-fill"></i> About</a></li>
+                <li><a class="nav-link" href="mailto:shetty777.blog@gmail.com"><i class="bi-envelope-fill"></i> Gmail</a></li>
+                <li><a class="nav-link" href="https://www.github.com/Shetty-777"><i class="bi-github"></i> Github</a></li>
+                
+                <hr class="d-lg-none">
+                <div class="vertical-separator d-none d-lg-block"></div>
+
+                <li class="nav-item align-items-center d-flex" >
+                    <i class="bi bi-brightness-high-fill"></i>
+                    <div class="ms-2 form-check form-switch">
+                      <input class="form-check-input" type="checkbox" role="switch" id="themeSwitcher" checked>
+                    </div>
+                    <i class="bi bi-moon-stars-fill"></i>
+                </li>
+            </div>
+        </div>
+    </div>
+</nav>

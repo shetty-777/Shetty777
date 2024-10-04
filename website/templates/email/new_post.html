@@ -1,0 +1,35 @@
+<h1 style="font-size:x-large; font-family: sans-serif; font-weight: bold">Hello from Shetty777,</h1>
+<div style="position: relative; height: 75vh; width: auto;">
+  <div style="position: absolute;top:0; bottom:0; left:0; right:0;margin: 10px;background-color: rgba(0,0,0,0.100);border-radius: 30px;filter: blur(15px);z-index: -1;"></div>
+  <div style="position: absolute;top:10px; bottom:20px; left:10px; right:20px; align-items: center;justify-content: center;z-index: 1; overflow-y: auto;">
+    <table style="border-radius:30px; background-color: white; width:100%">
+        <tr>
+          <td>
+            <p style="font-family: sans-serif; margin: 25px">
+                Dear subscriber,
+                <br/>
+                I'm excited to share a new post on Shetty777! The latest {{ category }} is now online.
+                <br/>
+            </p>
+            <h3 style="font-size:x-large; font-family: serif; font-weight: bold; margin:20px 50px">{{  title  }}</h3>
+            <p style="font-family: sans-serif; margin: 25px">
+                Click the button below to check it out
+                <br/>
+            </p>
+            <div style="text-align: center; justify-content: center; align-items: center">
+                <a href={{ url_for('routes.web_posts', post_url=url, _external=True) }}><button style="color: white; font-size: 18px; background-color: #9000FF; border-width: 0px; border-radius: 50vh; width: 70%; height: auto; padding: 10px; margin: 10px">Read the new post</button></a>
+            </div>
+      
+            <p style="font-size: small; font-family: sans-serif; margin: 25px">
+                I am glad to have you here and appreciate your support :)
+                <br/>
+                <br/>
+                <b>Best regards,</b>
+                <br/>
+                Shashank S Shetty
+            </p>
+          </td>
+        </tr>
+    </table>
+  </div>
+</div>

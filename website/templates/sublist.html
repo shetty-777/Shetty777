@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}List of subscribers | Shetty777{% endblock %}
+{% block content %}
+<br/><br/>
+<div class="container d-flex justify-content-center align-items-center table-responsive">
+    <table class="table table-bordered table-striped table-responsive" style="margin:2rem; position:relative; box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500);">
+        <thead>
+            <th scope="col">#</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email address</th>
+            <th scope="col">Verified?</th>
+            <th scope="col">Date subscribed</th>
+            <th scope="col">Delete</th>
+        </thead>
+        <tbody class="table-group-divide"></tbody>
+        {% for subscriber in sublist%}
+                <tr>
+                    <td>{{ subscriber.id }}</td>
+                    <td>{{ subscriber.username }}</td>
+                    <td>{{ subscriber.emailid }}</td>
+                    {% if subscriber.verified == True %}
+                      <td>Yes</td>
+                    {% else %}
+                      <td><a type="button" class="btn btn-sm btn-outline-primary" href="{{ url_for('routes.send_manual_verification', email= subscriber.emailid|urlencode, user= subscriber.username|urlencode) }}">No</a></td>
+                    {% endif %}
+                    <td>{{ subscriber.date_subscribed | format_datetime('Asia/Kolkata', '%d/%m/%Y %I:%M %p') }}</td>
+                    <td><button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmationModal" data-bs-delsubname="{{ subscriber.username }}" data-bs-delsubid="{{ subscriber.id }}">Delete</button></td>
+                </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="modal fade" id="confirmationModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Subscriber deletion confirmation</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="deletionmodaltext"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <a type="button" class="btn btn-danger delete-subscriber" data-subscriber-id="#">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}
