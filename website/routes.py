@@ -13,7 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from website import generate_token
 from .models import Post, Subscriber, Comment, AllUsers
-from . import db, subscriberform, postform, loginform, commentform, email
+from . import db, subscriberform, postform, loginform, commentform, email, cache
 
 routes = Blueprint("routes", __name__, template_folder="../website/posts/", static_folder="../website/post_media/" )
 
@@ -54,6 +54,7 @@ def format_datetime(value, tz_code, format):
 #---------------------------------oooo000oooo--------------------------------------#
 
 @routes.route("/")
+@cache.cached(timeout = 60*60, key_prefix = 'homepage_cache')
 def index():
 	rec_posts = Post.query.order_by(Post.date_created.desc()).all()
 	rec_posts_list = []
@@ -74,8 +75,8 @@ def index():
 		banner_img_element = soup.find(id="post_banner")
 
 		if banner_img_element:
-			banner = banner_img_element.get('src') # type: ignore
-			banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() # type: ignore
+			banner = banner_img_element.get('src') 
+			banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() 
 		#-------------------------------------------------------------------------
 		if rec_post.date_created:
 			date = format_datetime(rec_post.date_created, 'Asia/Kolkata', "%d %b, %Y")
@@ -130,7 +131,7 @@ def subscribe():
 		#---------------------------------------------------------------------
 		elif not form.errors:
 			try:
-				new_subscriber = Subscriber(username=username, emailid=emailid, password=password, userrole="subscriber") # type: ignore
+				new_subscriber = Subscriber(username=username, emailid=emailid, password=password, userrole="subscriber") 
 				db.session.add(new_subscriber)
 				db.session.commit()
 
@@ -149,10 +150,8 @@ def subscribe():
 @role_required('user')
 def send_manual_verification():
 	try:
-		emailid = urllib.parse.unquote(request.args.get('email')) # type: ignore
-		username = urllib.parse.unquote(request.args.get('user')) # type: ignore
-		print(emailid)
-		print(username)
+		emailid = urllib.parse.unquote(request.args.get('email')) 
+		username = urllib.parse.unquote(request.args.get('user')) 
 		email.send(	subject = "E-mail verification for Shetty777",
 					receivers = emailid,
 					body_params = {"token": generate_token.generate_token(username, 'Fresh', 10)},
@@ -172,15 +171,15 @@ def verify_email(token):
 		new_subscriber = Subscriber.query.filter_by(username=username).first()
 		if int(datetime.now(tz=timezone.utc).timestamp()) < exp:
 			try:
-				if new_subscriber.verified == False: # type: ignore
-					new_subscriber.verified = True # type: ignore
+				if new_subscriber.verified == False: 
+					new_subscriber.verified = True 
 					db.session.commit()
 
 					login_user(new_subscriber, remember=True)
 					flash('Congratulations! You are now subscribed to Shetty777', category='success')
 				
-				elif new_subscriber.verified == True: # type: ignore
-					flash('Your E-mail address has already been verified (1)', category='success')
+				elif new_subscriber.verified == True: 
+					flash('Your E-mail address has already been verified', category='success')
 				else:
 					pass
 			except:
@@ -189,26 +188,26 @@ def verify_email(token):
 		elif token_type == 'Fresh' and int(datetime.now(tz=timezone.utc).timestamp()) >= exp:
 			if new_subscriber.verified == False:
 				email.send(	subject = "E-mail verification for Shetty777 [Refreshed token]",
-						receivers = new_subscriber.emailid, # type: ignore
+						receivers = new_subscriber.emailid, 
 						body_params = {"token": generate_token.generate_token(username, 'Refresh', 10080)},
 						html_template = "email/verify_refreshed.html")
 				return render_template("verify_email_refreshed.html", user=current_user)
-			elif new_subscriber.verified == True: # type: ignore
-				flash('Your E-mail address has already been verified (2)', category='success')
+			elif new_subscriber.verified == True: 
+				flash('Your E-mail address has already been verified', category='success')
 			else:
 				pass
 
 		elif token_type == 'Refresh' and int(datetime.now(tz=timezone.utc).timestamp()) >= exp:
 			if new_subscriber.verified == False:
-				email_to_verify = Subscriber.query.filter_by(username=username).first().emailid # type: ignore
-				flash(Markup(f'Even your refresh token expired! <a href="mailto:shetty777.blog@gmail.com?subject=Verification%20token%20refresh%20request&body=With%20this%20E-mail,%20I%20request%20you%20to%20refresh%20my%20verification%20token%20to%20subscribe%20to%20Shetty777%0AI%20understand%20that%20not%20verifying%20with%20this%20new%20token%20will%20lead%20tos%20my%20account%20being%20deleted.%0AThe%20E-mail%20address%20is,%20{email_to_verify}">Request to get a new refresh token for your account</a>'), category='error')
+				email_to_verify = Subscriber.query.filter_by(username=username).first().emailid 
+				flash(Markup(f'Even your refresh token expired! <a href="mailto:shetty777.blog@gmail.com?subject=Verification%20token%20refresh%20request&body=With%20this%20E-mail,%20I%20request%20you%20to%20refresh%20my%20verification%20token%20to%20subscribe%20to%20Shetty777%0AI%20understand%20that%20not%20verifying%20with%20this%20new%20token%20will%20lead%20tos%20my%20account%20having%20limited%20access.%0AThe%20E-mail%20address%20is,%20{email_to_verify}">Request to get a new refresh token for your account</a>'), category='error')
 				return redirect("/")
-			elif new_subscriber.verified == True: # type: ignore
-				flash('Your E-mail address has already been verified (3)', category='success')
+			elif new_subscriber.verified == True: 
+				flash('Your E-mail address has already been verified', category='success')
 			else:
 				pass
 	except:
-		flash("Looks the verification token is invalid. Try again.", category='error')
+		flash("Looks like the verification token is invalid. Try again.", category='error')
 		return redirect("/")
 	
 	return redirect("/")
@@ -232,21 +231,21 @@ def login():
 		subscriber_email = Subscriber.query.filter_by(emailid=usernameoremailid).first()
 
 		if subscriber:
-			if check_password_hash(subscriber.password, password): # type: ignore
+			if check_password_hash(subscriber.password, password): 
 				login_user(subscriber, remember=True)
 				flash('Successfully logged into your subscriber account', category='success')
 				return redirect("/")
 			else:
 				flash('Password is incorrect', category='error')
 		elif subscriber_email:
-			if check_password_hash(subscriber_email.password, password): # type: ignore
+			if check_password_hash(subscriber_email.password, password): 
 				login_user(subscriber_email, remember=True)
 				flash('Successfully logged into your subscriber account !!!', category='success')
 				return redirect("/")
 			else:
 				flash('Password is incorrect', category='error')
 		else:
-			flash("The username or E-mail you have provided does not exist", category='error')
+			flash("An account with the username or E-mail you have provided does not exist", category='error')
 	return render_template("login.html", user=current_user, usernameoremailid=usernameoremailid, password=password, form=form)
 
 @routes.route("/logout")
@@ -264,7 +263,7 @@ def dashboard(username):
 	try:
 		usrname = urllib.parse.unquote(username).replace('/', '')
 		user = db.session.query(AllUsers).filter_by(username=usrname).first()
-		if user and current_user.username == user.username: # type: ignore
+		if user and current_user.username == user.username: 
 			marked_posts = user.marked_posts
 			marked_posts_list = []
 
@@ -295,6 +294,7 @@ def dashboard(username):
 #---------------------------------oooo000oooo--------------------------------------#
 
 @routes.route("/articles")
+@cache.cached(timeout = 60*60, key_prefix = 'articles_cache')
 def articles():
 	articles = Post.query.filter_by(category='Article').order_by(Post.date_created.desc()).all()
 	articles_list = []
@@ -315,8 +315,8 @@ def articles():
 		banner_img_element = soup.find(id="post_banner")
 
 		if banner_img_element:
-			banner = banner_img_element.get('src') # type: ignore
-			banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() # type: ignore
+			banner = banner_img_element.get('src') 
+			banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() 
 		#-------------------------------------------------------------------------
 		if article.date_created:
 			date = format_datetime(article.date_created, 'Asia/Kolkata', "%d %b, %Y")
@@ -326,6 +326,7 @@ def articles():
 	return render_template("articles.html", user=current_user, articles_list=articles_list)
 
 @routes.route("/projects")
+@cache.cached(timeout = 60*60, key_prefix = 'projects_cache')
 def projects():
 	projects = Post.query.filter_by(category='Project').order_by(Post.date_created.desc()).all()
 
@@ -346,8 +347,8 @@ def projects():
 		banner_img_element = soup.find(id='post_banner')
 
 		if banner_img_element:
-			banner = banner_img_element.get('src') # type: ignore
-			banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() # type: ignore
+			banner = banner_img_element.get('src') 
+			banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() 
 		#--------------------------------------------------------------------------
 		if project.date_created:
 			date = format_datetime(project.date_created, 'Asia/Kolkata', "%d %b, %Y")
@@ -357,6 +358,7 @@ def projects():
 	return render_template("projects.html", user=current_user, projects_list=projects_list)
 
 @routes.route("/blogs")
+@cache.cached(timeout = 3600, key_prefix = 'blogs_cache')
 def blogs():
 	blogs = Post.query.filter_by(category='Blog').order_by(Post.date_created.desc()).all()
 	for blog in blogs:
@@ -407,31 +409,26 @@ def post():
 
 		elif not form.errors:
 			try:
-				html_filename = secure_filename(htmlfile.filename) # type: ignore
+				html_filename = secure_filename(htmlfile.filename) 
 				if not os.path.isfile(f'{current_app.root_path}/posts/{html_filename}'):
-					htmlfile.save(os.path.join(current_app.root_path, 'posts', html_filename)) # type: ignore
+					htmlfile.save(os.path.join(current_app.root_path, 'posts', html_filename)) 
 					flash(f'Successfully uploaded file: {html_filename}', category='info')
 				else:
 					flash(f'File {html_filename} already exists', category='error')
 					return redirect("/post")
 				
 				try:
-					print("Audio")
-					audio_filename = secure_filename(audio.filename) # type: ignore
-					print("Audio is" + audio_filename)
+					audio_filename = secure_filename(audio.filename) 
 					if not os.path.isfile(f'{current_app.root_path}/post_media/{audio_filename}'):
-						print("Yo")
-						audio.save(os.path.join(current_app.root_path, 'post_media', audio_filename)) # type: ignore
+						audio.save(os.path.join(current_app.root_path, 'post_media', audio_filename)) 
 						flash(f'Successfully uploaded file: {audio_filename}', category='info')
 					else:
-						print("Yo again")
 						flash(f'File {audio_filename} already exists', category='error')
 						return redirect("/post")
 				except Exception as e:
-					print("No audio" + e)
 					flash('No audio file; proceeding', category='info')
 
-				for file in images: # type: ignore
+				for file in images: 
 					filename = secure_filename(file.filename)
 					if not os.path.isfile(f'{current_app.root_path}/post_media/{filename}'):
 						file.save(os.path.join(current_app.root_path, 'post_media', filename))
@@ -447,14 +444,15 @@ def post():
 			#---------------------------------------------------------------------
 
 			try:
-				new_post = Post(htmlfile=html_filename, category=category, url=url) # type: ignore
+				new_post = Post(htmlfile=html_filename, category=category, url=url) 
 				db.session.add(new_post)
 				db.session.commit()
 			except:
 				db.session.rollback()
 
+			cache.clear()
 			post_for_mail = db.session.query(Post).filter_by(url=url).first()
-			with open(current_app.root_path+"/posts/"+post_for_mail.htmlfile, 'r', encoding='utf-8') as file: # type: ignore
+			with open(current_app.root_path+"/posts/"+post_for_mail.htmlfile, 'r', encoding='utf-8') as file: 
 				html_content = file.read()
 		
 			soup = BeautifulSoup(html_content, 'html.parser')
@@ -471,7 +469,7 @@ def post():
 			email.send(	subject = "Latest post buzz on Shetty777!",
 						receivers = "Shetty777_Subscribers shetty777.blog@gmail.com",
 						bcc = email_list,
-						body_params = {"category": post_for_mail.category, "url":post_for_mail.url, "title": title}, # type: ignore
+						body_params = {"category": post_for_mail.category, "url":post_for_mail.url, "title": title}, 
 						text = f"Dear subscriber,\n I'm excited to share a new post on Shetty777! The latest { category } is now online.\n\n\nI am glad to have you here and appreciate your support :)\n\nBest regards,\nShashank S Shetty",
 						html_template = "email/new_post.html")
 		else:
@@ -484,7 +482,12 @@ def post():
 
 #---------------------------------oooo000oooo--------------------------------------#
 
+def gen_cache_key(*args, **kwargs):
+    post_url = request.view_args.get('post_url')
+    return f"post_cache_{post_url}"
+
 @routes.route("/web_posts/<post_url>", methods=['POST', 'GET'])
+@cache.cached(timeout = 60*60*24*10, key_prefix = gen_cache_key)
 def web_posts(post_url):
 	try:
 		rating = None
@@ -498,14 +501,14 @@ def web_posts(post_url):
 			form.text_content.data = ''
 				
 		post = db.session.query(Post).filter_by(url=post_url).first()
-		post_file = str(post.htmlfile).replace("<FileStorage: '", "") # type: ignore
+		post_file = str(post.htmlfile).replace("<FileStorage: '", "") 
 		post_file = post_file.replace("' ('text/html')>", "")
 
-		comments = db.session.query(Comment).filter_by(post_id=post.id).order_by(Comment.date_created.desc()).all() # type: ignore
+		comments = db.session.query(Comment).filter_by(post_id=post.id).order_by(Comment.date_created.desc()).all() 
 		comment_list = []
 		if comments:
 			for comment in comments:
-				commentor = db.session.query(AllUsers).filter_by(id=comment.commentor).first() # type: ignore
+				commentor = db.session.query(AllUsers).filter_by(id=comment.commentor).first() 
 				comment_list.append({'id': comment.id, 'commentor': commentor, 'rating': comment.rating, 'text_content': comment.text_content, 'date': format_datetime(comment.date_created, 'Asia/Kolkata', "%d %b, %Y")})
 			
 		ratings = [r[0] for r in db.session.query(Comment.rating).filter(Comment.rating != None).all()]
@@ -515,7 +518,7 @@ def web_posts(post_url):
 			avg_rating = "No ratings"
 
 		if hasattr(current_user, "id"):
-			user_comments = Comment.query.filter_by(post_id=post.id, commentor=current_user.id).count() # type: ignore
+			user_comments = Comment.query.filter_by(post_id=post.id, commentor=current_user.id).count() 
 		else:
 			user_comments = 1
 		
@@ -524,7 +527,7 @@ def web_posts(post_url):
 				if hasattr(current_user, "userrole") and current_user.userrole != 'user' and current_user.verified == True and user_comments < 1:
 					if rating != None:
 						try:
-							new_comment = Comment(rating=rating, text_content=text_content, commentor=current_user.id, post_id=post.id) # type: ignore
+							new_comment = Comment(rating=rating, text_content=text_content, commentor=current_user.id, post_id=post.id) 
 							db.session.add(new_comment)
 							db.session.commit()
 							flash('You commented on this post', category='success')
@@ -543,7 +546,7 @@ def web_posts(post_url):
 						return redirect(url_for('routes.web_posts', post_url=post_url))
 					else:
 						try:
-							new_comment = Comment(rating=None, text_content=text_content, commentor=current_user.id, post_id=post.id) # type: ignore
+							new_comment = Comment(rating=None, text_content=text_content, commentor=current_user.id, post_id=post.id) 
 							db.session.add(new_comment)
 							db.session.commit()
 							flash('You commented on this post', category='success')
@@ -567,7 +570,7 @@ def mark_post(userid, postid):
 	if usr == current_user:
 		try:
 			post = db.session.query(Post).filter_by(id=postid).first()
-			usr.marked_posts.append(post) # type: ignore
+			usr.marked_posts.append(post) 
 			db.session.commit()
 			return jsonify({"status": "success", "message": "Post marked"})
 		except:
@@ -583,7 +586,7 @@ def unmark_post(userid, postid):
 	if usr == current_user:
 		try:
 			post = db.session.query(Post).filter_by(id=postid).first()
-			usr.marked_posts.remove(post) # type: ignore
+			usr.marked_posts.remove(post) 
 			db.session.commit()
 			return jsonify({"status": "success", "message": "Post unmarked"})
 		except:
@@ -610,10 +613,10 @@ def delete_subscriber(id):
 		db.session.commit()
 
 		email.send(subject="Subscriber account deleted",
-                    receivers=deleted_subscriber.emailid, # type: ignore
+                    receivers=deleted_subscriber.emailid, 
                     html_template="email/subscriber_deleted.html")
 
-		flash(f'{deleted_subscriber.username} was deleted and an E-mail was sent', category='info') # type: ignore
+		flash(f'{deleted_subscriber.username} was deleted and an E-mail was sent', category='info') 
 		return jsonify({"status": "success", "message": "Subscriber deleted successfully"})
 	except:
 		db.session.rollback()
@@ -644,7 +647,7 @@ def delete_post(id):
 		for img in soup.find_all('img'):
 			if img:
 				try:
-					del_img = re.search(r'''='(.*?)'\)''', img.get('src')).group(1).strip() # type: ignore # type: ignore
+					del_img = re.search(r'''='(.*?)'\)''', img.get('src')).group(1).strip()  
 					os.remove(current_app.root_path+"/post_media/"+del_img)
 					flash(f'{del_img} file was deleted successfully', category='warning')
 				except:
@@ -657,7 +660,7 @@ def delete_post(id):
 			if audio:
 				try:
 					for source in audio.find_all('source'):
-						del_audio = re.search(r'''='(.*?)'\)''', source.get('src')).group(1).strip() # type: ignore
+						del_audio = re.search(r'''='(.*?)'\)''', source.get('src')).group(1).strip() 
 						os.remove(current_app.root_path+"/post_media/"+del_audio)
 						flash(f'{del_audio} file was deleted successfully', category='info')
 				except:
@@ -688,7 +691,7 @@ def delete_comment(id):
 		db.session.delete(deleted_comment)
 		db.session.commit()
 
-		flash('Comment was deleted', category='info') # type: ignore
+		flash('Comment was deleted', category='info') 
 		return jsonify({"status": "success", "message": "Comment deleted successfully"})
 	except:
 		db.session.rollback()

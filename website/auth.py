@@ -36,7 +36,7 @@ def signup():
         if user_exists:
             flash("User already exists", category='warning')
         elif password1 and password2:
-            new_user = User(username=username,password1=generate_password_hash(password1, method='scrypt'),password2=generate_password_hash(password2, method='scrypt'),userrole="user",verified=True) # type: ignore
+            new_user = User(username=username,password1=generate_password_hash(password1, method='scrypt'),password2=generate_password_hash(password2, method='scrypt'),userrole="user",verified=True) 
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
