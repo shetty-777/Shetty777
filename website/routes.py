@@ -13,7 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from website import generate_token
 from .models import Post, Subscriber, Comment, AllUsers
-from . import db, subscriberform, postform, loginform, commentform, email, cache
+from . import db, subscriberform, postform, loginform, commentform, email
 
 routes = Blueprint("routes", __name__, template_folder="../website/posts/", static_folder="../website/post_media/" )
 
@@ -54,7 +54,6 @@ def format_datetime(value, tz_code, format):
 #---------------------------------oooo000oooo--------------------------------------#
 
 @routes.route("/")
-@cache.cached(timeout = 60*60*24*30, key_prefix = 'homepage_cache')
 def index():
 	rec_posts = Post.query.order_by(Post.date_created.desc()).all()
 	rec_posts_list = []
@@ -85,7 +84,6 @@ def index():
 	return render_template("index.html", user=current_user, rec_posts_list=rec_posts_list)
 
 @routes.route("/about")
-@cache.cached(timeout = 60*60*24*30, key_prefix = 'about_page_cache')
 def about():
 	return render_template("about.html", user=current_user)
 #---------------------------------oooo000oooo--------------------------------------#
@@ -295,7 +293,6 @@ def dashboard(username):
 #---------------------------------oooo000oooo--------------------------------------#
 
 @routes.route("/articles")
-@cache.cached(timeout = 60*60*24*30, key_prefix = 'articles_cache')
 def articles():
 	articles = Post.query.filter_by(category='Article').order_by(Post.date_created.desc()).all()
 	articles_list = []
@@ -327,7 +324,6 @@ def articles():
 	return render_template("articles.html", user=current_user, articles_list=articles_list)
 
 @routes.route("/projects")
-@cache.cached(timeout = 60*60*24*30, key_prefix = 'projects_cache')
 def projects():
 	projects = Post.query.filter_by(category='Project').order_by(Post.date_created.desc()).all()
 
@@ -359,7 +355,6 @@ def projects():
 	return render_template("projects.html", user=current_user, projects_list=projects_list)
 
 @routes.route("/blogs")
-@cache.cached(timeout = 60*60*24*30, key_prefix = 'blogs_cache')
 def blogs():
 	blogs = Post.query.filter_by(category='Blog').order_by(Post.date_created.desc()).all()
 	for blog in blogs:
@@ -451,7 +446,6 @@ def post():
 			except:
 				db.session.rollback()
 
-			cache.clear()
 			post_for_mail = db.session.query(Post).filter_by(url=url).first()
 			with open(current_app.root_path+"/posts/"+post_for_mail.htmlfile, 'r', encoding='utf-8') as file: 
 				html_content = file.read()
@@ -488,7 +482,6 @@ def gen_cache_key(*args, **kwargs):
     return f"post_cache_{post_url}"
 
 @routes.route("/web_posts/<post_url>", methods=['POST', 'GET'])
-@cache.cached(timeout = 60*60*24*30, key_prefix = gen_cache_key)
 def web_posts(post_url):
 	try:
 		rating = None

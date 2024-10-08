@@ -1,6 +1,5 @@
 import os
 import psycopg2
-import redis
 from zoneinfo import ZoneInfo
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
@@ -9,7 +8,6 @@ from flask_migrate import Migrate
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, MultipleFileField, FileAllowed, FileRequired
 from flask_redmail import RedMail
-from flask_caching import Cache
 from wtforms import StringField, SubmitField, EmailField, PasswordField, SelectField, RadioField, TextAreaField
 from wtforms.validators import Email, Length, EqualTo, InputRequired, NoneOf, Optional
 
@@ -18,7 +16,6 @@ load_dotenv()'''
 
 db = SQLAlchemy()
 email = RedMail()
-cache = Cache()
 
 def create_app():
 	app = Flask(__name__)
@@ -48,20 +45,10 @@ def create_app():
 	app.config["EMAIL_USERNAME"] = os.environ.get("EMAIL_USERNAME")
 	app.config["EMAIL_PASSWORD"] = os.environ.get("APP_PASSWORD")
 	app.config["EMAIL_SENDER"] = os.environ.get("EMAIL_USERNAME")
-
-	app.config['CACHE_TYPE'] = 'RedisCache'
-	app.config['CACHE_REDIS_URL'] = 'rediss://{user}:{password}@{host}:{port}/{dbname}'.format(
-        user=os.environ.get("CACHE_REDIS_URI_USER"),
-        password=os.environ.get("CACHE_REDIS_URI_PASSWORD"),
-        host=os.environ.get("CACHE_REDIS_URI_HOST"),
-        port=os.environ.get("CACHE_REDIS_URI_PORT"),
-        dbname=os.environ.get("CACHE_REDIS_URI_NAME")
-    )
 	
 	db.init_app(app)
 	Migrate(app, db)
 	email.init_app(app)
-	cache.init_app(app)
 
 	def format_datetime(value, tz_code, format):
 		if value is None:
