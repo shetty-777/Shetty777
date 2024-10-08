@@ -505,7 +505,7 @@ def web_posts(post_url):
 				commentor = db.session.query(AllUsers).filter_by(id=comment.commentor).first() 
 				comment_list.append({'id': comment.id, 'commentor': commentor, 'rating': comment.rating, 'text_content': comment.text_content, 'date': format_datetime(comment.date_created, 'Asia/Kolkata', "%d %b, %Y")})
 			
-		ratings = [r[0] for r in db.session.query(Comment.rating).filter(Comment.rating != None).all()]
+		ratings = [item['rating'] for item in comment_list if item['rating'] is not None]
 		if len(ratings) != 0:
 			avg_rating = round(sum(ratings) / len(ratings), 1)
 		else:
@@ -550,7 +550,6 @@ def web_posts(post_url):
 				else:
 					flash('You can only have 1 comment on a post', category='warning')
 					return redirect(url_for('routes.web_posts', post_url=post_url))
-
 		return render_template(post_file, user=current_user, current_post=post, rating=rating, text_content=text_content, comment_list=comment_list, form=form, avg_rating=avg_rating, user_comments=user_comments)
 
 	except Exception as e:
