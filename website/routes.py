@@ -54,7 +54,7 @@ def format_datetime(value, tz_code, format):
 #---------------------------------oooo000oooo--------------------------------------#
 
 @routes.route("/")
-@cache.cached(timeout = 60*60*24, key_prefix = 'homepage_cache')
+@cache.cached(timeout = 60*60*24*30, key_prefix = 'homepage_cache')
 def index():
 	rec_posts = Post.query.order_by(Post.date_created.desc()).all()
 	rec_posts_list = []
@@ -295,7 +295,7 @@ def dashboard(username):
 #---------------------------------oooo000oooo--------------------------------------#
 
 @routes.route("/articles")
-@cache.cached(timeout = 60*60*24, key_prefix = 'articles_cache')
+@cache.cached(timeout = 60*60*24*30, key_prefix = 'articles_cache')
 def articles():
 	articles = Post.query.filter_by(category='Article').order_by(Post.date_created.desc()).all()
 	articles_list = []
@@ -327,7 +327,7 @@ def articles():
 	return render_template("articles.html", user=current_user, articles_list=articles_list)
 
 @routes.route("/projects")
-@cache.cached(timeout = 60*60*24, key_prefix = 'projects_cache')
+@cache.cached(timeout = 60*60*24*30, key_prefix = 'projects_cache')
 def projects():
 	projects = Post.query.filter_by(category='Project').order_by(Post.date_created.desc()).all()
 
@@ -359,7 +359,7 @@ def projects():
 	return render_template("projects.html", user=current_user, projects_list=projects_list)
 
 @routes.route("/blogs")
-@cache.cached(timeout = 60*60*24, key_prefix = 'blogs_cache')
+@cache.cached(timeout = 60*60*24*30, key_prefix = 'blogs_cache')
 def blogs():
 	blogs = Post.query.filter_by(category='Blog').order_by(Post.date_created.desc()).all()
 	for blog in blogs:
