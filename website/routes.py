@@ -140,8 +140,10 @@ def subscribe():
 							html_template = "email/verify.html")
 	
 				return render_template("verify_email.html", user=current_user)
-			except:
+			except Exception as e:
 				db.session.rollback()
+				flash(f"Something didn't go right {e}", category='error')
+				return jsonify({"status": "error", "message": e})			
 
 	return render_template("subscribe.html", user=current_user, username=username, emailid=emailid, password=password, confirm_password=confirm_password, form=form)
 
@@ -158,6 +160,7 @@ def send_manual_verification():
 		flash('Verification E-mail sent to', category='success')
 	except Exception as e:
 		flash(f"Something didn't go right {e}", category='error')
+		return jsonify({"status": "error", "message": e})	
 	return redirect("/subscriber_list")
 
 @routes.route("/verify_email/<token>")
@@ -181,8 +184,10 @@ def verify_email(token):
 					flash('Your E-mail address has already been verified', category='success')
 				else:
 					pass
-			except:
+			except Exception as e:
 				db.session.rollback()
+				flash(f"Something didn't go right {e}", category='error')
+				return jsonify({"status": "error", "message": e})	
 			
 		elif token_type == 'Fresh' and int(datetime.now(tz=timezone.utc).timestamp()) >= exp:
 			if new_subscriber.verified == False:
@@ -422,7 +427,7 @@ def post():
 						flash(f'File {audio_filename} already exists', category='error')
 						return redirect("/post")
 				except Exception as e:
-					flash('No audio file; proceeding', category='info')
+					flash(f'No audio file; proceeding {e}', category='info')
 
 				for file in images: 
 					filename = secure_filename(file.filename)
@@ -443,8 +448,10 @@ def post():
 				new_post = Post(htmlfile=html_filename, category=category, url=url) 
 				db.session.add(new_post)
 				db.session.commit()
-			except:
+			except Exception as e:
 				db.session.rollback()
+				flash(f"Something didn't go right {e}", category='error')
+				return jsonify({"status": "error", "message": e})	
 
 			post_for_mail = db.session.query(Post).filter_by(url=url).first()
 			with open(current_app.root_path+"/posts/"+post_for_mail.htmlfile, 'r', encoding='utf-8') as file: 
@@ -525,8 +532,9 @@ def web_posts(post_url):
 							db.session.add(new_comment)
 							db.session.commit()
 							flash('You commented on this post', category='success')
-						except:
-							db.session.rollback()						
+						except Exception as e:
+							db.session.rollback()
+							return jsonify({"status": "error", "message": e})				
 						return redirect(url_for('routes.web_posts', post_url=post_url))
 					else:
 						flash('A comment must contain some rating', category='warning')
@@ -544,8 +552,9 @@ def web_posts(post_url):
 							db.session.add(new_comment)
 							db.session.commit()
 							flash('You commented on this post', category='success')
-						except:
+						except Exception as e:
 							db.session.rollback()
+							return jsonify({"status": "error", "message": e})
 						return redirect(url_for('routes.web_posts', post_url=post_url))
 				else:
 					flash('You can only have 1 comment on a post', category='warning')
@@ -611,10 +620,10 @@ def delete_subscriber(id):
 
 		flash(f'{deleted_subscriber.username} was deleted and an E-mail was sent', category='info') 
 		return jsonify({"status": "success", "message": "Subscriber deleted successfully"})
-	except:
+	except Exception as e:
 		db.session.rollback()
 		flash('Subscriber was not deleted', category='error')
-		return jsonify({"status": "error", "message": "Subscriber deletion failed"})
+		return jsonify({"status": "error", "message": e})
 
 #---------------------------------oooo000oooo--------------------------------------#
 
@@ -642,9 +651,9 @@ def delete_post(id):
 				try:
 					del_img = re.search(r'''='(.*?)'\)''', img.get('src')).group(1).strip()  
 					os.remove(current_app.root_path+"/post_media/"+del_img)
-					flash(f'{del_img} file was deleted successfully', category='warning')
-				except:
-					pass				
+					flash(f'{del_img} file was deleted successfully', category='info')
+				except Exception as e:
+					return jsonify({"status": "error", "message": e})				
 			else:
 				pass
 		#--------------------------------------------------------------------------
@@ -656,8 +665,8 @@ def delete_post(id):
 						del_audio = re.search(r'''='(.*?)'\)''', source.get('src')).group(1).strip() 
 						os.remove(current_app.root_path+"/post_media/"+del_audio)
 						flash(f'{del_audio} file was deleted successfully', category='info')
-				except:
-					pass
+				except Exception as e:
+					return jsonify({"status": "error", "message": e})
 			else:
 				pass
 
@@ -669,10 +678,10 @@ def delete_post(id):
 		flash(f'The post with the url: {post_to_delete.url} was deleted successfully', category='warning')
 		return jsonify({"status": "success", "message": "Post deleted successfully"})
 
-	except:
+	except Exception as e:
 		db.session.rollback()
 		flash('Post was not deleted', category='error')
-		return jsonify({"status": "error", "message": "Post deletion failed"})
+		return jsonify({"status": "error", "message": e})
 
 #---------------------------------oooo000oooo--------------------------------------#
 
@@ -686,7 +695,7 @@ def delete_comment(id):
 
 		flash('Comment was deleted', category='info') 
 		return jsonify({"status": "success", "message": "Comment deleted successfully"})
-	except:
+	except Exception as e:
 		db.session.rollback()
 		flash('Comment was not deleted', category='error')
-		return jsonify({"status": "error", "message": "Comment deletion failed"})
+		return jsonify({"status": "error", "message": e})

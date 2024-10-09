@@ -65,7 +65,6 @@ if (confirmationModal) {
     const delsubname = button.getAttribute('data-bs-delsubname')
     const delsubid = button.getAttribute('data-bs-delsubid')
 
-
     const modalBodyp = confirmationModal.querySelector('.modal-body p')
     const modalBodybutton = confirmationModal.querySelector('.modal-footer a')
 
@@ -81,7 +80,6 @@ if (confirmationModalP) {
     // Extract info from data-bs-* attributes
     const delposturl = button.getAttribute('data-bs-delposturl')
     const delpostid = button.getAttribute('data-bs-delpostid')
-
 
     const modalBodyp = confirmationModalP.querySelector('.modal-body p')
     const modalBodybutton = confirmationModalP.querySelector('.modal-footer a')
@@ -151,8 +149,9 @@ $(document).ready(function() {
         url: '/delete_subscriber/' + id,
         success: function(response) {
             if (response.status === 'success') {
-                // Reload the page or update the subscriber list
-                window.location.reload(); // or update subscriber list using JavaScript
+                // Hide modal and reload the page
+                $('#confirmationModal').modal('hide');
+                window.location.reload();
             } else {
                 alert(response.message);
             }
@@ -187,8 +186,9 @@ $(document).ready(function() {
         url: '/delete_post/' + id,
         success: function(response) {
             if (response.status === 'success') {
-                // Reload the page or update the post list
-                window.location.reload(); // or update post list using JavaScript
+                // Hide modal and reload the page
+                $('#confirmationModal').modal('hide');
+                window.location.reload();
             } else {
                 alert(response.message);
             }
