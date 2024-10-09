@@ -24,14 +24,14 @@ def create_app():
 	app.config["SESSION_TYPE"] = "localstorage"
 	app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-	#app.config['SQLALCHEMY_DATABASE_URI'] =  'postgresql+psycopg2://postgres:shetty777@localhost/main_database'
+	#app.config['SQLALCHEMY_DATABASE_URI'] =  'postgresql+psycopg2://postgres:shetty777pgSQL@localhost:5433/main_database'
 	app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}?sslmode=require'.format(
         user=os.environ.get("SQLALCHEMY_DATABASE_URI_USER"),
         password=os.environ.get("SQLALCHEMY_DATABASE_URI_PASSWORD"),
         host=os.environ.get("SQLALCHEMY_DATABASE_URI_HOST"),
         port=os.environ.get("SQLALCHEMY_DATABASE_URI_PORT"),
         dbname=os.environ.get("SQLALCHEMY_DATABASE_URI_NAME")
-    )    
+    )
 	app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
         'pool_pre_ping': True,
         'pool_size': 10,
@@ -119,8 +119,17 @@ class subscriberform(FlaskForm):
 
 class loginform(FlaskForm):
 	usernameoremailid = StringField("Your username or E-mail address:", validators=[InputRequired()])
-	password = PasswordField("Your password:", validators=[InputRequired(), Length(min=6, max=70), EqualTo(fieldname='confirm_password', message ="Passwords do not match" )])
+	password = PasswordField("Your password:", validators=[InputRequired(), Length(min=6, max=70)])
 	login = SubmitField("Login to Subscriber account")
+
+class forgotform(FlaskForm):
+	usernameoremailid = StringField("Your username or E-mail address:", validators=[InputRequired()])
+	send_reset_mail = SubmitField("Send E-mail for password reset")
+
+class resetform(FlaskForm):
+	new_password = PasswordField("A strong password:", validators=[InputRequired(), Length(min=6, max=70), EqualTo(fieldname='confirm_new_password', message ="Passwords do not match" )])
+	confirm_new_password = PasswordField("Repeat the password:", validators=[InputRequired()])
+	reset = SubmitField("Reset password")
 
 class postform(FlaskForm):
 	category = SelectField("What kind of post is this?", validators=[InputRequired()], choices=[('Article'), ('Project'), ('Blog')]) 

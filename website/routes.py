@@ -13,7 +13,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from website import generate_token
 from .models import Post, Subscriber, Comment, AllUsers
-from . import db, subscriberform, postform, loginform, commentform, email
+from . import db, subscriberform, forgotform, resetform, postform, loginform, commentform, email
 
 routes = Blueprint("routes", __name__, template_folder="../website/posts/", static_folder="../website/post_media/" )
 
@@ -102,7 +102,6 @@ def subscribe():
 		form.emailid.data = ''
 		password = generate_password_hash(str(form.password.data), method='scrypt')
 		form.password.data = ''
-		confirm_password = form.confirm_password.data
 		form.confirm_password.data = ''
 	
 	
@@ -226,14 +225,9 @@ def login():
 		form.usernameoremailid.data = ''
 		password = form.password.data
 		form.password.data = ''
-	
 	if request.method == 'POST':
-		usernameoremailid = request.form.get("usernameoremailid")
-		password = request.form.get("password")
-
 		subscriber = Subscriber.query.filter_by(username=usernameoremailid).first()
 		subscriber_email = Subscriber.query.filter_by(emailid=usernameoremailid).first()
-
 		if subscriber:
 			if check_password_hash(subscriber.password, password): 
 				login_user(subscriber, remember=True)
@@ -258,6 +252,73 @@ def logout():
 	logout_user()
 	flash('Logged out', category='info')
 	return redirect("/")
+
+@routes.route("/forgot_password", methods=['GET', 'POST'])
+def forgot_password():
+	usernameoremailid = None
+	form = forgotform()
+	if form.validate_on_submit():
+		usernameoremailid = form.usernameoremailid.data
+		form.usernameoremailid.data = ''
+	if request.method == 'POST':
+		username = Subscriber.query.filter_by(username=usernameoremailid).first()
+		emailid = Subscriber.query.filter_by(emailid=usernameoremailid).first()
+		if username or emailid:
+			emailid = username.emailid if username is not None else emailid
+			email.send(	subject = "Password Reset for you subscription at Shetty777",
+				receivers = emailid,
+				body_params = {"token": generate_token.generate_password_token(emailid, 'Reset', 5)},
+				html_template = "email/password_reset.html")
+			flash(f'A password reset link has been sent to {emailid}', category='info')
+			return redirect("/")
+		else:
+			flash("A subscriber with that username or E-mail address does not exist", category='warning')
+			return redirect("/")
+	
+	return render_template("forgot_password.html", user=current_user, usernameoremailid=usernameoremailid, form=form)
+
+@routes.route("/reset_password/<token>", methods=['GET', 'POST'])
+def reset_password(token):
+	try:
+		token_data = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms = ['HS256'], options={'verify_exp': False})
+		emailid = token_data["emailid"]
+		token_type = token_data["token_type"]
+		exp = token_data["exp"]
+		password_forgetter = Subscriber.query.filter_by(emailid=emailid).first()
+
+		if token_type == 'Reset' and int(datetime.now(tz=timezone.utc).timestamp()) < exp:
+			try:
+				if password_forgetter.verified == True:
+					new_password = None
+					confirm_new_password = None
+					form = resetform()
+					if form.validate_on_submit():
+						new_password = generate_password_hash(str(form.new_password.data), method='scrypt')
+						form.new_password.data = ''
+						form.confirm_new_password.data = ''
+					if request.method == 'POST':
+						setattr(password_forgetter, 'password', new_password)
+						db.session.commit()
+						flash('You can now login with your new password', category='success')
+						return redirect("/login")	
+							
+				elif password_forgetter.verified == False: 
+					flash('Your E-mail address has not been verified. Contact the administrator for support', category='warning')
+				
+			except Exception as e:
+				db.session.rollback()
+				flash(f"Something didn't go right {e}", category='error')
+				return jsonify({"status": "error", "message": e})	
+			
+		elif token_type == 'Reset' and int(datetime.now(tz=timezone.utc).timestamp()) >= exp:
+			flash("Oops! Too long... You reset token expired. Try again", category='warning')		
+		else:
+			flash("Hey, Don't do that! That token should not be here", category='error')
+			return redirect("/")
+	except:
+		flash("Looks like the password reset token is invalid. Try again.", category='error')
+		return redirect("/")	
+	return render_template("reset_password.html", user=current_user, emailid=emailid, new_password=new_password, confirm_new_password=confirm_new_password, form=form)
 
 #---------------------------------oooo000oooo--------------------------------------#
 
@@ -484,10 +545,6 @@ def post():
 
 #---------------------------------oooo000oooo--------------------------------------#
 
-def gen_cache_key(*args, **kwargs):
-    post_url = request.view_args.get('post_url')
-    return f"post_cache_{post_url}"
-
 @routes.route("/web_posts/<post_url>", methods=['POST', 'GET'])
 def web_posts(post_url):
 	try:
@@ -632,7 +689,6 @@ def delete_subscriber(id):
 def post_list():
 	postlist=Post.query.order_by(Post.date_created.desc())
 	return render_template("postlist.html", postlist=postlist, user=current_user)
-
 
 @routes.route("/delete_post/<int:id>", methods=['POST'])
 @role_required('user')

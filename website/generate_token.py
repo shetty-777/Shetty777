@@ -5,3 +5,7 @@ from flask import current_app
 def generate_token(username, token_type, delta):
     token = jwt.encode({"username": username, "token_type": token_type, "exp": datetime.now(tz=timezone.utc) + timedelta(minutes=delta)}, current_app.config["SECRET_KEY"], algorithm = 'HS256')
     return token
+
+def generate_password_token(emailid, token_type, delta):
+    token = jwt.encode({"emailid": emailid, "token_type": token_type, "exp": datetime.now(tz=timezone.utc) + timedelta(minutes=delta)}, current_app.config["SECRET_KEY"], algorithm = 'HS256')
+    return token
