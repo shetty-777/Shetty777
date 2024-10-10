@@ -260,11 +260,13 @@ def forgot_password():
 	if form.validate_on_submit():
 		usernameoremailid = form.usernameoremailid.data
 		form.usernameoremailid.data = ''
+	print(form.errors)
 	if request.method == 'POST':
 		username = Subscriber.query.filter_by(username=usernameoremailid).first()
 		emailid = Subscriber.query.filter_by(emailid=usernameoremailid).first()
+		print(username, emailid, usernameoremailid)
 		if username or emailid:
-			emailid = username.emailid if username is not None else emailid
+			emailid = username.emailid if username is not None else usernameoremailid
 			email.send(	subject = "Password Reset for you subscription at Shetty777",
 				receivers = emailid,
 				body_params = {"token": generate_token.generate_password_token(emailid, 'Reset', 5)},
