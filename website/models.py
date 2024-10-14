@@ -44,9 +44,9 @@ class Subscriber(AllUsers):
 class Post(db.Model):
 	__tablename__ = 'post'
 	id = db.Column(db.Integer, primary_key=True)
-	url = db.Column(db.String(100), nullable=False, unique=True)
+	url = db.Column(db.String(150), nullable=False, unique=True)
 	category = db.Column(db.String(20), nullable=False)
-	htmlfile = db.Column(db.String(50), nullable=False, unique=True)
+	htmlfile = db.Column(db.String(155), nullable=False, unique=True)
 	date_created = db.Column(db.DateTime(timezone=True), default=func.now())
 	comments = db.relationship('Comment', backref='post', passive_deletes=True)
 
@@ -56,7 +56,7 @@ class Comment(db.Model):
 	__tablename__ = 'comment'
 	id = db.Column(db.Integer, primary_key=True)
 	rating = db.Column(db.Integer, nullable=True)
-	text_content = db.Column(db.String(400), nullable=True)
+	text_content = db.Column(db.String(500), nullable=True)
 	commentor = db.Column(db.Integer, db.ForeignKey('allusers.id', ondelete = "CASCADE"), nullable=False)
 	post_id = db.Column(db.Integer, db.ForeignKey('post.id', ondelete = "CASCADE"), nullable=False)
 	date_created = db.Column(db.DateTime(timezone=True), default=func.now())

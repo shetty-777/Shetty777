@@ -141,5 +141,5 @@ class postform(FlaskForm):
 
 class commentform(FlaskForm):
 	rating = RadioField('How much do you rate this post out of  7 ?', choices=[1, 2, 3, 4, 5, 6, 7], validators=[Optional()]) 
-	text_content = TextAreaField("Comment text:", validators=[Length(max=400)])
+	text_content = TextAreaField("Comment text:", validators=[Length(max=500)])
 	comment = SubmitField("Comment")
