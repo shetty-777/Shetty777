@@ -21,7 +21,14 @@
 								{{ form.category.label(class = "form-label", style="font-size: 1rem;") }}
 								<div class="input-group flex-nowrap">
 									<span class="input-group-text"><i class="bi-tags"></i></span>
-									{{ form.category(class = "form-control custom-input", placeholder="'Article' or 'Project'", id="fc-category") }}
+									{{ form.category(class = "form-control custom-input", placeholder="Article/Project/Blog", id="fc-category") }}
+								</div>
+							</div>
+							<div class="ms-5 mb-5 me-5">
+								{{ form.author.label(class = "form-label", style="font-size: 1rem;") }}
+								<div class="input-group flex-nowrap">
+									<span class="input-group-text"><i class="bi-pencil"></i></span>
+									{{ form.author(class = "form-control custom-input", placeholder="Author of the post", id="fc-category") }}
 								</div>
 							</div>
 							<div class="ms-5 mb-5 me-5">

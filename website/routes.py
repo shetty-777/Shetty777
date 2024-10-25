@@ -437,6 +437,7 @@ def post():
 	htmlfile = None
 	images = None
 	category = None
+	author = None
 	url = None
 	audio = None
 	form = postform()
@@ -449,6 +450,8 @@ def post():
 		form.audio.data = ''
 		category = form.category.data
 		form.category.data = ''
+		author = form.author.data
+		form.author.data = ''
 		url = form.url.data
 		form.url.data = ''
 	
@@ -460,7 +463,9 @@ def post():
 		#---------------------------------------------------------------------
   		
 		elif 'category' in form.errors:
-			flash("Category must be 'Article' or 'Project'", category='error')
+			flash("Category must be 'Article' or 'Project' or 'Blog'", category='error')
+		elif 'author' in form.errors:
+			flash("The author must be one of the authors listed", category='error')
 		elif 'url' in form.errors:
 			flash('The following characters including "Space" is not allowed `@^()|\\/[] {}><', category='error')
 		elif 'htmlfile' in form.errors:
@@ -508,7 +513,7 @@ def post():
 			#---------------------------------------------------------------------
 
 			try:
-				new_post = Post(htmlfile=html_filename, category=category, url=url) 
+				new_post = Post(htmlfile=html_filename, category=category, author=author, url=url) 
 				db.session.add(new_post)
 				db.session.commit()
 			except Exception as e:
@@ -534,7 +539,7 @@ def post():
 			email.send(	subject = "Latest post buzz on Shetty777!",
 						receivers = "Shetty777_Subscribers shetty777.blog@gmail.com",
 						bcc = email_list,
-						body_params = {"category": post_for_mail.category, "url":post_for_mail.url, "title": title}, 
+						body_params = {"category": post_for_mail.category, "url":post_for_mail.url, "title": title, "author": author}, 
 						text = f"Dear subscriber,\n I'm excited to share a new post on Shetty777! The latest { category } is now online.\n\n\nI am glad to have you here and appreciate your support :)\n\nBest regards,\nShashank S Shetty",
 						html_template = "email/new_post.html")
 		else:
@@ -618,7 +623,7 @@ def web_posts(post_url):
 				else:
 					flash('You can only have 1 comment on a post', category='warning')
 					return redirect(url_for('routes.web_posts', post_url=post_url))
-		return render_template(post_file, user=current_user, current_post=post, rating=rating, text_content=text_content, comment_list=comment_list, form=form, avg_rating=avg_rating, user_comments=user_comments)
+		return render_template(post_file, user=current_user, current_post=post, author=post.author, rating=rating, text_content=text_content, comment_list=comment_list, form=form, avg_rating=avg_rating, user_comments=user_comments)
 
 	except Exception as e:
 		flash(f"There is no blog post of that name {e}", category='warning')

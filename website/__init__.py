@@ -132,7 +132,8 @@ class resetform(FlaskForm):
 	reset = SubmitField("Reset password")
 
 class postform(FlaskForm):
-	category = SelectField("What kind of post is this?", validators=[InputRequired()], choices=[('Article'), ('Project'), ('Blog')]) 
+	category = SelectField("What kind of post is this?", validators=[InputRequired()], choices=[('Article'), ('Project'), ('Blog')])
+	author = SelectField("Who is the author of this post?", validators=[InputRequired()], choices=[('Shashank Shetty'), ('Vibha P'), ('Srikanth Shetty'), ('Amulya B R')])
 	htmlfile = FileField("The HTML file of the post:", validators=[FileRequired(), FileAllowed(['html'])])
 	url = StringField("URL address of the post:", validators=[InputRequired(), NoneOf([" ", "`", "@", "^", "(", ")", "|", "\\", "/", "[", "]", "{", "}", ">", "<"])])
 	images = MultipleFileField("Accompanying images of the post:", validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'svg', 'webp', 'gif'])])

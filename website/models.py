@@ -47,6 +47,7 @@ class Post(db.Model):
 	url = db.Column(db.String(150), nullable=False, unique=True)
 	category = db.Column(db.String(20), nullable=False)
 	htmlfile = db.Column(db.String(155), nullable=False, unique=True)
+	author = db.Column(db.String(75), nullable=False, unique=False, default="Shashank Shetty")
 	date_created = db.Column(db.DateTime(timezone=True), default=func.now())
 	comments = db.relationship('Comment', backref='post', passive_deletes=True)
 
@@ -62,7 +63,7 @@ class Comment(db.Model):
 	date_created = db.Column(db.DateTime(timezone=True), default=func.now())
 
 	__table_args__ = (
-        CheckConstraint('rating >= 0 AND rating <= 10', name='check_rating_range'),
+        CheckConstraint('rating >= 0 AND rating <= 7', name='check_rating_range'),
     )
 
 if __name__ == '__main__':
