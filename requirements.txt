@@ -19,7 +19,7 @@ Flask-Redmail @ git+https://github.com/shetty-777/flask-redmail-g@32f7c9ec5c072f
 Flask-SQLAlchemy==3.1.1
 Flask-WTF==1.2.2
 greenlet==3.1.1
-gunicorn==23.0.0
+gunicorn @ git+https://github.com/shetty-777/gunicorn.git@427aa5d1ed10724b645854a1f2ebe86143eab964
 idna==3.10
 itsdangerous==2.2.0
 Jinja2==3.1.6
