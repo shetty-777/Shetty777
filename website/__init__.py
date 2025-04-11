@@ -11,8 +11,8 @@ from flask_redmail import RedMail
 from wtforms import StringField, SubmitField, EmailField, PasswordField, SelectField, RadioField, TextAreaField
 from wtforms.validators import Email, Length, EqualTo, InputRequired, NoneOf, Optional
 
-'''from dotenv import load_dotenv
-load_dotenv()'''
+#from dotenv import load_dotenv
+#load_dotenv()
 
 db = SQLAlchemy()
 email = RedMail()

@@ -710,9 +710,9 @@ def delete_post(id):
 		soup = BeautifulSoup(html_content, 'html.parser')
 		#--------------------------------------------------------------------------
 		for img in soup.find_all('img'):
-			if img:
+			if img and img != soup.find(id="author_img"):
 				try:
-					del_img = re.search(r'''='(.*?)'\)''', img.get('src')).group(1).strip()  
+					del_img = re.search(r'''='(.*?)'\)''', img.get('src')).group(1).strip()
 					os.remove(current_app.root_path+"/post_media/"+del_img)
 					flash(f'{del_img} file was deleted successfully', category='info')
 				except Exception as e:
