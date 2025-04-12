@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://shetty777.koyeb.app/sitemap.xml

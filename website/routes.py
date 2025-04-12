@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from functools import wraps
 from bs4 import BeautifulSoup
 from markupsafe import Markup
-from flask import Blueprint, render_template, redirect, request, flash, abort, current_app, jsonify, url_for
+from flask import Blueprint, render_template, redirect, request, flash, abort, current_app, jsonify, url_for, send_from_directory
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -86,6 +86,14 @@ def index():
 @routes.route("/about")
 def about():
 	return render_template("about.html", user=current_user)
+
+@routes.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('static', 'sitemap.xml')
+
+@routes.route('/robots.txt')
+def robots():
+    return send_from_directory('static', 'robots.txt')
 #---------------------------------oooo000oooo--------------------------------------#
 
 @routes.route("/subscribe", methods=['GET','POST'])
