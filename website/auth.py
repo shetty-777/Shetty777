@@ -25,22 +25,22 @@ def signin():
 
     return render_template("signin.html", user=current_user)
 
-'''@auth.route("/signup", methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        username = request.form.get("username")
-        password1 = request.form.get("password1")
-        password2 = request.form.get("password2")
+# @auth.route("/signup", methods=['GET', 'POST'])
+# def signup():
+#     if request.method == 'POST':
+#         username = request.form.get("username")
+#         password1 = request.form.get("password1")
+#         password2 = request.form.get("password2")
 
-        user_exists = User.query.filter_by(username=username).first()
-        if user_exists:
-            flash("User already exists", category='warning')
-        elif password1 and password2:
-            new_user = User(username=username,password1=generate_password_hash(password1, method='scrypt'),password2=generate_password_hash(password2, method='scrypt'),userrole="user",verified=True) 
-            db.session.add(new_user)
-            db.session.commit()
-            login_user(new_user, remember=True)
-            flash('User created successfully', category='success')
-            return redirect("/")
+#         user_exists = User.query.filter_by(username=username).first()
+#         if user_exists:
+#             flash("User already exists", category='warning')
+#         elif password1 and password2:
+#             new_user = User(username=username,password1=generate_password_hash(password1, method='scrypt'),password2=generate_password_hash(password2, method='scrypt'),userrole="user",verified=True) 
+#             db.session.add(new_user)
+#             db.session.commit()
+#             login_user(new_user, remember=True)
+#             flash('User created successfully', category='success')
+#             return redirect("/")
 
-    return render_template("signup.html", user=current_user)'''
+#     return render_template("signup.html", user=current_user)
