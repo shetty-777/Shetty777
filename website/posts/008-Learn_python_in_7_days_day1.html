@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block title %} Learn Python in 7 days: Day 1 - Getting started | Shetty777{% endblock %}
+{% block description %}On day 1 of this course, you will learn the importance of programming. This guides you through the Python setup process and you will write your first program.{% endblock %}
+{% block content %}
+<div class="container">
+    <div id="progress-scroll-bar"></div>
+
+    <div class="container" style="max-width: 750px; text-align: start; padding: 20px 0px;">
+        <h1 style="font-family: LibreFranklin-Black; font-size: 3rem;" id="post_title">Learn Python in 7 days: Day 1 - Getting started</h1>
+    </div>
+
+    <div class="container d-flex" style="max-width: 750px; text-align: start; padding: 5px 25px 25px 25px; align-items: center;">
+        <img src="{{ url_for('static', filename='images/'+author+'.webp') }}" alt= "{{author}}" class="img-fluid" style="float: left; border-radius: 50em;" width=55rem>
+        <h6 style="overflow: hidden; padding: 15px; font-family: Roboto;">{{ author }}</h6>
+    </div>
+
+    <div class="container d-flex mb-4" style="max-width: 750px; text-align: start; padding: 10px; border-width: 2px 0px 2px 0px; border-style: solid; border-color: #7F8387;">
+        <div class="text-center" style="line-height: 40px; height: 40px">
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" data-bs-toggle="offcanvas" href="#commentSection" role="button" aria-controls="commentSection"><i class="bi bi-chat-left-text-fill" style="font-size:1.5rem" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Comment section"></i></a>
+        </div>
+        &ensp;
+        <div class="me-auto text-center" style="line-height: 40px; height: 40px">
+            <a class="text-body-secondary text-start my-0 d-inline-block align-middle" style="font-size: 1.1rem; line-height: normal;" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Average rating of post">Rating: {{ avg_rating }} / 7</a>
+        </div>
+        <div class="ms-auto text-center" style="line-height: 40px; height: 40px">
+        {% if user.marked_posts and current_post in user.marked_posts %}
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="unmark-post" data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="This post is marked"><i class="bi bi-bookmark-check-fill" style="font-size:1.5rem"></i></a>
+        {% else %}
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="mark-post" data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Mark this post"><i class="bi bi-bookmark-plus" style="font-size:1.5rem"></i></a>
+        {% endif %}
+        </div>
+        <div class="share-buttons text-center" style="line-height: 40px; height: 40px">
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share-fill" style="font-size:1.5rem"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end p-3" style="margin-right:-100px;">
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button whatsapp text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button facebook text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Facebook"><i class="bi bi-facebook"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button x text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="X (Twitter)"><i class="bi bi-twitter-x"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button threads text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Threads"><i class="bi bi-threads"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button mail text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="E-mail"><i class="bi bi-envelope-open"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button copy text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Copy URL"><i class="bi bi-copy"></i></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="commentSection" aria-labelledby="commentSectionLabel">
+        <div class="offcanvas-header">
+          <h4 class="offcanvas-title" id="commentSectionLabel">Comment section</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body overflow-y-auto" style=" overscroll-behavior-y: contain">
+            {% if user_comments < 1 or user.userrole=='user' %}
+                <div class="container mt-1 text-center">
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        {{ form.rating.label(class = "form-label", style="font-size: 1rem;") }}
+                        <div class="rating">                            
+                            {% for i in range(1,8) %}                             
+                                <input type="radio" id="star{{ i }}" name="rating" value="{{ 8-i }}" {% if form.rating.data == i|string %}checked{% endif %}>
+                                <label for="star{{ i }}"><i class="bi bi-star-fill"></i></label>
+                            {% endfor %}
+                        </div>
+                        {{ form.text_content(class = "form-control", placeholder="Enter comment... (optional)", rows="5") }}
+                        {{ form.comment(class = "btn custom-btn btn-lg m-3", style="width: 80%") }}
+                    </form>
+                </div>
+            {% elif not user.id %}
+                <div class="container mt-1 text-center">
+                    <h5>You need to be a subscriber to comment</h5>
+                </div>
+            {% else %}
+                <div class="container mt-1 text-center">
+                    <h5>You have already commented on this post</h5>
+                </div>
+            {% endif %}
+            <br/><br/>
+            {% for comment in comment_list %}
+                <div class="comment-box">
+                    <div class="d-flex align-items-center" style="word-wrap: break-word;">
+                        <i class="bi bi-person-circle" style="font-size: 1.6rem;"></i>&emsp;<span style="font-weight: bold; font-size: 1.1rem;">{{ comment.commentor.username }}</span>
+                        <p class="text-body-secondary ms-auto">{{ comment.date }}</p>
+                    </div>
+                    <div class="d-flex mt-2">
+                        {% if comment.rating != None %}
+                            {% for i in range(1, 8) %}
+                                <i class="bi bi-star{{ '-fill' if i <= comment.rating else '' }}"></i>
+                            {% endfor %}
+                        {% endif %}
+                        {% if user == comment.commentor or user.userrole == 'user' %}
+                            <a type="button" class="text-body-secondary ms-auto delete-comment" data-comment-id="{{ comment.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Delete comment"><i class="bi bi-trash3"></i></a>
+                        {% endif %}
+                    </div>
+                    <div class="mt-3">
+                        {{ comment.text_content }}
+                    </div>
+                </div>               
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container img-container" style="max-width: 750px; position: relative;">
+        <img src="{{ url_for('.static', filename='008-Learn_python_in_7_days_day1.webp') }}" style="width:100%;" alt="Alternate text" id="post_banner">
+    </div> 
+    
+
+    <div class="container" style="max-width: 750px; text-align: start;">
+        <div style="background: linear-gradient(135deg,  rgba(208, 0, 255, 0.2), rgba(144, 0, 255, 0.3), rgba(208, 0, 255, 0.4)); border-color: #9000FF; border-style: solid; border-width: 0px; border-radius: 10px; margin: 2rem 0; padding: 1.5rem; word-wrap: break-word">
+            <h4>List of contents:</h4>
+            <ol>
+                <a href="#intro" style="color: inherit;"><li>Introduction</li></a>
+                <a href="#setting_up" style="color: inherit;"><li>Setting up a Python environment</li></a>
+                <a href="#first_program" style="color: inherit;"><li>Running your first program</li></a>
+                <a href="#more" style="color: inherit;"><li>More to know</li></a>
+            </ol>
+        </div>
+
+        <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="intro">Introduction</h3>
+        <p class="paragraph-indent">Learning to code is a must-learn skill today; even if it is irrelevant to our work. When we are surrounded by computers from all four directions, it only makes sense to have at least some knowledge about programming them. That's why I have decided to start this simple series. Firstly, the title is a tiny bit misleading as "Learning Python" in 7 days is damn near impossible. You will however have foundational understanding of the language and be able to write simple programs on your own after this. This is an introduction to the most important concepts of Python to spark interest and create a springboard for further learning.</p>
+        <p class="paragraph-indent">Why Python? Well, that's the language I know; and for beginners it is inarguably the easiest language to learn. Not only that, it is also one of the most versatile languages out there and has wide real-life applications as well as career opportunities. Even though it can be used for everything from front-end web and app development to hardware control and IoT, it is professionally used for complex mathematical calculations and simulations, bulk data processing and back-end maintenance such as managing databases.</p>
+        <p class="paragraph">Python is what is called an <i>interpreted language</i>, which is different from <i>compiled languages</i> (such as C) in the sense that a Python code is converted into machine code (basically binary code that the processor can understand) line-by-line by an interpreter and then executed. An entire source code of a compiled language on the the other hand is turned into machine code and then executed. I don't know much about it; you can dive in deeper if you wish. What I am concerned about is just being able to get stuff done. Importantly, you have to do more research about each topic from the Internet or the official Python documentation. Not only that, you need to run all the code snippets given and experiment with your newly gained knowledge. So let's begin without further ado!</p>
+        
+        <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="setting_up">Setting up a Python environment</h3>
+        <p class="paragraph-indent">Firstly, you'll need to be able to run your code. It is preferable that you have a computer or a laptop; whether it runs Windows, MacOS or Linux (hats off mate!). You have two options:</p>
+        <ul>
+            <li class="paragraph">Install Python on your computer and run the code, written in a text editor, in a terminal or command prompt.</li>
+            <li class="paragraph">Install an <abbr title="Integrated Development Environemnt">IDE</abbr> (<a href="https://www.jetbrains.com/pycharm/" class="p-link">such as PyCharm by JetBrains</a>) which installs Python automatically</li>
+        </ul>
+        <p class="paragraph">Honestly, an IDE is overkill, but you can use it if you think it will be worth it and you are very serious about programming. The simpler way, which i will use throughout this series, is to use a text editor with python installation. If you are using Linux, Python is pre-installed on your system. If using Windows or MacOS, you can visit <a href="https://python.org" class="p-link">Python's official website</a> and download the appropriate Python variant. At the time of writing this, the latest version is 3.13.3. Note that Windows 7 supports only till 3.8. Python 3.x should be fine for the basic stuff, but make sure to not get Python 2, the legacy version. Run the Python installer. The default settings should be good enough; but if you know what you are doing, you can manually configure the installation. Just ensure that Python is added to PATH and that pip and tkinter are installed, as it can be hastle to install them later.</p>
+        <p class="paragraph">Once you have installed Python, you can check if it is working by opening a terminal or command prompt and typing <code>python --version</code>. If it shows the version number, you are good to go. If not, Python is probably not added to the PATH. You can Google fixes for it.</p>
+        <p class="paragraph-indent">If you do not have a PC, no need to be disappointed as there is a workaround. If you have an Android device, install <a href="https://play.google.com/store/apps/details?id=ru.iiec.pydroid3&hl=en" class="p-link">PyDroid</a> from the Play store; if you have an iPhone, install <a href="https://apps.apple.com/us/app/python-programming-interpreter/id1335895307" class="p-link">Python programming interpreter</a> from the App store, or any other similar apps. They should do the job for simply learning the basics. There is a third option which you can use on both PCs and mobile phones, online interpreters. This is not preferable, but it does work. <a href="https://www.online-python.com/" class="p-link">Online-Python</a>, <a href="https://pythononline.net/" class="p-link">Python Online</a> and <a href="https://www.programiz.com/python-programming/online-compiler/" class="p-link">Programiz</a> are good ones.</p>
+        
+        <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="first_program">Running your first program</h3>
+        <p class="paragraph-indent">THAT'S IT! You now have Python up and running on your system. Start Python by typing <code>python</code> into the command prompt and type <code>print("Hello World!")</code>. Congratulations! You just ran your first piece of Python code. Note that you can type <code>quit()</code> to exit Python.</p>
+        <p class="paragraph-indent">You just used <abbr title="Read-Evaluate-Print Loop">REPL</abbr>, an interactive way to run Python in wich a single line is entered by the user and is executed by the interpreter using previous context. Typing code line-by-line is not feasible and that's not how programming is done. You write your entire program in a single file with the <b>.py</b> extension and run it from the terminal. A text editor is used for this purpose. I prefer <a href="https://code.visualstudio.com/" class="p-link">VS Code</a>, which is as close as it gets to an IDE without being an IDE. But you can use <em>any</em> text editor. <a href="https://www.sublimetext.com/" class="p-link">Sublime text</a>, <a href="https://github.com/atom/atom" class="p-link">Atom</a>, <a href="https://notepad-plus-plus.org/" class="p-link">Notepad++</a>, <a href="https://www.vim.org/" class="p-link">Vim</a> and <a href="https://thonny.org/" class="p-link">Thonny</a> (a very simple IDE) are the popular ones. But you can just use the in-built Notepad app in Windows if you want to, just ensure th file extension is .py and not .txt.</p>
+        <p class="paragraph">Create a new file in VS Code by typing <code>Ctrl + N</code>. Enter the following code in the file and save it as <i>hello.py</i>, you can name it anything</p>
+        <pre><code class="language-python">
+print(&quot;Hello World!&quot;)           
+        </code></pre>
+        <p class="paragraph">At the bottom left, make sure Python is recognised as the language mode and the proper Python interpreter is selected to run the program. Click on the run button in the top-right (a small triangle/arrow) and the terminal should print out "Hello World!".</p>
+        
+        <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="more">More to know:</h3>
+        <ul>
+            <li class="paragraph">You can also run the file from the terminal or command prompt by going to the file directory and typing <code>python hello.py</code>.</li>
+            <li class="paragraph">Type <code>Ctrl + K</code> followed by <code>Ctrl + S</code> in VS Code and look for 'Python: Run python file' and set up a keyboard shortcut for it (like Ctrl + R) to easily run your code. You can enter into a sophisticated Python REPL in VS Code by typing <code>Ctrl + Shift + P</code> and looking for 'Python: Start Native Python REPL'</li>
+            <li class="paragraph"><em>Comments</em> are pieces of text that written after a hash symbol (#) and are not considered for execution by the interpreter. They are used to clarify context or provide more information about something in the code.</li>
+            <li class="paragraph"><abbr title="Pip Installs Packages">PIP</abbr> is the default package manager for Python which is used to install packages to extend the functionality of Python. Installing with pip is very simple, e.g., <code>pip install numpy</code></li>
+            <li class="paragraph">A <em>virtual environment</em> is often used for individual projects. It is like a standalone environment which has its own copy of Python and other packages. A different version of Python than the global version can be used within a virtual environemnt. It is not necessary, yet recommended to avoid dependency clashes and to have a safe disposable environment. Install it using pip with <code>pip install virtualenv</code>. Create a new virtual environment in the target directory by typing <code>python -m venv env_name</code> where 'env_name' is the name of the virtual environemnt. Use <code>env_name/Scripts/activate</code> to activate and <code>deactivate</code> to deactivate the venv in Windows Command prompt.</li>
+            <li class="paragraph">You can also run Python code in a Jupyter notebook. Jupyter is a web-based interactive environment for running Python code. It is not necessary for this series, but it is a good tool to know about. You can install it using pip by typing <code>pip install jupyter</code> in the terminal. Once installed, you can start it by typing <code>jupyter notebook</code> in the terminal. This will open a new tab in your browser with the Jupyter interface. You can create a new notebook by clicking on the "New" button and selecting "Python 3". You can then enter your code in the cells and run them by pressing <code>Shift + Enter</code>.</li>
+            <li class="paragraph"><em>Modules</em> are used in Python to add utilities to our program. Modules are basically Python files that provide additonal functions and classes. You can create your own modules as well. The syntax <code>import module_name</code> at the beginning of the file is used to import a module. Here is an example involving two such modules. Notice the comments, string conversions, escape characters and text concatenations:</li>
+        </ul>
+        <pre><code class="language-python">
+import datetime, math #Multiple imports in one line
+from time import sleep #Importing specific function from a module
+            
+#The datetime module provides classes for acessing and manipulating dates and times
+print(&quot;The current time is &quot; + str(datetime.datetime.now()) + &quot;\n\n\n&quot;)
+            
+#The time module provides various time-related functions, such as sleep
+print(&quot;Countdown begins:-&quot;)
+print(&quot;3&quot;)
+sleep(1) #Pause the program for 1 second
+print(&quot;2&quot;)
+sleep(1)
+print(&quot;1&quot;)
+sleep(1)
+print(&quot;Time&#39;s up! \n\n\n&quot;)
+            
+#The math module provides mathematical functions and constants
+print(&quot;The value of pi is &quot; + str(math.pi))
+print(&quot;The square root of 49 is &quot; + str(math.sqrt(25)))
+print(&quot;The sine of 90 degrees is &quot; + str(math.sin(math.radians(90))))           
+        </code></pre>
+    </div>
+</div>
+{% endblock %}
