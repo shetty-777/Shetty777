@@ -56,8 +56,14 @@
 
 
 <!-- ##########Web posts########## -->
+<!--
 <url>
-  <loc>https://shetty777.koyeb.app/web_posts/learn_python_in_7_days_day1<post_url></loc>
+  <loc>https://shetty777.koyeb.app/web_posts/post_url</loc>
+  <lastmod>YYYY-MM-DDT00:00:00+05:30</lastmod>
+</url>
+-->
+<url>
+  <loc>https://shetty777.koyeb.app/web_posts/learn_python_in_7_days_day1</loc>
   <lastmod>2025-04-13T00:00:00+05:30</lastmod>
 </url>
 <url>
