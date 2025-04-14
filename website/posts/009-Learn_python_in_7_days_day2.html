@@ -216,10 +216,10 @@ print(a, b)
 
             <p class="paragraph">The three sequence types are indexed, meaning, each element is given a number with accorance to its occurence. <strong>Computers start counting from 0</strong>, so the first element has the index 0 and so on. This can be used to precisely modify these sequences.</p>
             <pre><code class="language-python">
-numbers = [1, 2, 3, 4, 5] #Creates a list with the elements 1, 2, 3, 4 and 5
+numbers: list[int] = [1, 2, 3, 4, 5] #Creates a list with the elements 1, 2, 3, 4 and 5
 print(numbers[0])
 
-text = "This is fun!"
+text: str = "This is fun!"
 print(text[2:7]) #Prints the elements from index 2 to 6 (7 is not included)
             </code></pre>
 
@@ -232,16 +232,16 @@ print('ISRO\'s Chandrayaan-3\\Aditya-L1') #Using \ before characters that affect
 
             <p class="paragraph">F-strings are blessings that make our lives easier when dealing with strings. You can look up the numerous features of F-strings in the Python documentation. Following is their most common use</p>
             <pre><code class="language-python">
-name = "Shashank"
-age = 16
+name: str = "Shashank"
+age: int = 16
 
 print(f"Hello, my name is {name} and I am not {age + 10} years old.")
             </code></pre>
 
         <p class="paragraph">Interacting with a computer program is possible through user inputs. Python scripts can ask for user input with <code>input()</code>. Here is an example:</p>
         <pre><code class="language-python">
-a = input("Enter a number: ") #The input is always a string, so it must be converted to the desired type
-b = int(input("Enter another number: "))
+a: str = input("Enter a number: ") #The input is always a string, so it must be converted to the desired type
+b: str = int(input("Enter another number: "))
 print("The sum is: ",int(a) + int(b))
         </code></pre>
         </ul>
