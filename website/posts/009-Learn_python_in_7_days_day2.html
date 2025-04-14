@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+{% block title %}Learn python in 7 days: Day 2 - Variables & Data types | Shetty777{% endblock %}
+{% block description %}On day 2 of this course, you will be introduced to Python variables and data types. You'll learn to convert from one type to the other and the basic characteristic functionalities of data types.{% endblock %}
+{% block content %}
+<div class="container">
+    <div id="progress-scroll-bar"></div>
+
+    <div class="container" style="max-width: 750px; text-align: start; padding: 20px 0px;">
+        <h1 style="font-family: LibreFranklin-Black; font-size: 3rem;" id="post_title">Learn python in 7 days: Day 2 - Variables & Data types</h1>
+    </div>
+    <div class="container d-flex" style="max-width: 750px; text-align: start; padding: 5px 25px 25px 25px; align-items: center;">
+        <img src="{{ url_for('static', filename='images/'+author+'.webp') }}" id="author_img" alt= "{{author}}" class="img-fluid" style="float: left; border-radius: 50em;" width=55rem>
+        <h6 style="overflow: hidden; padding: 15px; font-family: Roboto;">{{ author }}</h6>
+    </div>
+
+    <div class="container d-flex mb-4" style="max-width: 750px; text-align: start; padding: 10px; border-width: 2px 0px 2px 0px; border-style: solid; border-color: #7F8387;">
+        <div class="text-center" style="line-height: 40px; height: 40px">
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" data-bs-toggle="offcanvas" href="#commentSection" role="button" aria-controls="commentSection"><i class="bi bi-chat-left-text-fill" style="font-size:1.5rem" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Comment section"></i></a>
+        </div>
+        &ensp;
+        <div class="me-auto text-center" style="line-height: 40px; height: 40px">
+            <a class="text-body-secondary text-start my-0 d-inline-block align-middle" style="font-size: 1.1rem; line-height: normal;" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Average rating of post">Rating: {{ avg_rating }} / 7</a>
+        </div>
+        <div class="ms-auto text-center" style="line-height: 40px; height: 40px">
+        {% if user.marked_posts and current_post in user.marked_posts %}
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="unmark-post" data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="This post is marked"><i class="bi bi-bookmark-check-fill" style="font-size:1.5rem"></i></a>
+        {% else %}
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="mark-post" data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Mark this post"><i class="bi bi-bookmark-plus" style="font-size:1.5rem"></i></a>
+        {% endif %}
+        </div>
+        <div class="share-buttons text-center" style="line-height: 40px; height: 40px">
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share-fill" style="font-size:1.5rem"></i></a>
+            <ul class="dropdown-menu dropdown-menu-end p-3" style="margin-right:-100px;">
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button whatsapp text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button facebook text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Facebook"><i class="bi bi-facebook"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button x text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="X (Twitter)"><i class="bi bi-twitter-x"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button threads text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Threads"><i class="bi bi-threads"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button mail text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="E-mail"><i class="bi bi-envelope-open"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button copy text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Copy URL"><i class="bi bi-copy"></i></a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="commentSection" aria-labelledby="commentSectionLabel">
+        <div class="offcanvas-header">
+          <h4 class="offcanvas-title" id="commentSectionLabel">Comment section</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body overflow-y-auto" style=" overscroll-behavior-y: contain">
+            {% if user_comments < 1 or user.userrole=='user' %}
+                <div class="container mt-1 text-center">
+                    <form method="POST" action="">
+                        {{ form.hidden_tag() }}
+                        {{ form.rating.label(class = "form-label", style="font-size: 1rem;") }}
+                        <div class="rating">                            
+                            {% for i in range(1,8) %}                             
+                                <input type="radio" id="star{{ i }}" name="rating" value="{{ 8-i }}" {% if form.rating.data == i|string %}checked{% endif %}>
+                                <label for="star{{ i }}"><i class="bi bi-star-fill"></i></label>
+                            {% endfor %}
+                        </div>
+                        {{ form.text_content(class = "form-control", placeholder="Enter comment... (optional)", rows="5") }}
+                        {{ form.comment(class = "btn custom-btn btn-lg m-3", style="width: 80%") }}
+                    </form>
+                </div>
+            {% elif not user.id %}
+                <div class="container mt-1 text-center">
+                    <h5>You need to be a subscriber to comment</h5>
+                </div>
+            {% else %}
+                <div class="container mt-1 text-center">
+                    <h5>You have already commented on this post</h5>
+                </div>
+            {% endif %}
+            <br/><br/>
+            {% for comment in comment_list %}
+                <div class="comment-box">
+                    <div class="d-flex align-items-center" style="word-wrap: break-word;">
+                        <i class="bi bi-person-circle" style="font-size: 1.6rem;"></i>&emsp;<span style="font-weight: bold; font-size: 1.1rem;">{{ comment.commentor.username }}</span>
+                        <p class="text-body-secondary ms-auto">{{ comment.date }}</p>
+                    </div>
+                    <div class="d-flex mt-2">
+                        {% if comment.rating != None %}
+                            {% for i in range(1, 8) %}
+                                <i class="bi bi-star{{ '-fill' if i <= comment.rating else '' }}"></i>
+                            {% endfor %}
+                        {% endif %}
+                        {% if user == comment.commentor or user.userrole == 'user' %}
+                            <a type="button" class="text-body-secondary ms-auto delete-comment" data-comment-id="{{ comment.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Delete comment"><i class="bi bi-trash3"></i></a>
+                        {% endif %}
+                    </div>
+                    <div class="mt-3">
+                        {{ comment.text_content }}
+                    </div>
+                </div>               
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="container img-container" style="max-width: 750px; position: relative;">
+        <img src="{{ url_for('.static', filename='009-Learn_python_in_7_days_day2.webp') }}" style="width:100%;" alt="Variables & Data types" id="post_banner">
+    </div> 
+
+    <div class="container" style="max-width: 750px; text-align: start;">
+        <div style="background: linear-gradient(135deg,  rgba(208, 0, 255, 0.2), rgba(144, 0, 255, 0.3), rgba(208, 0, 255, 0.4)); border-color: #9000FF; border-style: solid; border-width: 0px; border-radius: 10px; margin: 2rem 0; padding: 1.5rem; word-wrap: break-word">
+            <h4>List of contents:</h4>
+            <ol>
+                <a href="#variables" style="color: inherit;"><li>Variables</li></a>
+                <a href="#data_types" style="color: inherit;"><li>Data Types</li></a>
+                <ul>
+                    <a href="#int" style="color: inherit;"><li>Integer</li></a>
+                    <a href="#float" style="color: inherit;"><li>Float</li></a>
+                    <a href="#complex" style="color: inherit;"><li>Complex</li></a>
+                    <a href="#str" style="color: inherit;"><li>String</li></a>
+                    <a href="#list" style="color: inherit;"><li>List</li></a>
+                    <a href="#tuple" style="color: inherit;"><li>Tuple</li></a>
+                    <a href="#dict" style="color: inherit;"><li>Dictionary</li></a>
+                    <a href="#set" style="color: inherit;"><li>Set</li></a>
+                    <a href="#frozenset" style="color: inherit;"><li>Frozenset</li></a>
+                    <a href="#bool" style="color: inherit;"><li>Boolean</li></a>
+                    <a href="#none" style="color: inherit;"><li>None</li></a>
+                </ul>
+                <a href="more" style="color: inherit;"><li>More to know</li></a>
+            </ol>
+        </div>
+
+        <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="variables">Variables</h3>
+        <p class="paragraph-indent"><strong>Variables</strong> in Python are similar in many ways to variables in mathematics. Variable is a character(s) that acts as a placeholder and contains some value or information. A characteristic feature of variables is that, they vary! Their value is not fixed. In Python, variables are defined by assigning value to them using the <code>=</code> symbol, called as the <i>assignment operator</i>. They can be used in place of the value they contain, i.e., they behave as if they are indifferent from their value.</p>
+        <pre><code class="language-python">
+x = 7 #The variable x is defined with the value of 7
+y = 10 #The variable y is defined with the value of 10
+            
+print(x) #Gives the same output as print(7)
+print(x + y) #Gives the same output as print(7 + 10)
+            
+x = 5 #Changes the value of x from 7 to 5
+            
+print(y - x) #Gives the same output as print(10 - 5)          
+        </code></pre>
+        <p class="paragraph-indent">Variables need not be single letter. It is important to note that although variable names may contain numbers, they cannot begin with one. Underscores are allowed and later versions of Python also allow you to use special unicode characters such as <code>&pi;</code>; yet, some special keywords are reserved (class, def, is, in, not, etc.) and trying to name a variable using them will result in an error. Variables in Python are case sensitive, meaning <code>result</code> is different from <code>Result</code> or <code>REsulT</code>, which can be both useful and annoying.</p>
+        <p class="paragraph">Though rarely used, variables can also be deleted using <code>del</code>. Another variable with the same can be created afterwards.</p>
+        <pre><code class="language-python">
+strength = 87 #Creates a variable strength with the value of 87
+print(strength)
+
+del strength #Deletes the variable strength
+
+print(strength) #Gives an error, because strength is not defined anymore  
+        </code></pre>
+
+
+        <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="data_types">Data Types</h3>
+        <p class="paragraph"> Not only numbers, variables can be given any value. Try the following code:</p>
+        <pre><code class="language-python">
+name = Shetty777
+print(name)      
+        </code></pre>
+        <p class="paragraph">The above code should give an error! Because python doesn't know what <code>Shetty777</code> is. However, enclosing the word in quotes (single or double) will make it a <em>string</em> and Python doesn't care what the contents of a string is (for most cases, there are some special characters which you'll get to know). Now try to run the above code, but with <code>name = "Shetty777"</code></p>        
+        <p class="paragraph-indent">Values in Python must be ones that belong to a <em>data type</em>. <code>type(data)</code> is used to get the data type of a value in Python. There are numerous data types in Python, but we are concerned about the basic built-in data types. They are:</p>
+        <ol>
+            <p><bold>Numeric types:</bold> int, float, complex</p>
+            <p><bold>Sequence types:</bold> str, list, tuple</p>
+            <p><bold>Mapping type:</bold> dict</p>
+            <p><bold>Set types:</bold> set, frozenset</p>
+            <p><bold>Boolean type:</bold> bool</p>
+            <p><bold>None type:</bold> NoneType</p>
+        </ol>
+
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="int">Integer</h3>
+        <p class="paragraph">As the name suggests, the <code>int</code> type is the data type of integers, simple as that. E.g., 7, 100, 0, -46, 11 + 5</p>
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="float">Float</h3>
+        <p class="paragraph">Decimal numbers upto a precision of 15 decimal digits are stored as <code>float</code>. E.g., 3.7, 0.0628, 4 - 8.33</p>
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="complex">Complex</h3>
+        <p class="paragraph">The mathematics students among you might know that the root of -1 is <i>i</i> and numbers containing it are termed as complex numbers. the only difference is that the letter <code>j</code> is used in its place. E.g., 5 + 2j, 0 - 4j, 0j</p>
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="str">String</h3>
+        <p class="paragraph">String type is just text, and it can contain unicode characters like &pi;, &alpha; and &lambda;. <code>str</code> is defined by surrounding the characters by either single or double quotes, but not a combination of the two. E.g., '', "Hello", 'Python is awesome!', "It's so cool", "&theta;"</p>
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;"  id="list">List</h3>
+        <p class="paragraph">Unsurprisingly, a <code>list</code> is a list of values. It is defined using square brackets and the elements are separated by commas. Lists can have elements of different types; they can have duplicates; they are mutable (modifiable). E.g., [0, 1, 2, 3], [7, 'Apple', 9j, ['a', 'b', 'c']]</p>
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="tuple">Tuple</h3>
+        <p class="paragraph">A <code>tuple</code> is basically a list, but it is immutable, meaning the values of elements cannot be changed. Elements cannot be added or removed either. They are defined by round brackets and the elements are separated by commas. Why would you want to use them? They are much more efficient in storing information. They can have duplicates; they can contain different types of elements. E.g., (7,2025,4,899), ('Shashank', 16, 0.005)</p>
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="dict">Dictionary</h3>
+        <p class="paragraph">A <code>dict</code> in Python holds pairs of information in the format <code>key:value</code>. The values can be accessed by the keys with the syntax <code>dict[key]</code>. They can also contain different data types; they are mutable; but cannot contain duplicate keys. They are declared in curly brackets and the pairs are separated by commas. E.g., {0:89, 1:46, 2:99, 3:95}, {"name":"Shashank", "age":16, "height":1.56, 777:"blog site"}</p>
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="set">Set</h3>
+        <p class="paragraph">A <code>set</code> is basically a very efficient list. It cannot contain duplicates, if there are two elements with the same value, only one will be stored. They are unordered/not indexed; they can contain elements of different types; the elements are immutable, but you can add (<code>set.add(element)</code>) or remove (<code>set.remove(element)</code>) them. They are defined by curly brackets, with elements separated by commas.. E.g., {"Ruby", 3.1415, "Millie", (x, y, z)}, {10, 20, 10, 30, 40}</p>
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="frozenset">Frozenset</h3>
+        <p class="paragraph">A <code>frozenset</code> is almost indifferent from a regular set except that it is immutable as well. It is defined with the syntax <code>frozenset(iterable)</code></p>
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="bool">Boolean</h3>
+        <p class="paragraph">There are only two <code>bool</code> values: <code>True</code> and <code>False</code>. Think of it as Yes or No. They will be useful in conditional statements. In fact, True is just a placeholder for 1 and False for 0; they are synonymous.</p>
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="none">None</h3>
+        <p class="paragraph">The <code>None</code> type is a special type in Python which is used to represent the absence of a value. It is similar to null in other programming languages. It is defined by the keyword <code>None</code> and is not the same as 0. 0 is an integer whereas None is... literally nothing! This is used for debugging and safely handling empty data.</p>
+
+        <p class="paragraph">You can convert between data types using the target type as a function. There are limits of course, E.g., <code>str(111)</code> is valid whereas <code>int("Hi")</code> is not. Try different combinations for yourself.</p>
+        
+        
+        <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="more">More to know</h3>
+        <ul>
+            <p class="paragraph">Python is a dynamically typed language, meaning you do not have to specify the data type of the value when creating a variable; Python will detect it automatically. Not only that, the data type of the value can be changed as well. However, it is good practice to use <em>type hints</em>, which are basically notes that convey the type of the variable. It is not necessary at all and Python doesn't care about it, in fact, you can label them incorrectly without getting an error; but using them makes the code more readable to others. Type hints can be employed to functions as well and throughout this course, the use of type hints will be encouraged.</p>
+            <pre><code class="language-python">
+score = 99 #Python detects the type of score as int
+print(score, type(score))
+
+score = "A+" #Python detects the type of score as str  
+print(score, type(score))   
+
+subject: str = "Science" #Type hinting the variable subject as str
+marks: dict[str: int] = {"Physics": 100, "Chemistry": 95, "Biology": 98} #Type hinting the variable marks as dict with str keys and int values
+            </code></pre>
+
+            <p class="paragraph">Multiple variables can be defined at once and there is a really neat and clean way to swap variables in Python:</p>
+            <pre><code class="language-python">
+a, b = 5, 10 #Same as a = 5; b = 10
+print(a, b)
+
+a, b = b, a #Swaps the values of a and b
+print(a, b)
+            </code></pre>
+
+            <p class="paragraph">The three sequence types are indexed, meaning, each element is given a number with accorance to its occurence. <strong>Computers start counting from 0</strong>, so the first element has the index 0 and so on. This can be used to precisely modify these sequences.</p>
+            <pre><code class="language-python">
+numbers = [1, 2, 3, 4, 5] #Creates a list with the elements 1, 2, 3, 4 and 5
+print(numbers[0])
+
+text = "This is fun!"
+print(text[2:7]) #Prints the elements from index 2 to 6 (7 is not included)
+            </code></pre>
+
+            <p class="paragraph">Strings can include escape characters, preceeded by a backslash (\). You can learn more about them online, but the most common uses are:</p>
+            <pre><code class="language-python">
+print("Apple\nBanana\nCherry") #\n is used to create a new line
+print("Apple\tBanana\bCherry") #\t creates a tab and \b removes the previous character
+print('ISRO\'s Chandrayaan-3\\Aditya-L1') #Using \ before characters that affect a string stops their effect, including another \.
+            </code></pre>
+
+            <p class="paragraph">F-strings are blessings that make our lives easier when dealing with strings. You can look up the numerous features of F-strings in the Python documentation. Following is their most common use</p>
+            <pre><code class="language-python">
+name = "Shashank"
+age = 16
+
+print(f"Hello, my name is {name} and I am not {age + 10} years old.")
+            </code></pre>
+
+        <p class="paragraph">Interacting with a computer program is possible through user inputs. Python scripts can ask for user input with <code>input()</code>. Here is an example:</p>
+        <pre><code class="language-python">
+a = input("Enter a number: ") #The input is always a string, so it must be converted to the desired type
+b = int(input("Enter another number: "))
+print("The sum is: ",int(a) + int(b))
+        </code></pre>
+        </ul>
+
+    </div>
+</div>
+{% endblock %}
