@@ -117,7 +117,7 @@
                     <a href="#set" style="color: inherit;"><li>Set</li></a>
                     <a href="#frozenset" style="color: inherit;"><li>Frozenset</li></a>
                     <a href="#bool" style="color: inherit;"><li>Boolean</li></a>
-                    <a href="#none" style="color: inherit;"><li>None</li></a>
+                    <a href="#none" style="color: inherit;"><li>NoneType</li></a>
                 </ul>
                 <a href="more" style="color: inherit;"><li>More to know</li></a>
             </ol>
@@ -168,7 +168,7 @@ print(name)
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="int">Integer</h3>
         <p class="paragraph">As the name suggests, the <code>int</code> type is the data type of integers, simple as that. E.g., 7, 100, 0, -46, 11 + 5</p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="float">Float</h3>
-        <p class="paragraph">Decimal numbers upto a precision of 15 decimal digits are stored as <code>float</code>. E.g., 3.7, 0.0628, 4 - 8.33</p>
+        <p class="paragraph">Decimal numbers upto a precision of 15 decimal digits are stored as <code>float</code>. E.g., 3.7, 0.0628, 4 - 8.33, 2.997e8</p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="complex">Complex</h3>
         <p class="paragraph">The mathematics students among you might know that the root of -1 is <i>i</i> and numbers containing it are termed as complex numbers. the only difference is that the letter <code>j</code> is used in its place. E.g., 5 + 2j, 0 - 4j, 0j</p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="str">String</h3>
@@ -182,11 +182,11 @@ print(name)
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="set">Set</h3>
         <p class="paragraph">A <code>set</code> is basically a very efficient list. It cannot contain duplicates, if there are two elements with the same value, only one will be stored. They are unordered/not indexed; they can contain elements of different types; the elements are immutable, but you can add (<code>set.add(element)</code>) or remove (<code>set.remove(element)</code>) them. They are defined by curly brackets, with elements separated by commas.. E.g., {"Ruby", 3.1415, "Millie", (x, y, z)}, {10, 20, 10, 30, 40}</p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="frozenset">Frozenset</h3>
-        <p class="paragraph">A <code>frozenset</code> is almost indifferent from a regular set except that it is immutable as well. It is defined with the syntax <code>frozenset(iterable)</code></p>
+        <p class="paragraph">A <code>frozenset</code> is almost indifferent from a regular set except that it is immutable as well. It is defined with the syntax <code>frozenset({elements})</code></p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="bool">Boolean</h3>
         <p class="paragraph">There are only two <code>bool</code> values: <code>True</code> and <code>False</code>. Think of it as Yes or No. They will be useful in conditional statements. In fact, True is just a placeholder for 1 and False for 0; they are synonymous.</p>
-        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="none">None</h3>
-        <p class="paragraph">The <code>None</code> type is a special type in Python which is used to represent the absence of a value. It is similar to null in other programming languages. It is defined by the keyword <code>None</code> and is not the same as 0. 0 is an integer whereas None is... literally nothing! This is used for debugging and safely handling empty data.</p>
+        <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="none">NoneType</h3>
+        <p class="paragraph">The <code>NoneType</code> is a special type in Python which is used to represent the absence of a value. It is similar to null in other programming languages. It is the data type of <code>None</code> and is not the same as 0. 0 is an integer whereas None is... literally nothing! This is used for debugging and safely handling empty data.</p>
 
         <p class="paragraph">You can convert between data types using the target type as a function. There are limits of course, E.g., <code>str(111)</code> is valid whereas <code>int("Hi")</code> is not. Try different combinations for yourself.</p>
         
