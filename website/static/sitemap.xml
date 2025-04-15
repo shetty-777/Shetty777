@@ -9,7 +9,7 @@
 <!-- ##########Homepage########## -->
 <url>
   <loc>https://shetty777.koyeb.app/</loc>
-  <lastmod>2025-04-12T12:00:00+05:30</lastmod>
+  <lastmod>2024-06-01T12:00:00+05:30</lastmod>
   <priority>1.00</priority>
 </url>
 
@@ -17,17 +17,17 @@
 <!-- ##########Category pages########## -->
 <url>
   <loc>https://shetty777.koyeb.app/articles</loc>
-  <lastmod>2025-04-12T12:00:00+05:30</lastmod>
+  <lastmod>2025-04-10T12:00:00+05:30</lastmod>
   <priority>0.90</priority>
 </url>
 <url>
   <loc>https://shetty777.koyeb.app/projects</loc>
-  <lastmod>2025-04-12T12:00:00+05:30</lastmod>
+  <lastmod>2025-04-15T12:00:00+05:30</lastmod>
   <priority>0.85</priority>
 </url>
 <url>
   <loc>https://shetty777.koyeb.app/blogs</loc>
-  <lastmod>2025-04-12T12:00:00+05:30</lastmod>
+  <lastmod>2024-06-01T12:00:00+05:30</lastmod>
   <priority>0.85</priority>
 </url>
 
@@ -35,23 +35,23 @@
 <!-- ##########Forms########## -->
 <url>
   <loc>https://shetty777.koyeb.app/subscribe</loc>
-  <lastmod>2025-04-12T12:00:00+05:30</lastmod>
+  <lastmod>2024-06-01T12:00:00+05:30</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://shetty777.koyeb.app/login</loc>
-  <lastmod>2025-04-12T12:00:00+05:30</lastmod>
+  <lastmod>2024-06-01T12:00:00+05:30</lastmod>
 </url>
 <url>
   <loc>https://shetty777.koyeb.app/forgot_password</loc>
-  <lastmod>2025-04-12T12:00:00+05:30</lastmod>
+  <lastmod>2024-06-01T12:00:00+05:30</lastmod>
 </url>
 
 
 <!-- ##########About page########## -->
 <url>
   <loc>https://shetty777.koyeb.app/about</loc>
-  <lastmod>2025-04-12T12:00:00+05:30</lastmod>
+  <lastmod>2025-04-13T12:00:00+05:30</lastmod>
 </url>
 
 
@@ -63,6 +63,10 @@
 </url>
 -->
 <url>
+  <loc>https://shetty777.koyeb.app/web_posts/learn_python_in_7_days_day3</loc>
+  <lastmod>2025-04-15T00:00:00+05:30</lastmod>
+</url>
+<url>
   <loc>https://shetty777.koyeb.app/web_posts/learn_python_in_7_days_day2</loc>
   <lastmod>2025-04-14T00:00:00+05:30</lastmod>
 </url>
@@ -72,31 +76,31 @@
 </url>
 <url>
   <loc>https://shetty777.koyeb.app/web_posts/what_are_five_habits_we_can_adopt_to_reduce_waste_and_promote_recycling</loc>
-  <lastmod>2025-04-12T00:00:00+05:30</lastmod>
+  <lastmod>2025-04-10T00:00:00+05:30</lastmod>
 </url>
 <url>
   <loc>https://shetty777.koyeb.app/web_posts/necessity_is_the_mother_of_invention</loc>
-  <lastmod>2025-04-12T00:00:00+05:30</lastmod>
+  <lastmod>2025-04-08T00:00:00+05:30</lastmod>
 </url>
 <url>
   <loc>https://shetty777.koyeb.app/web_posts/k_p_poornachandra_tejaswi</loc>
-  <lastmod>2025-04-12T00:00:00+05:30</lastmod>
+  <lastmod>2024-10-29T00:00:00+05:30</lastmod>
 </url>
 <url>
   <loc>https://shetty777.koyeb.app/web_posts/how_social_media_has_improved_human_communication</loc>
-  <lastmod>2025-04-12T00:00:00+05:30</lastmod>
+  <lastmod>2024-10-14T00:00:00+05:30</lastmod>
 </url>
 <url>
   <loc>https://shetty777.koyeb.app/web_posts/can_money_buy_happiness</loc>
-  <lastmod>2025-04-12T00:00:00+05:30</lastmod>
+  <lastmod>2024-10-10T00:00:00+05:30</lastmod>
 </url>
 <url>
   <loc>https://shetty777.koyeb.app/web_posts/story_analysis_of_the_homecoming</loc>
-  <lastmod>2025-04-12T00:00:00+05:30</lastmod>
+  <lastmod>2024-10-08T00:00:00+05:30</lastmod>
 </url>
 <url>
   <loc>https://shetty777.koyeb.app/web_posts/environmental-consciousness</loc>
-  <lastmod>2025-04-12T00:00:00+05:30</lastmod>
+  <lastmod>2024-06-03T00:00:00+05:30</lastmod>
 </url>
 
 </urlset>
