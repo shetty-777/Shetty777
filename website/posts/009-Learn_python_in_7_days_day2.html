@@ -193,7 +193,7 @@ print(name)
         
         <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="more">More to know</h3>
         <ul>
-            <p class="paragraph">Python is a dynamically typed language, meaning you do not have to specify the data type of the value when creating a variable; Python will detect it automatically. Not only that, the data type of the value can be changed as well. However, it is good practice to use <em>type hints</em>, which are basically notes that convey the type of the variable. It is not necessary at all and Python doesn't care about it, in fact, you can label them incorrectly without getting an error; but using them makes the code more readable to others. Type hints can be employed to functions as well and throughout this course, the use of type hints will be encouraged.</p>
+            <li class="paragraph">Python is a dynamically typed language, meaning you do not have to specify the data type of the value when creating a variable; Python will detect it automatically. Not only that, the data type of the value can be changed as well. However, it is good practice to use <em>type hints</em>, which are basically notes that convey the type of the variable. It is not necessary at all and Python doesn't care about it, in fact, you can label them incorrectly without getting an error; but using them makes the code more readable to others. Type hints can be employed to functions as well and throughout this course, the use of type hints will be encouraged.</li>
             <pre><code class="language-python">
 score = 99 #Python detects the type of score as int
 print(score, type(score))
@@ -205,7 +205,7 @@ subject: str = "Science" #Type hinting the variable subject as str
 marks: dict[str: int] = {"Physics": 100, "Chemistry": 95, "Biology": 98} #Type hinting the variable marks as dict with str keys and int values
             </code></pre>
 
-            <p class="paragraph">Multiple variables can be defined at once and there is a really neat and clean way to swap variables in Python:</p>
+            <li class="paragraph">Multiple variables can be defined at once and there is a really neat and clean way to swap variables in Python:</li>
             <pre><code class="language-python">
 a, b = 5, 10 #Same as a = 5; b = 10
 print(a, b)
@@ -214,7 +214,7 @@ a, b = b, a #Swaps the values of a and b
 print(a, b)
             </code></pre>
 
-            <p class="paragraph">The three sequence types are indexed, meaning, each element is given a number with accorance to its occurence. <strong>Computers start counting from 0</strong>, so the first element has the index 0 and so on. This can be used to precisely modify these sequences.</p>
+            <li class="paragraph">The three sequence types are indexed, meaning, each element is given a number with accorance to its occurence. <strong>Computers start counting from 0</strong>, so the first element has the index 0 and so on. This can be used to precisely modify these sequences.</li>
             <pre><code class="language-python">
 numbers: list[int] = [1, 2, 3, 4, 5] #Creates a list with the elements 1, 2, 3, 4 and 5
 print(numbers[0])
@@ -223,14 +223,14 @@ text: str = "This is fun!"
 print(text[2:7]) #Prints the elements from index 2 to 6 (7 is not included)
             </code></pre>
 
-            <p class="paragraph">Strings can include escape characters, preceeded by a backslash (\). You can learn more about them online, but the most common uses are:</p>
+            <li class="paragraph">Strings can include escape characters, preceeded by a backslash (\). You can learn more about them online, but the most common uses are:</li>
             <pre><code class="language-python">
 print("Apple\nBanana\nCherry") #\n is used to create a new line
 print("Apple\tBanana\bCherry") #\t creates a tab and \b removes the previous character
 print('ISRO\'s Chandrayaan-3\\Aditya-L1') #Using \ before characters that affect a string stops their effect, including another \.
             </code></pre>
 
-            <p class="paragraph">F-strings are blessings that make our lives easier when dealing with strings. You can look up the numerous features of F-strings in the Python documentation. Following is their most common use</p>
+            <li class="paragraph">F-strings are blessings that make our lives easier when dealing with strings. You can look up the numerous features of F-strings in the Python documentation. Following is their most common use</li>
             <pre><code class="language-python">
 name: str = "Shashank"
 age: int = 16
@@ -238,14 +238,13 @@ age: int = 16
 print(f"Hello, my name is {name} and I am not {age + 10} years old.")
             </code></pre>
 
-        <p class="paragraph">Interacting with a computer program is possible through user inputs. Python scripts can ask for user input with <code>input()</code>. Here is an example:</p>
+        <li class="paragraph">Interacting with a computer program is possible through user inputs. Python scripts can ask for user input with <code>input()</code>. Here is an example:</li>
         <pre><code class="language-python">
 a: str = input("Enter a number: ") #The input is always a string, so it must be converted to the desired type
 b: str = input("Enter another number: ")
 print("The sum is: ",int(a) + int(b))
         </code></pre>
         </ul>
-
     </div>
 </div>
 {% endblock %}
