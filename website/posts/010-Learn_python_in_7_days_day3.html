@@ -114,7 +114,7 @@
 
 
         <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="operators">Operators:</h3>
-        <p class="paragraph-indent">Just creating data is not enough, what makes computers useful is that we can modify them and perform certain actions on them. For such purposes, Python offers numerous <em>operators</em>. Since Python is a high-level language was designed to be easily understood, much of its syntax resembles the English language and mathematics. As such, following is a list of common <b>Arithmetic operators</b> (I will not be covering all the operators, such as Bitwise operators), many of which can be easily interpreted in the context of mathematics:</p>
+        <p class="paragraph-indent">Just creating data is not enough, what makes computers useful is that we can modify them and perform certain actions on them. For such purposes, Python offers numerous <em>operators</em>. Since Python is a high-level language that was designed to be easily understood, much of its syntax resembles the English language and mathematics. As such, following is a list of common <b>Arithmetic operators</b> (I will not be covering all the operators, such as Bitwise operators), many of which can be easily interpreted in the context of mathematics:</p>
         <pre><code class="language-python">
 #Addition: Adds the operands
 print(2 + 3)
@@ -138,23 +138,23 @@ print(15 % 7)
 print(4 ** 3) 
         </code></pre>
 
-        <p class="paragraph">These arithmetic operators follow the standard <abbr title="Brackets Orders Division Multiplication Addition Subtraction">BODMAS</abbr>. The brilliant among you may realise that multiplication & division and addition & subtraction are the same; python knows that too. In cases when two operators share the same priority in the order of operations, the operations will be carried out from left-to-right. A few of these functions can be performed on non-numeric types as well; mostly the sequence types. Experiment and find out which combinations work. You can also multiply the sequence types with a number. E.g, <code>"Yo! " * 3</code> returns "Yo! Yo! Yo!". If you want to modify the value of a variable using its previous value with <em>any</em> arithmetic operators, you can make use of the <b>assignment operators</b>.</p>
+        <p class="paragraph">These arithmetic operators follow the standard <abbr title="Brackets Orders Division Multiplication Addition Subtraction">BODMAS</abbr>. The brilliant among you may realise that multiplication & division and addition & subtraction are the same; Python knows that too. In cases when two operators share the same priority in the order of operations, the operations will be carried out from left-to-right. A few of these functions can be performed on non-numeric types as well; mostly the sequence types. Experiment and find out which combinations work. You can also multiply the sequence types with a number. E.g, <code>"Yo! " * 3</code> returns "Yo! Yo! Yo!". If you want to modify the value of a variable using its previous value with <em>any</em> arithmetic operators, you can make use of the <b>assignment operators</b>.</p>
         <pre><code class="language-python">
-x = 5
+x: int = 5
 print(x)
 
-x += 2 #this is the same as x = x + 2
+x: int += 2 #this is the same as x = x + 2
 print(x)
 
 #There is another operator called the walrus operator that defines a variable and returns the value at the same time
-print(x: int := 5) #this is the same as x = 5; print(x)
+print(y: int := 5) #this is the same as y = 5; print(y)
 print(type(name: str := "Shashank")) #this is the same as name = "Shetty777"; print(type(name))
 
 #The variables can be used as normal
-print(f"{name} has {x} flowers")
+print(f"{name} has {y} flowers")
         </code></pre>
 
-        <p class="paragraph-indent"><b>Comparision operators</b> are used to compare two values on both sides of the operator. They <em>return</em> <code>True</code> if the expression is true/correct and <code>False</code> is the expression is flase/wrong. The concept of "returning something" will be better understood later in the course.</p>
+        <p class="paragraph-indent"><b>Comparision operators</b> are used to compare two values on both sides of the operator. They <em>return</em> <code>True</code> if the expression is true/correct and <code>False</code> if the expression is flase/wrong. The concept of "returning something" will be better understood later in the course.</p>
         <pre><code class="language-python">
 #Equal: True if both operands are equal
 print(2 == 6-2)

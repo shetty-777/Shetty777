@@ -154,7 +154,7 @@ print(strength) #Gives an error, because strength is not defined anymore
 name = Shetty777
 print(name)      
         </code></pre>
-        <p class="paragraph">The above code should give an error! Because python doesn't know what <code>Shetty777</code> is. However, enclosing the word in quotes (single or double) will make it a <em>string</em> and Python doesn't care what the contents of a string is (for most cases, there are some special characters which you'll get to know). Now try to run the above code, but with <code>name = "Shetty777"</code></p>        
+        <p class="paragraph">The above code should give an error! Because python doesn't know what <code>Shetty777</code> is. However, enclosing the word in quotes (single or double) will make it a <em>string</em> and Python doesn't care what the contents of a string are (for most cases, there are some special characters which you'll get to know). Now try to run the above code, but with <code>name = "Shetty777"</code></p>        
         <p class="paragraph-indent">Values in Python must be ones that belong to a <em>data type</em>. <code>type(data)</code> is used to get the data type of a value in Python. There are numerous data types in Python, but we are concerned about the basic built-in data types. They are:</p>
         <ol>
             <p class="paragraph"><b>Numeric types:</b> int, float, complex</p>
@@ -170,15 +170,15 @@ print(name)
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="float">Float</h3>
         <p class="paragraph">Decimal numbers upto a precision of 15 decimal digits are stored as <code>float</code>. E.g., 3.7, 0.0628, 4 - 8.33, 2.997e8</p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="complex">Complex</h3>
-        <p class="paragraph">The mathematics students among you might know that the root of -1 is <i>i</i> and numbers containing it are termed as complex numbers. the only difference is that the letter <code>j</code> is used in its place. E.g., 5 + 2j, 0 - 4j, 0j</p>
+        <p class="paragraph">The mathematics students among you might know that the root of -1 is <i>i</i> and numbers containing it are termed as complex numbers. The only difference is that the letter <code>j</code> is used in its place. E.g., 5 + 2j, 0 - 4j, 0j</p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="str">String</h3>
         <p class="paragraph">String type is just text, and it can contain unicode characters like &pi;, &alpha; and &lambda;. <code>str</code> is defined by surrounding the characters by either single or double quotes, but not a combination of the two. E.g., '', "Hello", 'Python is awesome!', "It's so cool", "&theta;"</p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;"  id="list">List</h3>
         <p class="paragraph">Unsurprisingly, a <code>list</code> is a list of values. It is defined using square brackets and the elements are separated by commas. Lists can have elements of different types; they can have duplicates; they are mutable (modifiable). E.g., [0, 1, 2, 3], [7, 'Apple', 9j, ['a', 'b', 'c']]</p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="tuple">Tuple</h3>
-        <p class="paragraph">A <code>tuple</code> is basically a list, but it is immutable, meaning the values of elements cannot be changed. Elements cannot be added or removed either. They are defined by round brackets and the elements are separated by commas. Why would you want to use them? They are much more efficient in storing information. They can have duplicates; they can contain different types of elements. E.g., (7,2025,4,899), ('Shashank', 16, 0.005)</p>
+        <p class="paragraph">A <code>tuple</code> is basically a list, but it is immutable, meaning the values of elements cannot be changed. Elements cannot be added or removed either. They are defined by round brackets and the elements are separated by commas. Why would you want to use them? They are much more efficient in storing information. They can have duplicates; they can contain different types of elements. E.g., (7, 2025, 4, 899), ('Shashank', 16, 0.005)</p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="dict">Dictionary</h3>
-        <p class="paragraph">A <code>dict</code> in Python holds pairs of information in the format <code>key:value</code>. The values can be accessed by the keys with the syntax <code>dict[key]</code>. They can also contain different data types; they are mutable; but cannot contain duplicate keys. They are declared in curly brackets and the pairs are separated by commas. E.g., {0:89, 1:46, 2:99, 3:95}, {"name":"Shashank", "age":16, "height":1.56, 777:"blog site"}</p>
+        <p class="paragraph">A <code>dict</code> in Python holds pairs of information in the format <code>key:value</code>. The values can be accessed by the keys with the syntax <code>dict[key]</code>. They can also contain different data types; they are mutable; but cannot contain duplicate keys. They are declared in curly brackets and the pairs are separated by commas. E.g., {0: 89, 1: 46, 2: 99, 3: 95}, {"name": "Shashank", "age": 16, "height": 1.56, 777: "blog site"}</p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="set">Set</h3>
         <p class="paragraph">A <code>set</code> is basically a very efficient list. It cannot contain duplicates, if there are two elements with the same value, only one will be stored. They are unordered/not indexed; they can contain elements of different types; the elements are immutable, but you can add (<code>set.add(element)</code>) or remove (<code>set.remove(element)</code>) them. They are defined by curly brackets, with elements separated by commas.. E.g., {"Ruby", 3.1415, "Millie", (x, y, z)}, {10, 20, 10, 30, 40}</p>
         <h3 style="font-family: Spectral; font-weight: bold; font-size: 1.5rem;" id="frozenset">Frozenset</h3>
@@ -241,7 +241,7 @@ print(f"Hello, my name is {name} and I am not {age + 10} years old.")
         <p class="paragraph">Interacting with a computer program is possible through user inputs. Python scripts can ask for user input with <code>input()</code>. Here is an example:</p>
         <pre><code class="language-python">
 a: str = input("Enter a number: ") #The input is always a string, so it must be converted to the desired type
-b: str = int(input("Enter another number: "))
+b: str = input("Enter another number: ")
 print("The sum is: ",int(a) + int(b))
         </code></pre>
         </ul>
