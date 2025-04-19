@@ -11,17 +11,20 @@
 	<br>
 	<div class="row">
 		{% for article in articles_list %}
-			<div class="col-md-4">
-				<div class="card pop-up-card" style="margin: 0.5rem; border-radius: 20px;">
-					<img src="{{ url_for('.static', filename = article.banner) }}" class="card-img-top" alt="{{article.title}}" style="object-fit: cover; height:12.5rem; border-radius: 20px 20px 0px 0px;">
-					<div class="card-body">
-					<h5 class="card-title post-card-title" style="font-family: LibreFranklin; font-weight: bold">{{ article.title }} </h5>
+		<div class="col-md-4">
+			<div class="card pop-up-card" style="margin: 0.5rem; border-radius: 20px;">
+				<img src="{{ url_for('.static', filename = article.banner) }}" class="card-img-top"
+					alt="{{article.title}}"
+					style="object-fit: cover; height:12.5rem; border-radius: 20px 20px 0px 0px;">
+				<div class="card-body">
+					<h5 class="card-title post-card-title" style="font-family: LibreFranklin; font-weight: bold">{{
+						article.title }} </h5>
 					<a class="stretched-link" href="{{ url_for('routes.web_posts', post_url=article.url) }}"></a>
-					<p class="card-text"><small class="text-body-secondary">Posted on:  {{ article.date }}</small></p>
-					</div>
+					<p class="card-text"><small class="text-body-secondary">Posted on: {{ article.date }}</small></p>
 				</div>
 			</div>
-		{% endfor %}		  
+		</div>
+		{% endfor %}
 	</div>
 </div>
 {% endblock %}

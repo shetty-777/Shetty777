@@ -3,43 +3,47 @@
 {% block content %}
 <br><br>
 <div class="container d-flex justify-content-center align-items-center table-responsive">
-    <table class="table table-bordered table-striped table-responsive" style="margin:3rem; position:relative; box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500);">
-        <thead>
-            <th scope="col">Post id.</th>
-            <th scope="col">URL</th>
-            <th scope="col">HTML file</th>
-            <th scope="col">Date posted</th>
-            <th scope="col">Delete</th>
-        </thead>
-        <tbody class="table-group-divide"></tbody>
-        {% for post in postlist%}
-                <tr>
-                    <td>{{ post.id }}</td>
-                    <td><a href="{{ url_for('routes.web_posts', post_url=post.url) }}">{{ post.url }}</a></td>
-                    <td>{{ post.htmlfile }}</td>
-                    <td>{{ post.date_created | format_datetime('Asia/Kolkata', '%d/%m/%Y %I:%M %p') }}</td>
-                    <td><button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#confirmationModalP" data-bs-delposturl="{{ post.url }}" data-bs-delpostid="{{ post.id }}">Delete</button></td>
-                </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+  <table class="table table-bordered table-striped table-responsive"
+    style="margin:3rem; position:relative; box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500);">
+    <thead>
+      <th scope="col">Post id.</th>
+      <th scope="col">URL</th>
+      <th scope="col">HTML file</th>
+      <th scope="col">Date posted</th>
+      <th scope="col">Delete</th>
+    </thead>
+    <tbody class="table-group-divide"></tbody>
+    {% for post in postlist%}
+    <tr>
+      <td>{{ post.id }}</td>
+      <td><a href="{{ url_for('routes.web_posts', post_url=post.url) }}">{{ post.url }}</a></td>
+      <td>{{ post.htmlfile }}</td>
+      <td>{{ post.date_created | format_datetime('Asia/Kolkata', '%d/%m/%Y %I:%M %p') }}</td>
+      <td><button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+          data-bs-target="#confirmationModalP" data-bs-delposturl="{{ post.url }}"
+          data-bs-delpostid="{{ post.id }}">Delete</button></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
 </div>
-<div class="modal fade" id="confirmationModalP" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="staticBackdropLabel">Post deletion confirmation</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p id="deletionmodaltextP"></p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <a type="button" class="btn btn-danger delete-post" data-post-id="#">Delete</a>
-        </div>
+<div class="modal fade" id="confirmationModalP" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="confirmationModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Post deletion confirmation</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p id="deletionmodaltextP"></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a type="button" class="btn btn-danger delete-post" data-post-id="#">Delete</a>
       </div>
     </div>
   </div>
-  
+</div>
+
 {% endblock %}

@@ -1,9 +1,20 @@
-{% extends "base.html" %}
-
-{% block title %}Bad gateway Error{% endblock %}
-
-{% block content %}
-<center>
-	<h1 style="padding-bottom: 3rem; line-height: 1;font-family: 'RubikMaze'; font-size: 25vw; color: #FFFFFF; background: -webkit-linear-gradient(135deg, #D000FF, #9000FF);">502<span style="display: block; font-family: 'IBMPlexMono'; font-size: 1.5vw;"><b>A third-party server is not responding properly, try again later...</b></span></h1>
-</center>
+{% extends "base.html" %} {% block title %}Bad gateway Error{% endblock %} {%
+block content %}
+<h1
+  style="
+    text-align: center;
+    padding-bottom: 3rem;
+    line-height: 1;
+    font-family: 'RubikMaze';
+    font-size: 25vw;
+    color: #ffffff;
+    background: -webkit-linear-gradient(135deg, #d000ff, #9000ff);
+  "
+>
+  502<span style="display: block; font-family: 'IBMPlexMono'; font-size: 1.5vw"
+    ><b
+      >A third-party server is not responding properly, try again later...</b
+    ></span
+  >
+</h1>
 {% endblock %}

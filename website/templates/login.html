@@ -7,12 +7,14 @@
 <form method="POST">
 	<div class="container d-flex justify-content-center align-items-center">
 		<div class="col-sm-12 p-sm-1 p-md-1 p-lg-5 d-flex justify-content-center align-items-center">
-			<div class="card mb-5 w-75 rounded-5 custom-border" style="padding-top:1rem; box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500); margin: auto">
+			<div class="card mb-5 w-75 rounded-5 custom-border"
+				style="padding-top:1rem; box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500); margin: auto">
 				<div class="row g-0">
-					<div class = "col-md-5 d-flex justify-content-center align-items-center">
-						<img src="{{ url_for('static', filename='images/Login.webp') }}" class="card-img mx-auto img-fluid" alt="Login" style="width:20rem">
+					<div class="col-md-5 d-flex justify-content-center align-items-center">
+						<img src="{{ url_for('static', filename='images/Login.webp') }}"
+							class="card-img mx-auto img-fluid" alt="Login" style="width:20rem">
 					</div>
-					<div class = "col-md-7">
+					<div class="col-md-7">
 						{{ form.csrf_token }}
 						{{ form.hidden_tag() }}
 						<p> </p>
@@ -20,7 +22,8 @@
 							{{ form.usernameoremailid.label(class = "form-label", style="font-size: 1rem;") }}
 							<div class="input-group flex-nowrap">
 								<span class="input-group-text"><i class="bi-person-fill"></i></span>
-								{{ form.usernameoremailid(class = "form-control custom-input", placeholder="Enter your username or E-mail address") }}
+								{{ form.usernameoremailid(class = "form-control custom-input", placeholder="Enter your
+								username or E-mail address") }}
 							</div>
 						</div>
 						<div class="ms-5 mb-5 me-5">
@@ -32,12 +35,15 @@
 						</div>
 						<br>
 						<div class="container d-flex justify-content-center align-items-center">
-							{{ form.login(class = "btn custom-btn btn-lg ms-5 mb-5 me-5", style="color:#ffffff; width: 100%") }}
-						</div>	
-						<a href="{{url_for('routes.subscribe')}}" class="text-reset  d-block" style="text-align: center">Not a subscriber? Click here to become one</a>
-						<p>	</p>
-						<a href="{{url_for('routes.forgot_password')}}" class="text-reset  d-block" style="text-align: center">Forgot password!? Click here to reset</a>
-						<p>	</p>
+							{{ form.login(class = "btn custom-btn btn-lg ms-5 mb-5 me-5", style="color:#ffffff; width:
+							100%") }}
+						</div>
+						<a href="{{url_for('routes.subscribe')}}" class="text-reset  d-block"
+							style="text-align: center">Not a subscriber? Click here to become one</a>
+						<p> </p>
+						<a href="{{url_for('routes.forgot_password')}}" class="text-reset  d-block"
+							style="text-align: center">Forgot password!? Click here to reset</a>
+						<p> </p>
 					</div>
 				</div>
 			</div>

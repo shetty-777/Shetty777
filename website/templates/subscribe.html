@@ -7,12 +7,14 @@
 <form method="POST">
 	<div class="container d-flex justify-content-center align-items-center">
 		<div class="col-sm-12 p-sm-1 p-md-1 p-lg-5 d-flex justify-content-center align-items-center">
-			<div class="card mb-5 w-75 rounded-5 custom-border" style="padding-top:1rem; box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500); margin: auto">
+			<div class="card mb-5 w-75 rounded-5 custom-border"
+				style="padding-top:1rem; box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500); margin: auto">
 				<div class="row g-0">
-					<div class = "col-md-5 d-flex justify-content-center align-items-center">
-						<img src="{{ url_for('static', filename='images/Subscribe.webp') }}" class="card-img mx-auto img-fluid" alt="Subscribe" style="width:20rem">
+					<div class="col-md-5 d-flex justify-content-center align-items-center">
+						<img src="{{ url_for('static', filename='images/Subscribe.webp') }}"
+							class="card-img mx-auto img-fluid" alt="Subscribe" style="width:20rem">
 					</div>
-					<div class = "col-md-7">
+					<div class="col-md-7">
 						{{ form.csrf_token }}
 						{{ form.hidden_tag() }}
 						<p> </p>
@@ -27,7 +29,8 @@
 							{{ form.emailid.label(class = "form-label", style="font-size: 1rem;") }}
 							<div class="input-group flex-nowrap">
 								<span class="input-group-text">@</span>
-								{{ form.emailid(class = "form-control custom-input", placeholder="Enter E-mail address") }}
+								{{ form.emailid(class = "form-control custom-input", placeholder="Enter E-mail address")
+								}}
 							</div>
 						</div>
 						<div class="ms-5 mb-5 me-5">
@@ -41,12 +44,14 @@
 							{{ form.confirm_password.label(class = "form-label", style="font-size: 1rem;") }}
 							<div class="input-group flex-nowrap">
 								<span class="input-group-text"><i class="bi-key-fill"></i></span>
-								{{ form.confirm_password(class = "form-control custom-input", placeholder="Confirm password") }}
+								{{ form.confirm_password(class = "form-control custom-input", placeholder="Confirm
+								password") }}
 							</div>
 						</div>
 						<br>
 						<div class="container d-flex justify-content-center align-items-center">
-							{{ form.subscribe(class = "btn custom-btn btn-lg ms-5 mb-5 me-5", style="color:#ffffff; width: 100%") }}
+							{{ form.subscribe(class = "btn custom-btn btn-lg ms-5 mb-5 me-5", style="color:#ffffff;
+							width: 100%") }}
 						</div>
 					</div>
 				</div>
