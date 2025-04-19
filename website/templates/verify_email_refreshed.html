@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Verify E-mail{% endblock %}
 {% block content %}
-<br/><br/>
+<br><br>
 <div class="container d-flex justify-content-center align-items-center">
 	<div class="col-sm-12 p-sm-1 p-md-1 p-lg-5 d-flex justify-content-center align-items-center">
 		<div class="card mb-5 w-75 rounded-5 custom-border" style="padding-top:1rem; box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500); margin: auto">
@@ -10,8 +10,8 @@
 					<img src="{{ url_for('static', filename='images/Verify.webp') }}" class="card-img mx-auto img-fluid" alt="Verify" style="width:20rem; margin: 25px">
 				</div>
 				<div class = "col-md-7">
-                    <h1 style="text-align: center;font-family: 'RubikMaze'; font-size: calc(2rem + 2vw); padding: 30px 20px;">Verify your <br/> E-mail address</h1>
-                    <h3 style="display: block; font-family: 'IBMPlexMono'; font-size: 1rem; padding: 10px 20px">Your old token expired, so a new one has been generated and sent to you your E-mail address. Please check your inbox.</h3>
+                    <h1 style="text-align: center; font-family: 'RubikMaze'; font-size: calc(2rem + 2vw); padding: 30px 20px;">Verify your <br> E-mail address</h1>
+                    <h3 style="display: block; font-family: 'IBMPlexMono'; font-size: 1rem; padding: 10px 20px">Your old token expired, so a new one has been generated and sent to you your E-mail address. Please check your inbox or your spam folder.</h3>
 					<h3 style="display: block; font-family: 'IBMPlexMono'; font-size: 1rem; padding: 10px 20px">This new token will be valid for 7 days</h3>
 				</div>
 			</div>
