@@ -14,10 +14,10 @@ from wtforms.validators import Email, Length, EqualTo, InputRequired, NoneOf, Op
 #from dotenv import load_dotenv
 #load_dotenv()
 
-db = SQLAlchemy()
-email = RedMail()
+db: SQLAlchemy = SQLAlchemy()
+email: RedMail = RedMail()
 
-def create_app():
+def create_app() -> Flask:
 	app = Flask(__name__)
 
 	app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
@@ -83,64 +83,64 @@ def create_app():
 
 
 	@app.errorhandler(401)
-	def access_denied1(e):
+	def access_denied1(e) -> tuple:
 		return render_template("error_handlers/401.html", user=current_user), 401
 
 	@app.errorhandler(403)
-	def access_denied2(e):
+	def access_denied2(e) -> tuple:
 		return render_template("error_handlers/403.html", user=current_user), 403
 
 	@app.errorhandler(404)
-	def not_found(e):
+	def not_found(e) -> tuple:
 		return render_template("error_handlers/404.html", user=current_user), 404
 
 	@app.errorhandler(405)
-	def method_not_allowed(e):
+	def method_not_allowed(e) -> tuple:
 		return render_template("error_handlers/405.html", user=current_user), 405
         
 	@app.errorhandler(500)
-	def server_down(e):
+	def server_down(e) -> tuple:
 		return render_template("error_handlers/500.html", user=current_user), 500
     
 	@app.errorhandler(502)
-	def bad_gateway(e):
+	def bad_gateway(e) -> tuple:
 		return render_template("error_handlers/502.html", user=current_user), 502
    
 	return app
 
 #---------------oo0oo---------------#
 
-class subscriberform(FlaskForm):
+class SubscriberForm(FlaskForm):
 	username = StringField("Your username:", validators=[InputRequired(), NoneOf(['%', '+', '=', '\\', ':', ';', '"', '<', '>', '?', '/'], message="Do not use special characters")])
-	emailid = EmailField("Your E-mail address:", validators=[InputRequired(), Email(check_deliverability=True, message="E-mail address is not valid")])
-	password = PasswordField("A strong password:", validators=[InputRequired(), Length(min=6, max=70), EqualTo(fieldname='confirm_password', message ="Passwords do not match" )])
-	confirm_password = PasswordField("Repeat the password:", validators=[InputRequired()])
+	email_id = EmailField("Your E-mail address:", validators=[InputRequired(), Email(check_deliverability=True, message="E-mail address is not valid")])
+	password = PasswordField("A strong password:", validators=[InputRequired(), Length(min=6, max=70)])
+	confirm_password = PasswordField("Repeat the password:", validators=[InputRequired(),  EqualTo(fieldname='password', message ="Passwords do not match" )])
 	subscribe = SubmitField("Subscribe")
 
-class loginform(FlaskForm):
-	usernameoremailid = StringField("Your username or E-mail address:", validators=[InputRequired()])
+class LoginForm(FlaskForm):
+	username_or_email_id = StringField("Your username or E-mail address:", validators=[InputRequired()])
 	password = PasswordField("Your password:", validators=[InputRequired(), Length(min=6, max=70)])
 	login = SubmitField("Login to Subscriber account")
 
-class forgotform(FlaskForm):
-	usernameoremailid = StringField("Your username or E-mail address:", validators=[InputRequired()])
+class ForgotPasswordForm(FlaskForm):
+	username_or_email_id = StringField("Your username or E-mail address:", validators=[InputRequired()])
 	send_reset_mail = SubmitField("Send E-mail for password reset")
 
-class resetform(FlaskForm):
-	new_password = PasswordField("A strong password:", validators=[InputRequired(), Length(min=6, max=70), EqualTo(fieldname='confirm_new_password', message ="Passwords do not match" )])
-	confirm_new_password = PasswordField("Repeat the password:", validators=[InputRequired()])
+class ResetPasswordForm(FlaskForm):
+	new_password = PasswordField("A strong password:", validators=[InputRequired(), Length(min=6, max=70)])
+	confirm_new_password = PasswordField("Repeat the password:", validators=[InputRequired(), EqualTo(fieldname='new_password', message ="Passwords do not match" )])
 	reset = SubmitField("Reset password")
 
-class postform(FlaskForm):
+class PostForm(FlaskForm):
 	category = SelectField("What kind of post is this?", validators=[InputRequired()], choices=[('Article'), ('Project'), ('Blog')])
 	author = SelectField("Who is the author of this post?", validators=[InputRequired()], choices=[('Shashank Shetty'), ('Vibha P'), ('Srikanth Shetty'), ('Amulya B R')])
-	htmlfile = FileField("The HTML file of the post:", validators=[FileRequired(), FileAllowed(['html'])])
+	html_file = FileField("The HTML file of the post:", validators=[FileRequired(), FileAllowed(['html'])])
 	url = StringField("URL address of the post:", validators=[InputRequired(), NoneOf([" ", "`", "@", "^", "(", ")", "|", "\\", "/", "[", "]", "{", "}", ">", "<"])])
 	images = MultipleFileField("Accompanying images of the post:", validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'svg', 'webp', 'gif'])])
-	audio = FileField("Audio version of the post (optional):", validators=[FileAllowed(['mp3', 'ogg', 'wav'])])
+	audio = MultipleFileField("Audio files in the post (optional):", validators=[FileAllowed(['mp3', 'ogg', 'wav'])])
 	post = SubmitField("Create the post")
 
-class commentform(FlaskForm):
+class CommentForm(FlaskForm):
 	rating = RadioField('How much do you rate this post out of  7 ?', choices=[1, 2, 3, 4, 5, 6, 7], validators=[Optional()]) 
 	text_content = TextAreaField("Comment text:", validators=[Length(max=500)])
 	comment = SubmitField("Comment")

@@ -84,7 +84,7 @@ if (confirmationModalP) {
     const modalBodyp = confirmationModalP.querySelector('.modal-body p')
     const modalBodybutton = confirmationModalP.querySelector('.modal-footer a')
 
-    modalBodyp.innerHTML = `You are about to delete the post with the URL: <br> <i><u>${delposturl}</u></i> <br> This will also delete all the media files present in the post [images and audio].<br><br><b>ARE YOU SURE YOU WANT TO PROCEED?</b>`
+    modalBodyp.innerHTML = `You are about to delete the post with the URL: <br> <i><u>${delposturl}</u></i> <br> This will also delete all the media files present in the post [images and audios].<br><br><b>ARE YOU SURE YOU WANT TO PROCEED?</b>`
     modalBodybutton.dataset.postId = `${delpostid}`
   })
 }

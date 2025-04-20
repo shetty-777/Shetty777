@@ -13,11 +13,11 @@
       <th scope="col">Delete</th>
     </thead>
     <tbody class="table-group-divide"></tbody>
-    {% for post in postlist%}
+    {% for post in post_list%}
     <tr>
       <td>{{ post.id }}</td>
       <td><a href="{{ url_for('routes.web_posts', post_url=post.url) }}">{{ post.url }}</a></td>
-      <td>{{ post.htmlfile }}</td>
+      <td>{{ post.html_file }}</td>
       <td>{{ post.date_created | format_datetime('Asia/Kolkata', '%d/%m/%Y %I:%M %p') }}</td>
       <td><button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
           data-bs-target="#confirmationModalP" data-bs-delposturl="{{ post.url }}"

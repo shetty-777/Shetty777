@@ -19,17 +19,16 @@
 						{{ form.hidden_tag() }}
 						<p> </p>
 						<div class="ms-5 mb-5 me-5">
-							{{ form.usernameoremailid.label(class = "form-label", style="font-size: 1rem;") }}
+							{{ form.username_or_email_id.label(class = "form-label", style="font-size: 1rem;") }}
 							<div class="input-group flex-nowrap">
-								<span class="input-group-text"><i class="bi-person-fill"></i></span>
-								{{ form.usernameoremailid(class = "form-control custom-input", placeholder="Enter your
-								username or E-mail address") }}
+								<span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+								{{ form.username_or_email_id(class = "form-control custom-input", placeholder="Enter your username or E-mail address") }}
 							</div>
 						</div>
 						<div class="ms-5 mb-5 me-5">
 							{{ form.password.label(class = "form-label", style="font-size: 1rem;") }}
 							<div class="input-group flex-nowrap">
-								<span class="input-group-text"><i class="bi-key-fill"></i></span>
+								<span class="input-group-text"><i class="bi bi-key-fill"></i></span>
 								{{ form.password(class = "form-control custom-input", placeholder="Enter a password") }}
 							</div>
 						</div>
@@ -42,7 +41,7 @@
 							style="text-align: center">Not a subscriber? Click here to become one</a>
 						<p> </p>
 						<a href="{{url_for('routes.forgot_password')}}" class="text-reset  d-block"
-							style="text-align: center">Forgot password!? Click here to reset</a>
+							style="text-align: center">Forgot password? Click here to reset</a>
 						<p> </p>
 					</div>
 				</div>

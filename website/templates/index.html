@@ -110,17 +110,17 @@
 		Newly posted content on Shetty777</h1>
 	<div class="carousel">
 		<div class="carousel__inner">
-			{% for rec_post in rec_posts_list %}
+			{% for recent_post in recent_posts_list %}
 			<div class="card carousel-card">
-				<img src="{{ url_for('.static', filename = rec_post.banner) }}" class="card-img-top"
-					alt="{{rec_post.title}}"
+				<img src="{{ url_for('.static', filename = recent_post.banner) }}" class="card-img-top"
+					alt="{{recent_post.title}}"
 					style="object-fit: cover; height:12rem; padding: 10px; border-radius: 25px;">
 				<div class="card-body">
 					<h5 class="card-title post-card-title"
-						style="font-family: LibreFranklin; font-weight: bold; color: #212529;">{{ rec_post.title }}
+						style="font-family: LibreFranklin; font-weight: bold; color: #212529;">{{ recent_post.title }}
 					</h5>
-					<a class="stretched-link" href="{{ url_for('routes.web_posts', post_url=rec_post.url) }}"></a>
-					<p class="card-text"><small style="color: #343A40;">Posted on: {{ rec_post.date }}</small></p>
+					<a class="stretched-link" href="{{ url_for('routes.web_posts', post_url=recent_post.url) }}"></a>
+					<p class="card-text"><small style="color: #343A40;">Posted on: {{ recent_post.date }}</small></p>
 				</div>
 			</div>
 			{% endfor %}

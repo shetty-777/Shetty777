@@ -57,12 +57,12 @@
     </div>
     {% endif %}
 </div>
-{% if user.userrole != 'user' %}
+{% if user.user_role != 'user' %}
 <div class="container d-flex justify-content-center align-items-center" style="max-width: 750px">
     <a class="btn btn-outline-secondary" style="width:50%; margin: 3rem; border-radius: 50vh"
         href="{{ url_for('routes.logout') }}"><i class="bi bi-box-arrow-left"></i>&emsp;Logout</a>
     <a class="btn btn-outline-danger" style="width:50%; margin: 3rem; border-radius: 50vh"
-        href="mailto:shetty777.blog@gmail.com?subject=Account%20deletion%20request&body=With%20this%20E-mail,%20I%20request%20you%20to%20delete%20my%20subscriber%20account%20and%20along%20with%20that,%20my%20subscription%20to%20Shetty777%0AI%20acknowledge%20that%20all%20of%20my%20comments%20on%20posts%20and%20saved%20posts%20will%20also%20be%20deleted%20permanently%0AThe%20E-mail%20address%20is,%20{{ user.emailid }}">Request
+        href="mailto:shetty777.blog@gmail.com?subject=Account%20deletion%20request&body=With%20this%20E-mail,%20I%20request%20you%20to%20delete%20my%20subscriber%20account%20and%20along%20with%20that,%20my%20subscription%20to%20Shetty777%0AI%20acknowledge%20that%20all%20of%20my%20comments%20on%20posts%20and%20saved%20posts%20will%20also%20be%20deleted%20permanently%0AThe%20E-mail%20address%20is,%20{{ user.email_id }}">Request
         deletion&emsp;<i class="bi bi-trash3"></i></a>
 </div>
 {% endif %}

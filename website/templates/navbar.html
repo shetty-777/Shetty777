@@ -19,12 +19,12 @@
                     <a class="nav-link" href="{{url_for('routes.blogs')}}">Blogs</a>
                 </li>
                 <div class="vertical-separator d-none d-lg-block"></div>
-                {% if user.is_authenticated and user.userrole!='user' %}
+                {% if user.is_authenticated and user.user_role!='user' %}
                 <li class="nav-item">
                     <a class="nav-link"
                         href="{{url_for('routes.dashboard', username= user.username|urlencode)}}">Dashboard</a>
                 </li>
-                {% elif user.is_authenticated and user.userrole=='user' %}
+                {% elif user.is_authenticated and user.user_role=='user' %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                         aria-expanded="false">Administrator</a>
@@ -35,7 +35,7 @@
                         <li><a class="nav-link" href="{{url_for('routes.subscriber_list')}}"><i
                                     class="bi bi-bell"></i>&ensp;Subscribers</a></li>
                         <li><a class="nav-link" href="{{url_for('routes.post_list')}}"><i
-                                    class="bi-list-ul"></i>&ensp;Post list</a></li>
+                                    class="bi bi-list-ul"></i>&ensp;Post list</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>

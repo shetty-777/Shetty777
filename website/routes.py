@@ -7,15 +7,16 @@ from datetime import datetime, timezone
 from functools import wraps
 from bs4 import BeautifulSoup
 from markupsafe import Markup
-from flask import Blueprint, render_template, redirect, request, flash, abort, current_app, jsonify, url_for, send_from_directory
+from random import choice
+from flask import Blueprint, render_template, redirect, request, flash, abort, current_app, jsonify, url_for, send_from_directory, Response
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from website import generate_token
 from .models import Post, Subscriber, Comment, AllUsers
-from . import db, subscriberform, forgotform, resetform, postform, loginform, commentform, email
+from . import db, SubscriberForm, ForgotPasswordForm, ResetPasswordForm, PostForm, LoginForm, CommentForm, email
 
-routes = Blueprint("routes", __name__, template_folder="../website/posts/", static_folder="../website/post_media/" )
+routes: Blueprint = Blueprint("routes", __name__, template_folder="../website/posts/", static_folder="../website/post_media/" )
 
 def role_required(role):
     def decorator(f):
@@ -23,7 +24,7 @@ def role_required(role):
         def decorated_function(*args, **kwargs):
             if not current_user.is_authenticated:
                 abort(403)
-            if hasattr(current_user, 'userrole') and current_user.userrole == role:
+            if hasattr(current_user, 'user_role') and current_user.user_role == role:
                 return f(*args, **kwargs)
             else:
                 abort(403)
@@ -37,7 +38,7 @@ def verification_required():
         def decorated_function(*args, **kwargs):
             if not current_user.is_authenticated:
                 abort(401)
-            if current_user.userrole == 'user' or  hasattr(current_user, 'verified') and current_user.verified == True:
+            if current_user.user_role == 'user' or  hasattr(current_user, 'verified') and current_user.verified == True:
                 return f(*args, **kwargs)
             else:
                 abort(401)
@@ -45,7 +46,7 @@ def verification_required():
         return decorated_function
     return decorator
 
-def format_datetime(value, tz_code, format):
+def format_datetime(value, tz_code, format) -> str:
 		if value is None:
 			return ""
 		tz = ZoneInfo(tz_code)
@@ -55,66 +56,57 @@ def format_datetime(value, tz_code, format):
 
 @routes.route("/")
 def index():
-	rec_posts = Post.query.order_by(Post.date_created.desc()).all()
-	rec_posts_list = []
+	recent_posts = Post.query.order_by(Post.date_created.desc()).all()
+	recent_posts_list = []
 
-	for rec_post in rec_posts[:10]:
-		rec_post_file = rec_post.htmlfile
+	for recent_post in recent_posts[:10]:
+		recent_post_file = recent_post.html_file
 
-		with open(current_app.root_path+"/posts/"+rec_post_file, 'r', encoding='utf-8') as file:
+		with open(current_app.root_path+"/posts/"+recent_post_file, 'r', encoding='utf-8') as file:
 			html_content = file.read()
 		
 		soup = BeautifulSoup(html_content, 'html.parser')
-		#--------------------------------------------------------------------------
-		title_h1_element = soup.find(id="post_title")
+		#--------------------------------------------------------------------------#
+		title = soup.find(id="post_title").text
+		banner = soup.find(id="post_banner").get('src')
+		banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() 
+		date = format_datetime(recent_post.date_created, 'Asia/Kolkata', "%d %b, %Y")
 
-		if title_h1_element:
-			title = title_h1_element.text
-		#--------------------------------------------------------------------------
-		banner_img_element = soup.find(id="post_banner")
-
-		if banner_img_element:
-			banner = banner_img_element.get('src') 
-			banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() 
-		#-------------------------------------------------------------------------
-		if rec_post.date_created:
-			date = format_datetime(rec_post.date_created, 'Asia/Kolkata', "%d %b, %Y")
-
-		rec_posts_list.append({"title": title, "banner": banner, "url": rec_post.url, "date": date})
-	return render_template("index.html", user=current_user, rec_posts_list=rec_posts_list)
+		recent_posts_list.append({"title": title, "banner": banner, "url": recent_post.url, "date": date})
+	return render_template("index.html", user=current_user, recent_posts_list=recent_posts_list)
 
 @routes.route("/about")
-def about():
+def about() -> str:
 	return render_template("about.html", user=current_user)
 
 @routes.route('/sitemap.xml')
-def sitemap():
+def sitemap() -> Response:
     return send_from_directory('static', 'sitemap.xml')
 
 @routes.route('/robots.txt')
-def robots():
+def robots() -> Response:
     return send_from_directory('static', 'robots.txt')
 #---------------------------------oooo000oooo--------------------------------------#
 
 @routes.route("/subscribe", methods=['GET','POST'])
-def subscribe():
+def subscribe() -> str | Response:
 	username = None
-	emailid = None
+	email_id = None
 	password = None
 	confirm_password = None
-	form = subscriberform()
+	form = SubscriberForm()
 	if form.validate_on_submit():
 		username = form.username.data
 		form.username.data = ''
-		emailid = form.emailid.data
-		form.emailid.data = ''
+		email_id = form.email_id.data
+		form.email_id.data = ''
 		password = generate_password_hash(str(form.password.data), method='scrypt')
 		form.password.data = ''
 		form.confirm_password.data = ''
 	
 	
 	#----------------oo0oo---------------#
-	stripped_email = str(emailid).lower().replace('.','')
+	stripped_email = str(email_id).lower().replace('.','')
 	if "+" in stripped_email:
 		stripped_email = re.sub(r"""\+(.*?)@""", '', stripped_email)
 	else:
@@ -123,27 +115,27 @@ def subscribe():
 	if request.method == 'POST':
 		if Subscriber.query.filter_by(username=username).first():
 			flash("Username is already taken, try a different one", category='warning')
-		elif Subscriber.query.filter_by(emailid=emailid).first():
+		elif Subscriber.query.filter_by(email_id=email_id).first():
 			flash("An account with this E-mail address already exists", category='warning')
 		#---------------------------------------------------------------------
 		elif 'username' in form.errors:
 			flash("Do not use special characters", category='error')
 		elif stripped_email == "shetty777bloggmailcom":
-			flash("No no no! Don't do that, that is my e-mail address", category='error')
-		elif 'emailid' in form.errors:
+			flash("No no no! Don't do that, that is my e-mail address", category='warning')
+		elif 'email_id' in form.errors:
 			flash("The E-mail address you provided is not valid", category='error')
 		elif 'password' in form.errors:
 			flash("Looks like the two passwords don't match. Make sure they are the same", category='error')
 		#---------------------------------------------------------------------
 		elif not form.errors:
 			try:
-				new_subscriber = Subscriber(username=username, emailid=emailid, password=password, userrole="subscriber") 
+				new_subscriber = Subscriber(username=username, email_id=email_id, password=password, user_role="subscriber") 
 				db.session.add(new_subscriber)
 				db.session.commit()
 
 				email.send(	subject = "E-mail verification for Shetty777",
-							receivers = emailid,
-							body_params = {"token": generate_token.generate_token(username, 'Fresh', 10)},
+							receivers = email_id,
+							body_params = {"token": generate_token.generate_token(email_id, 'Fresh', 10)},
 							html_template = "email/verify.html")
 	
 				return render_template("verify_email.html", user=current_user)
@@ -152,17 +144,16 @@ def subscribe():
 				flash(f"Something didn't go right {e}", category='error')
 				return jsonify({"status": "error", "message": e})			
 
-	return render_template("subscribe.html", user=current_user, username=username, emailid=emailid, password=password, confirm_password=confirm_password, form=form)
+	return render_template("subscribe.html", user=current_user, username=username, email_id=email_id, password=password, confirm_password=confirm_password, form=form)
 
 @routes.route("/send_manual_verification")
-@role_required('user')
+@role_required('admin')
 def send_manual_verification():
 	try:
-		emailid = urllib.parse.unquote(request.args.get('email')) 
-		username = urllib.parse.unquote(request.args.get('user')) 
+		email_id = urllib.parse.unquote(request.args.get('email'))  
 		email.send(	subject = "E-mail verification for Shetty777",
-					receivers = emailid,
-					body_params = {"token": generate_token.generate_token(username, 'Fresh', 10)},
+					receivers = email_id,
+					body_params = {"token": generate_token.generate_token(email_id, 'Fresh', 10)},
 					html_template = "email/verify_refreshed.html")
 		flash('Verification E-mail sent to', category='success')
 	except Exception as e:
@@ -174,10 +165,10 @@ def send_manual_verification():
 def verify_email(token):
 	try:
 		token_data = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms = ['HS256'], options={'verify_exp': False})
-		username = token_data["username"]
+		email_id = token_data["email_id"]
 		token_type = token_data["token_type"]
 		exp = token_data["exp"]
-		new_subscriber = Subscriber.query.filter_by(username=username).first()
+		new_subscriber = Subscriber.query.filter_by(email_id=email_id).first()
 		if int(datetime.now(tz=timezone.utc).timestamp()) < exp:
 			try:
 				if new_subscriber.verified == False: 
@@ -199,8 +190,8 @@ def verify_email(token):
 		elif token_type == 'Fresh' and int(datetime.now(tz=timezone.utc).timestamp()) >= exp:
 			if new_subscriber.verified == False:
 				email.send(	subject = "E-mail verification for Shetty777 [Refreshed token]",
-						receivers = new_subscriber.emailid, 
-						body_params = {"token": generate_token.generate_token(username, 'Refresh', 10080)},
+						receivers = new_subscriber.email_id, 
+						body_params = {"token": generate_token.generate_token(email_id, 'Refresh', 4320)},
 						html_template = "email/verify_refreshed.html")
 				return render_template("verify_email_refreshed.html", user=current_user)
 			elif new_subscriber.verified == True: 
@@ -210,8 +201,8 @@ def verify_email(token):
 
 		elif token_type == 'Refresh' and int(datetime.now(tz=timezone.utc).timestamp()) >= exp:
 			if new_subscriber.verified == False:
-				email_to_verify = Subscriber.query.filter_by(username=username).first().emailid 
-				flash(Markup(f'Even your refresh token expired! <a href="mailto:shetty777.blog@gmail.com?subject=Verification%20token%20refresh%20request&body=With%20this%20E-mail,%20I%20request%20you%20to%20refresh%20my%20verification%20token%20to%20subscribe%20to%20Shetty777%0AI%20understand%20that%20not%20verifying%20with%20this%20new%20token%20will%20lead%20tos%20my%20account%20having%20limited%20access.%0AThe%20E-mail%20address%20is,%20{email_to_verify}">Request to get a new refresh token for your account</a>'), category='error')
+				email_to_verify = Subscriber.query.filter_by(email_id=email_id).first().email_id 
+				flash(Markup(f'Even your refresh token expired! <a href="mailto:shetty777.blog@gmail.com?subject=Verification%20token%20refresh%20request&body=With%20this%20E-mail,%20I%20request%20you%20to%20refresh%20my%20verification%20token%20to%20subscribe%20to%20Shetty777%0AI%20understand%20that%20not%20verifying%20with%20this%20new%20token%20will%20lead%20to%20my%20account%20having%20limited%20access.%0AThe%20E-mail%20address%20is,%20{email_to_verify}">Request to get a new refresh token for your account</a>'), category='error')
 				return redirect("/")
 			elif new_subscriber.verified == True: 
 				flash('Your E-mail address has already been verified', category='success')
@@ -225,17 +216,17 @@ def verify_email(token):
 
 @routes.route("/login", methods=['GET', 'POST'])
 def login():
-	usernameoremailid = None
+	username_or_email_id = None
 	password = None
-	form = loginform()
+	form = LoginForm()
 	if form.validate_on_submit():
-		usernameoremailid = form.usernameoremailid.data
-		form.usernameoremailid.data = ''
+		username_or_email_id = form.username_or_email_id.data
+		form.username_or_email_id.data = ''
 		password = form.password.data
 		form.password.data = ''
 	if request.method == 'POST':
-		subscriber = Subscriber.query.filter_by(username=usernameoremailid).first()
-		subscriber_email = Subscriber.query.filter_by(emailid=usernameoremailid).first()
+		subscriber = Subscriber.query.filter_by(username=username_or_email_id).first()
+		subscriber_email = Subscriber.query.filter_by(email_id=username_or_email_id).first()
 		if subscriber:
 			if check_password_hash(subscriber.password, password): 
 				login_user(subscriber, remember=True)
@@ -252,7 +243,7 @@ def login():
 				flash('Password is incorrect', category='error')
 		else:
 			flash("An account with the username or E-mail you have provided does not exist", category='error')
-	return render_template("login.html", user=current_user, usernameoremailid=usernameoremailid, password=password, form=form)
+	return render_template("login.html", user=current_user, username_or_email_id=username_or_email_id, password=password, form=form)
 
 @routes.route("/logout")
 @login_required
@@ -263,45 +254,43 @@ def logout():
 
 @routes.route("/forgot_password", methods=['GET', 'POST'])
 def forgot_password():
-	usernameoremailid = None
-	form = forgotform()
+	username_or_email_id = None
+	form = ForgotPasswordForm()
 	if form.validate_on_submit():
-		usernameoremailid = form.usernameoremailid.data
-		form.usernameoremailid.data = ''
-	print(form.errors)
+		username_or_email_id = form.username_or_email_id.data
+		form.username_or_email_id.data = ''
 	if request.method == 'POST':
-		username = Subscriber.query.filter_by(username=usernameoremailid).first()
-		emailid = Subscriber.query.filter_by(emailid=usernameoremailid).first()
-		print(username, emailid, usernameoremailid)
-		if username or emailid:
-			emailid = username.emailid if username is not None else usernameoremailid
+		username = Subscriber.query.filter_by(username=username_or_email_id).first()
+		email_id = Subscriber.query.filter_by(email_id=username_or_email_id).first()
+		if username or email_id:
+			email_id = username.email_id if username is not None else username_or_email_id
 			email.send(	subject = "Password Reset for you subscription at Shetty777",
-				receivers = emailid,
-				body_params = {"token": generate_token.generate_password_token(emailid, 'Reset', 5)},
+				receivers = email_id,
+				body_params = {"token": generate_token.generate_token(email_id, 'Reset', 5)},
 				html_template = "email/password_reset.html")
-			flash(f'A password reset link has been sent to {emailid}', category='info')
+			flash(f'A password reset link has been sent to {email_id}', category='info')
 			return redirect("/")
 		else:
 			flash("A subscriber with that username or E-mail address does not exist", category='warning')
 			return redirect("/")
 	
-	return render_template("forgot_password.html", user=current_user, usernameoremailid=usernameoremailid, form=form)
+	return render_template("forgot_password.html", user=current_user, username_or_email_id=username_or_email_id, form=form)
 
 @routes.route("/reset_password/<token>", methods=['GET', 'POST'])
 def reset_password(token):
 	try:
 		token_data = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms = ['HS256'], options={'verify_exp': False})
-		emailid = token_data["emailid"]
+		email_id = token_data["email_id"]
 		token_type = token_data["token_type"]
 		exp = token_data["exp"]
-		password_forgetter = Subscriber.query.filter_by(emailid=emailid).first()
+		password_forgetter = Subscriber.query.filter_by(email_id=email_id).first()
 
 		if token_type == 'Reset' and int(datetime.now(tz=timezone.utc).timestamp()) < exp:
 			try:
 				if password_forgetter.verified == True:
 					new_password = None
 					confirm_new_password = None
-					form = resetform()
+					form = ResetPasswordForm()
 					if form.validate_on_submit():
 						new_password = generate_password_hash(str(form.new_password.data), method='scrypt')
 						form.new_password.data = ''
@@ -328,7 +317,7 @@ def reset_password(token):
 	except:
 		flash("Looks like the password reset token is invalid. Try again.", category='error')
 		return redirect("/")	
-	return render_template("reset_password.html", user=current_user, emailid=emailid, new_password=new_password, confirm_new_password=confirm_new_password, form=form)
+	return render_template("reset_password.html", user=current_user, email_id=email_id, new_password=new_password, confirm_new_password=confirm_new_password, form=form)
 
 #---------------------------------oooo000oooo--------------------------------------#
 
@@ -343,13 +332,13 @@ def dashboard(username):
 			marked_posts_list = []
 
 			for marked_post in marked_posts:
-				marked_post_file = marked_post.htmlfile
+				marked_post_file = marked_post.html_file
 
 				with open(current_app.root_path+"/posts/"+marked_post_file, 'r', encoding='utf-8') as file:
 					html_content = file.read()
 				
 				soup = BeautifulSoup(html_content, 'html.parser')
-				#--------------------------------------------------------------------------
+				#--------------------------------------------------------------------------#
 				title_h1_element = soup.find(id="post_title")
 
 				if title_h1_element:
@@ -363,7 +352,7 @@ def dashboard(username):
 			return redirect("/")
 
 	except:
-		flash(f'Looks like the user does not exist; so dashboard cannot be opened', category='warning')
+		flash(f'Looks like the user does not exist; so their dashboard cannot be opened', category='warning')
 		return redirect("/")
 
 #---------------------------------oooo000oooo--------------------------------------#
@@ -374,26 +363,17 @@ def articles():
 	articles_list = []
 
 	for article in articles:
-		article_file = article.htmlfile
+		article_file = article.html_file
 
 		with open(current_app.root_path+"/posts/"+article_file, 'r', encoding='utf-8') as file:
 			html_content = file.read()
 		
 		soup = BeautifulSoup(html_content, 'html.parser')
-		#--------------------------------------------------------------------------
-		title_h1_element = soup.find(id="post_title")
-
-		if title_h1_element:
-			title = title_h1_element.text
-		#--------------------------------------------------------------------------
-		banner_img_element = soup.find(id="post_banner")
-
-		if banner_img_element:
-			banner = banner_img_element.get('src') 
-			banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() 
-		#-------------------------------------------------------------------------
-		if article.date_created:
-			date = format_datetime(article.date_created, 'Asia/Kolkata', "%d %b, %Y")
+		#--------------------------------------------------------------------------#
+		title = soup.find(id="post_title").text
+		banner = soup.find(id="post_banner").get('src')
+		banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() 
+		date = format_datetime(article.date_created, 'Asia/Kolkata', "%d %b, %Y")
 
 		articles_list.append({"title": title, "banner": banner, "url": article.url, "date": date})
 
@@ -405,26 +385,17 @@ def projects():
 
 	projects_list = []
 	for project in projects:
-		project_file = project.htmlfile
+		project_file = project.html_file
 
 		with open(current_app.root_path+"/posts/"+project_file, 'r', encoding='utf-8') as file:
 			html_content = file.read()
 		
 		soup = BeautifulSoup(html_content, 'html.parser')
-		#--------------------------------------------------------------------------
-		title_h1_element = soup.find(id='post_title')
-
-		if title_h1_element:
-			title = title_h1_element.text
-		#--------------------------------------------------------------------------
-		banner_img_element = soup.find(id='post_banner')
-
-		if banner_img_element:
-			banner = banner_img_element.get('src') 
-			banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() 
-		#--------------------------------------------------------------------------
-		if project.date_created:
-			date = format_datetime(project.date_created, 'Asia/Kolkata', "%d %b, %Y")
+		#--------------------------------------------------------------------------#
+		title = soup.find(id='post_title').text
+		banner = soup.find(id='post_banner').get('src')
+		banner = re.search(r'''='(.*?)'\)''', str(banner)).group(1).strip() 
+		date = format_datetime(project.date_created, 'Asia/Kolkata', "%d %b, %Y")
 		
 		projects_list.append({"title": title, "banner": banner, "url": project.url, "date": date})
 
@@ -440,22 +411,22 @@ def blogs():
 #---------------------------------oooo000oooo--------------------------------------#
 
 @routes.route("/post", methods=['GET','POST'])
-@role_required('user')
+@role_required('admin')
 def post():
-	htmlfile = None
+	html_file = None
 	images = None
 	category = None
 	author = None
 	url = None
-	audio = None
-	form = postform()
+	audios = None
+	form = PostForm()
 	if form.validate_on_submit():
-		htmlfile = form.htmlfile.data
-		form.htmlfile.data = ''
+		html_file = form.html_file.data
+		form.html_file.data = ''
 		images = form.images.data
 		form.images.data = []
-		audio = form.audio.data
-		form.audio.data = ''
+		audios = form.audios.data
+		form.audios.data = ''
 		category = form.category.data
 		form.category.data = ''
 		author = form.author.data
@@ -467,61 +438,60 @@ def post():
 		post_url_exists = Post.query.filter_by(url=url).first()
 
 		if post_url_exists:
-			flash("A post with this URL already exists", category='warning')
-		#---------------------------------------------------------------------
-  		
+			flash("A post with this URL already exists", category='werror')  		
 		elif 'category' in form.errors:
 			flash("Category must be 'Article' or 'Project' or 'Blog'", category='error')
 		elif 'author' in form.errors:
 			flash("The author must be one of the authors listed", category='error')
 		elif 'url' in form.errors:
-			flash('The following characters including "Space" is not allowed `@^()|\\/[] {}><', category='error')
-		elif 'htmlfile' in form.errors:
+			flash('The following characters are not allowed \'"`@^()|\\/[] {}><', category='error')
+		elif 'html_file' in form.errors:
 			flash("Only HTML files are accepted", category='error')
 		elif 'images' in form.errors:
-			flash("Only images (.jpg, .png, .svg, .webp, et cetera...) are accepted", category='error')
-		elif 'audio' in form.errors:
+			flash("Only images (.jpg, .jpeg, .png, .svg, .webp, .gif) are accepted", category='error')
+		elif 'audios' in form.errors:
 			flash("Only .mp3, .wav & .ogg files are accepted", category='error')
 		#---------------------------------------------------------------------
 
 		elif not form.errors:
 			try:
-				html_filename = secure_filename(htmlfile.filename) 
+				html_filename = secure_filename(html_file.filename) 
 				if not os.path.isfile(f'{current_app.root_path}/posts/{html_filename}'):
-					htmlfile.save(os.path.join(current_app.root_path, 'posts', html_filename)) 
+					html_file.save(os.path.join(current_app.root_path, 'posts', html_filename)) 
 					flash(f'Successfully uploaded file: {html_filename}', category='info')
 				else:
 					flash(f'File {html_filename} already exists', category='error')
 					return redirect("/post")
 				
 				try:
-					audio_filename = secure_filename(audio.filename) 
-					if not os.path.isfile(f'{current_app.root_path}/post_media/{audio_filename}'):
-						audio.save(os.path.join(current_app.root_path, 'post_media', audio_filename)) 
-						flash(f'Successfully uploaded file: {audio_filename}', category='info')
-					else:
-						flash(f'File {audio_filename} already exists', category='error')
-						return redirect("/post")
+					for audio in audios:
+						audio_filename = secure_filename(audio.filename) 
+						if not os.path.isfile(f'{current_app.root_path}/post_media/{audio_filename}'):
+							audio.save(os.path.join(current_app.root_path, 'post_media', audio_filename)) 
+							flash(f'Successfully uploaded file: {audio_filename}', category='info')
+						else:
+							flash(f'File {audio_filename} already exists', category='error')
+							return redirect("/post")
 				except Exception as e:
-					flash(f'No audio file; proceeding {e}', category='info')
+					flash(f'No audio files; proceeded...', category='info')
 
-				for file in images: 
-					filename = secure_filename(file.filename)
-					if not os.path.isfile(f'{current_app.root_path}/post_media/{filename}'):
-						file.save(os.path.join(current_app.root_path, 'post_media', filename))
-						flash(f'Successfully uploaded file: {filename}', category='info')
+				for image in images: 
+					image_filename = secure_filename(image.filename)
+					if not os.path.isfile(f'{current_app.root_path}/post_media/{image_filename}'):
+						image.save(os.path.join(current_app.root_path, 'post_media', image_filename))
+						flash(f'Successfully uploaded file: {image_filename}', category='info')
 					else:
-						flash(f'File {filename} already exists', category='error')
+						flash(f'File {image_filename} already exists', category='error')
 						return redirect("/post")
 				
 			except Exception as e:
 				flash(f'File upload failed: {e}', category='error')
 				return redirect("/post")
 
-			#---------------------------------------------------------------------
+			#--------------------------------------------------------------------------#
 
 			try:
-				new_post = Post(htmlfile=html_filename, category=category, author=author, url=url) 
+				new_post = Post(html_file=html_filename, category=category, author=author, url=url) 
 				db.session.add(new_post)
 				db.session.commit()
 			except Exception as e:
@@ -530,33 +500,28 @@ def post():
 				return jsonify({"status": "error", "message": e})	
 
 			post_for_mail = db.session.query(Post).filter_by(url=url).first()
-			with open(current_app.root_path+"/posts/"+post_for_mail.htmlfile, 'r', encoding='utf-8') as file: 
+			with open(current_app.root_path+"/posts/"+post_for_mail.html_file, 'r', encoding='utf-8') as file: 
 				html_content = file.read()
 		
 			soup = BeautifulSoup(html_content, 'html.parser')
-			#--------------------------------------------------------------------------
-			title_h1_element = soup.find(id="post_title")
-
-			if title_h1_element:
-				title = title_h1_element.text
-			else:
-				title = "Null"
+			#--------------------------------------------------------------------------#
+			title = soup.find(id="post_title").text
 		
-		email_list = [email[0] for email in db.session.query(Subscriber.emailid).all()]
-		if len(email_list) > 0:
-			email.send(	subject = "Latest post buzz on Shetty777!",
-						receivers = "Shetty777_Subscribers shetty777.blog@gmail.com",
-						bcc = email_list,
-						body_params = {"category": post_for_mail.category, "url":post_for_mail.url, "title": title, "author": author}, 
-						text = f"Dear subscriber,\n I'm excited to share a new post on Shetty777! The latest { category } is now online.\n\n\nI am glad to have you here and appreciate your support :)\n\nBest regards,\nShashank S Shetty",
-						html_template = "email/new_post.html")
+			email_list = [email[0] for email in db.session.query(Subscriber.email_id).all()]
+			if len(email_list) > 0:
+				email.send(	subject = choice(["Brand new post buzz on Shetty777!", "Catch the latest scoop on Shetty777!", "Discover what’s new on Shetty777!", "Explore the newest post on Shetty777!", "Fresh content just posted on Shetty777!", "Latest update now live on Shetty777!"]),
+							receivers = "Shetty777 Subscribers",
+							bcc = email_list,
+							body_params = {"category": post_for_mail.category, "url":post_for_mail.url, "title": title, "author": author}, 
+							text = f"Dear subscriber,\n I'm excited to share a new post on Shetty777! The latest { category } is now online.\n\n\nI am glad to have you on board and appreciate your support :)\n\nBest regards,\nShashank S Shetty",
+							html_template = "email/new_post.html")
 		else:
 			pass
 
 		flash(f'Successfully created a new post; and sent notification to  {len(email_list)}  E-mail addresses', category='success')
 		return redirect("/")
 	
-	return render_template("post.html", user=current_user, htmlfile=htmlfile, images=images, category=category, url=url, form=form)
+	return render_template("post.html", user=current_user, html_file=html_file, images=images, category=category, url=url, form=form)
 
 #---------------------------------oooo000oooo--------------------------------------#
 
@@ -566,7 +531,7 @@ def web_posts(post_url):
 		rating = None
 		text_content = None
 		avg_rating = None
-		form = commentform()
+		form = CommentForm()
 		if form.validate_on_submit():
 			rating = form.rating.data
 			form.rating.data = ''
@@ -574,15 +539,15 @@ def web_posts(post_url):
 			form.text_content.data = ''
 				
 		post = db.session.query(Post).filter_by(url=post_url).first()
-		post_file = str(post.htmlfile).replace("<FileStorage: '", "") 
+		post_file = str(post.html_file).replace("<FileStorage: '", "") 
 		post_file = post_file.replace("' ('text/html')>", "")
 
 		comments = db.session.query(Comment).filter_by(post_id=post.id).order_by(Comment.date_created.desc()).all() 
 		comment_list = []
 		if comments:
 			for comment in comments:
-				commentor = db.session.query(AllUsers).filter_by(id=comment.commentor).first() 
-				comment_list.append({'id': comment.id, 'commentor': commentor, 'rating': comment.rating, 'text_content': comment.text_content, 'date': format_datetime(comment.date_created, 'Asia/Kolkata', "%d %b, %Y")})
+				commentator = db.session.query(AllUsers).filter_by(id=comment.commentator).first() 
+				comment_list.append({'id': comment.id, 'commentator': commentator, 'rating': comment.rating, 'text_content': comment.text_content, 'date': format_datetime(comment.date_created, 'Asia/Kolkata', "%d %b, %Y")})
 			
 		ratings = [item['rating'] for item in comment_list if item['rating'] is not None]
 		if len(ratings) != 0:
@@ -591,16 +556,16 @@ def web_posts(post_url):
 			avg_rating = "No ratings"
 
 		if hasattr(current_user, "id"):
-			user_comments = Comment.query.filter_by(post_id=post.id, commentor=current_user.id).count() 
+			user_comments = Comment.query.filter_by(post_id=post.id, commentator=current_user.id).count() 
 		else:
 			user_comments = 1
 		
 		if request.method == 'POST':
 			if not form.errors:	
-				if hasattr(current_user, "userrole") and current_user.userrole != 'user' and current_user.verified == True and user_comments < 1:
+				if hasattr(current_user, "user_role") and current_user.user_role != 'admin' and current_user.verified == True and user_comments < 1:
 					if rating != None:
 						try:
-							new_comment = Comment(rating=rating, text_content=text_content, commentor=current_user.id, post_id=post.id) 
+							new_comment = Comment(rating=rating, text_content=text_content, commentator=current_user.id, post_id=post.id) 
 							db.session.add(new_comment)
 							db.session.commit()
 							flash('You commented on this post', category='success')
@@ -614,13 +579,13 @@ def web_posts(post_url):
 				elif current_user.verified != True:
 					flash('You must be a verified subscriber to comment', category='warning')
 					return redirect(url_for('routes.web_posts', post_url=post_url))				
-				elif hasattr(current_user, "userrole") and current_user.userrole == 'user':
+				elif hasattr(current_user, "user_role") and current_user.user_role == 'admin':
 					if text_content == None:
 						flash('Admin comment must contain text', category='warning')
 						return redirect(url_for('routes.web_posts', post_url=post_url))
 					else:
 						try:
-							new_comment = Comment(rating=None, text_content=text_content, commentor=current_user.id, post_id=post.id) 
+							new_comment = Comment(rating=None, text_content=text_content, commentator=current_user.id, post_id=post.id) 
 							db.session.add(new_comment)
 							db.session.commit()
 							flash('You commented on this post', category='success')
@@ -629,57 +594,71 @@ def web_posts(post_url):
 							return jsonify({"status": "error", "message": e})
 						return redirect(url_for('routes.web_posts', post_url=post_url))
 				else:
-					flash('You can only have 1 comment on a post', category='warning')
+					flash('You can only rate/comment once on a post', category='warning')
 					return redirect(url_for('routes.web_posts', post_url=post_url))
 		return render_template(post_file, user=current_user, current_post=post, author=post.author, rating=rating, text_content=text_content, comment_list=comment_list, form=form, avg_rating=avg_rating, user_comments=user_comments)
 
 	except Exception as e:
-		flash(f"There is no blog post of that name {e}", category='warning')
+		flash(f"There is no post of that name {e}", category='warning')
 		return redirect("/")
 
 @routes.route("/mark_post/<userid>/<postid>", methods=['POST'])
 @verification_required()
 def mark_post(userid, postid):
-	usr = db.session.query(AllUsers).filter_by(id=userid).first()
-	if usr == current_user:
+	user = db.session.query(AllUsers).filter_by(id=userid).first()
+	post = db.session.query(Post).filter_by(id=postid).first()
+	if user and user == current_user:
 		try:
-			post = db.session.query(Post).filter_by(id=postid).first()
-			usr.marked_posts.append(post) 
+			user.marked_posts.append(post) 
 			db.session.commit()
-			return jsonify({"status": "success", "message": "Post marked"})
+			return jsonify({"status": "success", "message": "Post marked successfully"})
 		except:
 			db.session.rollback()
 			abort(404)
+	elif user is None:
+		flash('There is no such user', category='warning')
+		return redirect(url_for('routes.web_posts', post_url=post.post_url))
+	elif post is None:
+		flash('There is no such post', category='warning')
+		return redirect(url_for('routes.web_posts', post_url=post.post_url))
 	else:
-		return jsonify({"status": "error", "message": "You cannot mark posts for other users"})
+		flash('You cannot mark posts for other subscribers', category='warning')
+		return redirect(url_for('routes.web_posts', post_url=post.post_url))
 
 @routes.route("/unmark_post/<userid>/<postid>", methods=['POST'])
 @verification_required()
 def unmark_post(userid, postid):
-	usr = db.session.query(AllUsers).filter_by(id=userid).first()
-	if usr == current_user:
+	user = db.session.query(AllUsers).filter_by(id=userid).first()
+	post = db.session.query(Post).filter_by(id=postid).first()
+	if user and user == current_user:
 		try:
-			post = db.session.query(Post).filter_by(id=postid).first()
-			usr.marked_posts.remove(post) 
+			user.marked_posts.remove(post) 
 			db.session.commit()
-			return jsonify({"status": "success", "message": "Post unmarked"})
+			return jsonify({"status": "success", "message": "Post unmarked successfully"})
 		except:
 			db.session.rollback()
-			abort(404)       
+			abort(404)
+	elif user is None:
+		flash('There is no such user', category='warning')
+		return redirect(url_for('routes.web_posts', post_url=post.post_url))
+	elif post is None:
+		flash('There is no such post', category='warning')
+		return redirect(url_for('routes.web_posts', post_url=post.post_url))
 	else:
-		return jsonify({"status": "error", "message": "You cannot unmark posts for other users"})
+		flash('You cannot unmark posts for other subscribers', category='warning')
+		return redirect(url_for('routes.web_posts', post_url=post.post_url))
 
 
 #---------------------------------oooo000oooo--------------------------------------#
 
 @routes.route("/subscriber_list")
-@role_required('user')
+@role_required('admin')
 def subscriber_list():
-	sublist=Subscriber.query.order_by(Subscriber.date_subscribed)
-	return render_template("sublist.html", sublist=sublist, user=current_user)
+	subscriber_list=Subscriber.query.order_by(Subscriber.date_subscribed)
+	return render_template("subscriber_list.html", subscriber_list=subscriber_list, user=current_user)
 
 @routes.route("/delete_subscriber/<int:id>", methods=['POST'])
-@role_required('user')
+@role_required('admin')
 def delete_subscriber(id):
 	try:
 		deleted_subscriber = db.session.query(Subscriber).filter_by(id=id).first()
@@ -687,7 +666,7 @@ def delete_subscriber(id):
 		db.session.commit()
 
 		email.send(subject="Subscriber account deleted",
-                    receivers=deleted_subscriber.emailid, 
+                    receivers=deleted_subscriber.email_id, 
                     html_template="email/subscriber_deleted.html")
 
 		flash(f'{deleted_subscriber.username} was deleted and an E-mail was sent', category='info') 
@@ -700,23 +679,23 @@ def delete_subscriber(id):
 #---------------------------------oooo000oooo--------------------------------------#
 
 @routes.route("/post_list")
-@role_required('user')
+@role_required('admin')
 def post_list():
-	postlist=Post.query.order_by(Post.date_created.desc())
-	return render_template("postlist.html", postlist=postlist, user=current_user)
+	post_list=Post.query.order_by(Post.date_created.desc())
+	return render_template("post_list.html", post_list=post_list, user=current_user)
 
 @routes.route("/delete_post/<int:id>", methods=['POST'])
-@role_required('user')
+@role_required('admin')
 def delete_post(id):
 	post_to_delete = Post.query.get_or_404(id)
 	try:
-		deleted_post_file = post_to_delete.htmlfile
+		deleted_post_file = post_to_delete.html_file
 
 		with open(current_app.root_path+"/posts/"+deleted_post_file, 'r', encoding='utf-8') as file:
 			html_content = file.read()
 			
 		soup = BeautifulSoup(html_content, 'html.parser')
-		#--------------------------------------------------------------------------
+		#--------------------------------------------------------------------------#
 		for img in soup.find_all('img'):
 			if img and img != soup.find(id="author_img"):
 				try:
@@ -727,7 +706,7 @@ def delete_post(id):
 					return jsonify({"status": "error", "message": e})				
 			else:
 				pass
-		#--------------------------------------------------------------------------
+		#--------------------------------------------------------------------------#
 		#-------------------------------------------------------------------------
 		for audio in soup.find_all('audio'):
 			if audio:
@@ -746,7 +725,7 @@ def delete_post(id):
 		db.session.delete(post_to_delete)
 		db.session.commit()
 
-		flash(f'The post with the url: {post_to_delete.url} was deleted successfully', category='warning')
+		flash(f'The post with the URL: {post_to_delete.url} was deleted successfully', category='info')
 		return jsonify({"status": "success", "message": "Post deleted successfully"})
 
 	except Exception as e:
@@ -761,11 +740,15 @@ def delete_post(id):
 def delete_comment(id):
 	try:
 		deleted_comment = db.session.query(Comment).filter_by(id=id).first()
-		db.session.delete(deleted_comment)
-		db.session.commit()
+		if deleted_comment.commentator == current_user.id or current_user.user_role == 'admin':
+			db.session.delete(deleted_comment)
+			db.session.commit()
 
-		flash('Comment was deleted', category='info') 
-		return jsonify({"status": "success", "message": "Comment deleted successfully"})
+			flash('Comment was deleted', category='info') 
+			return jsonify({"status": "success", "message": "Comment deleted successfully"})
+		else:
+			flash('You cannot delete other users comments', category='warning')
+			return redirect("/")
 	except Exception as e:
 		db.session.rollback()
 		flash('Comment was not deleted', category='error')

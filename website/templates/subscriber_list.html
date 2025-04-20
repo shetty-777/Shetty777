@@ -14,16 +14,16 @@
       <th scope="col">Delete</th>
     </thead>
     <tbody class="table-group-divide"></tbody>
-    {% for subscriber in sublist%}
+    {% for subscriber in subscriber_list%}
     <tr>
       <td>{{ subscriber.id }}</td>
       <td>{{ subscriber.username }}</td>
-      <td>{{ subscriber.emailid }}</td>
+      <td>{{ subscriber.email_id }}</td>
       {% if subscriber.verified == True %}
       <td>Yes</td>
       {% else %}
       <td><a type="button" class="btn btn-sm btn-outline-primary"
-          href="{{ url_for('routes.send_manual_verification', email= subscriber.emailid|urlencode, user= subscriber.username|urlencode) }}">No</a>
+          href="{{ url_for('routes.send_manual_verification', email= subscriber.email_id|urlencode, user= subscriber.username|urlencode) }}">No</a>
       </td>
       {% endif %}
       <td>{{ subscriber.date_subscribed | format_datetime('Asia/Kolkata', '%d/%m/%Y %I:%M %p') }}</td>

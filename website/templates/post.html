@@ -23,7 +23,7 @@
 							<div class="ms-5 mb-5 me-5">
 								{{ form.category.label(class = "form-label", style="font-size: 1rem;") }}
 								<div class="input-group flex-nowrap">
-									<span class="input-group-text"><i class="bi-tags"></i></span>
+									<span class="input-group-text"><i class="bi bi-tags"></i></span>
 									{{ form.category(class = "form-control custom-input",
 									placeholder="Article/Project/Blog", id="fc-category") }}
 								</div>
@@ -31,25 +31,22 @@
 							<div class="ms-5 mb-5 me-5">
 								{{ form.author.label(class = "form-label", style="font-size: 1rem;") }}
 								<div class="input-group flex-nowrap">
-									<span class="input-group-text"><i class="bi-pencil"></i></span>
-									{{ form.author(class = "form-control custom-input", placeholder="Author of the
-									post", id="fc-category") }}
+									<span class="input-group-text"><i class="bi bi-pencil"></i></span>
+									{{ form.author(class = "form-control custom-input", placeholder="Author of the post", id="fc-category") }}
 								</div>
 							</div>
 							<div class="ms-5 mb-5 me-5">
-								{{ form.htmlfile.label(class = "form-label", style="font-size: 1rem;") }}
+								{{ form.html_file.label(class = "form-label", style="font-size: 1rem;") }}
 								<div class="input-group flex-nowrap">
-									<span class="input-group-text"><i class="bi-filetype-html"></i></span>
-									{{ form.htmlfile(class = "form-control custom-input", placeholder=".html file of the
-									post", id="fc-file") }}
+									<span class="input-group-text"><i class="bi bi-filetype-html"></i></span>
+									{{ form.html_file(class = "form-control custom-input", placeholder="HTML file of the post", id="fc-file") }}
 								</div>
 							</div>
 							<div class="ms-5 mb-5 me-5">
 								{{ form.url.label(class = "form-label", style="font-size: 1rem;") }}
 								<div class="input-group flex-nowrap">
 									<span class="input-group-text">URL</span>
-									{{ form.url(class = "form-control custom-input", placeholder="URL address of the
-									post", id="fc-url")}}
+									{{ form.url(class = "form-control custom-input", placeholder="URL address of the post", id="fc-url")}}
 								</div>
 							</div>
 							<br>
@@ -78,17 +75,15 @@
 						<div class="ms-5 mb-5 me-5">
 							{{ form.images.label(class = "form-label", style="font-size: 1rem;") }}
 							<div class="input-group flex-nowrap">
-								<span class="input-group-text"><i class="bi-file-earmark-image"></i></span>
-								{{ form.images(class = "form-control custom-input", placeholder="Images present in the
-								post")}}
+								<span class="input-group-text"><i class="bi bi-file-earmark-image"></i></span>
+								{{ form.images(class = "form-control custom-input", placeholder="Images present in the post")}}
 							</div>
 						</div>
 						<div class="ms-5 mb-5 me-5">
-							{{ form.audio.label(class = "form-label", style="font-size: 1rem;") }}
+							{{ form.audios.label(class = "form-label", style="font-size: 1rem;") }}
 							<div class="input-group flex-nowrap">
-								<span class="input-group-text"><i class="bi-file-earmark-music"></i></span>
-								{{ form.audio(class = "form-control custom-input", placeholder="Audio file of the
-								post")}}
+								<span class="input-group-text"><i class="bi bi-file-earmark-music"></i></span>
+								{{ form.audios(class = "form-control custom-input", placeholder="Audio files in the post")}}
 							</div>
 						</div>
 						<div class="ms-5 mb-5 me-5">

@@ -21,31 +21,30 @@
 						<div class="ms-5 mb-5 me-5">
 							{{ form.username.label(class = "form-label", style="font-size: 1rem;") }}
 							<div class="input-group flex-nowrap">
-								<span class="input-group-text"><i class="bi-person-fill"></i></span>
+								<span class="input-group-text"><i class="bi bi-person-fill"></i></span>
 								{{ form.username(class = "form-control custom-input", placeholder="Enter username")}}
 							</div>
 						</div>
 						<div class="ms-5 mb-5 me-5">
-							{{ form.emailid.label(class = "form-label", style="font-size: 1rem;") }}
+							{{ form.email_id.label(class = "form-label", style="font-size: 1rem;") }}
 							<div class="input-group flex-nowrap">
 								<span class="input-group-text">@</span>
-								{{ form.emailid(class = "form-control custom-input", placeholder="Enter E-mail address")
+								{{ form.email_id(class = "form-control custom-input", placeholder="Enter E-mail address")
 								}}
 							</div>
 						</div>
 						<div class="ms-5 mb-5 me-5">
 							{{ form.password.label(class = "form-label", style="font-size: 1rem;") }}
 							<div class="input-group flex-nowrap">
-								<span class="input-group-text"><i class="bi-key-fill"></i></span>
+								<span class="input-group-text"><i class="bi bi-key-fill"></i></span>
 								{{ form.password(class = "form-control custom-input", placeholder="Enter a password") }}
 							</div>
 						</div>
 						<div class="ms-5 mb-5 me-5">
 							{{ form.confirm_password.label(class = "form-label", style="font-size: 1rem;") }}
 							<div class="input-group flex-nowrap">
-								<span class="input-group-text"><i class="bi-key-fill"></i></span>
-								{{ form.confirm_password(class = "form-control custom-input", placeholder="Confirm
-								password") }}
+								<span class="input-group-text"><i class="bi bi-key-fill"></i></span>
+								{{ form.confirm_password(class = "form-control custom-input", placeholder="Confirm password") }}
 							</div>
 						</div>
 						<br>
