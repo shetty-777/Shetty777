@@ -137,7 +137,7 @@ class PostForm(FlaskForm):
 	html_file = FileField("The HTML file of the post:", validators=[FileRequired(), FileAllowed(['html'])])
 	url = StringField("URL address of the post:", validators=[InputRequired(), NoneOf([" ", "`", "@", "^", "(", ")", "|", "\\", "/", "[", "]", "{", "}", ">", "<"])])
 	images = MultipleFileField("Accompanying images of the post:", validators=[FileRequired(), FileAllowed(['jpg', 'jpeg', 'png', 'svg', 'webp', 'gif'])])
-	audio = MultipleFileField("Audio files in the post (optional):", validators=[FileAllowed(['mp3', 'ogg', 'wav'])])
+	audios = MultipleFileField("Audio files in the post (optional):", validators=[FileAllowed(['mp3', 'ogg', 'wav'])])
 	post = SubmitField("Create the post")
 
 class CommentForm(FlaskForm):
