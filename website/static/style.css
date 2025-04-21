@@ -183,6 +183,14 @@ a {
     font-weight: normal;
 }
 
+abbr[data-title] {
+    position: relative;
+    text-decoration: underline dotted;
+}
+abbr[data-title]:hover {
+    cursor: help;
+    text-decoration: underline solid;
+}
 /*-----------------------------------------------------Miscellaneous----------------------------------------------------------*/
 
 .row {

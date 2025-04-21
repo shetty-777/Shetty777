@@ -54,6 +54,19 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 
+$(() => {
+  $('abbr[data-title]').each(function () {
+      const data_title = $(this).attr('data-title');
+      $(this)
+          .attr('data-bs-toggle', 'tooltip')
+          .attr('data-bs-title', data_title)
+          .attr('data-bs-placement', 'bottom')
+          .attr('data-bs-custom-class', 'themed-tooltip');
+  });
+
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+});
 
 
 const confirmationModal = document.getElementById('confirmationModal')
@@ -224,7 +237,7 @@ function showFileUpload() {
 
 
 const carousels = document.querySelectorAll(".carousel");
-// If a user hasn't opted in for recuded motion, then we add the animation
+// If a user hasn't opted in for reduced motion, then we add the animation
 if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
   addAnimation();
 }
