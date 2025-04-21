@@ -38,7 +38,7 @@ def verification_required():
         def decorated_function(*args, **kwargs):
             if not current_user.is_authenticated:
                 abort(401)
-            if current_user.user_role == 'user' or  hasattr(current_user, 'verified') and current_user.verified == True:
+            if current_user.user_role == 'admin' or  hasattr(current_user, 'verified') and current_user.verified == True:
                 return f(*args, **kwargs)
             else:
                 abort(401)
@@ -568,6 +568,9 @@ def web_posts(post_url):
 							new_comment = Comment(rating=rating, text_content=text_content, commentator=current_user.id, post_id=post.id) 
 							db.session.add(new_comment)
 							db.session.commit()
+							email.send(	subject = "Someone commented on a post",
+							receivers = "shetty777.blog@gmail.com",
+							text = f"There is a new comment on <a href='https://shetty777.koyeb.app/web_posts/{post_url}'>this post</a>.")
 							flash('You commented on this post', category='success')
 						except Exception as e:
 							db.session.rollback()

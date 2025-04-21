@@ -46,7 +46,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body overflow-y-auto" style=" overscroll-behavior-y: contain">
-            {% if user_comments < 1 or user.user_role=='user' %}
+            {% if user_comments < 1 or user.user_role == 'admin' %}
                 <div class="container mt-1 text-center">
                     <form method="POST" action="">
                         {{ form.hidden_tag() }}
@@ -83,7 +83,7 @@
                                 <i class="bi bi-star{{ '-fill' if i <= comment.rating else '' }}"></i>
                             {% endfor %}
                         {% endif %}
-                        {% if user == comment.commentator or user.user_role == 'user' %}
+                        {% if user == comment.commentator or user.user_role == 'admin' %}
                             <a type="button" class="text-body-secondary ms-auto delete-comment" data-comment-id="{{ comment.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Delete comment"><i class="bi bi-trash3"></i></a>
                         {% endif %}
                     </div>
