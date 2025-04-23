@@ -1,157 +1,210 @@
 {% extends "base.html" %}
 {% block title %}Learn Python in 7 days: Day 4 - Loops-for & while | Shetty777{% endblock %}
-{% block description %}On day 4 of this course, you will learn to use the incredibly useful for loops and while loops in Python to perform repeated actions.{% endblock %}
+{% block description %}On day 4 of this course, you will learn to use the incredibly useful for loops and while loops in
+Python to perform repeated actions.{% endblock %}
 
 {% block content %}
 <div class="container">
     <div id="progress-scroll-bar"></div>
 
     <div class="container" style="max-width: 750px; text-align: start; padding: 20px 0px;">
-        <h1 style="font-family: LibreFranklin-Black; font-size: 3rem;" id="post_title">Learn Python in 7 days: Day 4 - Loops-for & while</h1>
+        <h1 style="font-family: LibreFranklin-Black; font-size: 3rem;" id="post_title">Learn Python in 7 days: Day 4 -
+            Loops-for & while</h1>
     </div>
 
-    <div class="container d-flex" style="max-width: 750px; text-align: start; padding: 5px 25px 25px 25px; align-items: center;">
-        <img src="{{ url_for('static', filename='images/'+author+'.webp') }}" id="author_img" alt= "{{author}}" class="img-fluid" style="float: left; border-radius: 50em;" width=55rem>
+    <div class="container d-flex"
+        style="max-width: 750px; text-align: start; padding: 5px 25px 25px 25px; align-items: center;">
+        <img src="{{ url_for('static', filename='images/'+author+'.webp') }}" id="author_img" alt="{{author}}"
+            class="img-fluid" style="float: left; border-radius: 50em;" width=55rem>
         <h6 style="overflow: hidden; padding: 15px; font-family: Roboto;">{{ author }}</h6>
     </div>
 
-    <div class="container d-flex mb-4" style="max-width: 750px; text-align: start; padding: 10px; border-width: 2px 0px 2px 0px; border-style: solid; border-color: #7F8387;">
+    <div class="container d-flex mb-4"
+        style="max-width: 750px; text-align: start; padding: 10px; border-width: 2px 0px 2px 0px; border-style: solid; border-color: #7F8387;">
         <div class="text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" data-bs-toggle="offcanvas" href="#commentSection" role="button" aria-controls="commentSection"><i class="bi bi-chat-left-text-fill" style="font-size:1.5rem" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Comment section"></i></a>
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" data-bs-toggle="offcanvas"
+                href="#commentSection" role="button" aria-controls="commentSection"><i class="bi bi-chat-left-text-fill"
+                    style="font-size:1.5rem" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip"
+                    data-bs-title="Comment section"></i></a>
         </div>
         &ensp;
         <div class="me-auto text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary text-start my-0 d-inline-block align-middle" style="font-size: 1.1rem; line-height: normal;" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Average rating of post">Rating: {{ avg_rating }} / 7</a>
+            <a class="text-body-secondary text-start my-0 d-inline-block align-middle"
+                style="font-size: 1.1rem; line-height: normal;" data-bs-custom-class="themed-tooltip"
+                data-bs-toggle="tooltip" data-bs-title="Average rating of post">Rating: {{ avg_rating }} / 7</a>
         </div>
         <div class="ms-auto text-center" style="line-height: 40px; height: 40px">
-        {% if user.marked_posts and current_post in user.marked_posts %}
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="unmark-post" data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="This post is marked"><i class="bi bi-bookmark-check-fill" style="font-size:1.5rem"></i></a>
-        {% else %}
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="mark-post" data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Mark this post"><i class="bi bi-bookmark-plus" style="font-size:1.5rem"></i></a>
-        {% endif %}
+            {% if user.marked_posts and current_post in user.marked_posts %}
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="unmark-post"
+                data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip"
+                data-bs-toggle="tooltip" data-bs-title="This post is marked"><i class="bi bi-bookmark-check-fill"
+                    style="font-size:1.5rem"></i></a>
+            {% else %}
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="mark-post"
+                data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip"
+                data-bs-toggle="tooltip" data-bs-title="Mark this post"><i class="bi bi-bookmark-plus"
+                    style="font-size:1.5rem"></i></a>
+            {% endif %}
         </div>
         <div class="share-buttons text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share-fill" style="font-size:1.5rem"></i></a>
+            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="bi bi-share-fill" style="font-size:1.5rem"></i></a>
             <ul class="dropdown-menu dropdown-menu-end p-3" style="margin-right:-100px;">
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button whatsapp text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button facebook text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Facebook"><i class="bi bi-facebook"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button x text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="X (Twitter)"><i class="bi bi-twitter-x"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button threads text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Threads"><i class="bi bi-threads"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button mail text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="E-mail"><i class="bi bi-envelope-open"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button copy text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Copy URL"><i class="bi bi-copy"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a
+                        class="share-button whatsapp text-body-secondary" data-bs-custom-class="themed-tooltip"
+                        data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a
+                        class="share-button facebook text-body-secondary" data-bs-custom-class="themed-tooltip"
+                        data-bs-toggle="tooltip" data-bs-title="Facebook"><i class="bi bi-facebook"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button x text-body-secondary"
+                        data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="X (Twitter)"><i
+                            class="bi bi-twitter-x"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button threads text-body-secondary"
+                        data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Threads"><i
+                            class="bi bi-threads"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button mail text-body-secondary"
+                        data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="E-mail"><i
+                            class="bi bi-envelope-open"></i></a></li>
+                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button copy text-body-secondary"
+                        data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Copy URL"><i
+                            class="bi bi-copy"></i></a></li>
             </ul>
         </div>
     </div>
 
     <div class="offcanvas offcanvas-start" tabindex="-1" id="commentSection" aria-labelledby="commentSectionLabel">
         <div class="offcanvas-header">
-          <h4 class="offcanvas-title" id="commentSectionLabel">Comment section</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            <h4 class="offcanvas-title" id="commentSectionLabel">Comment section</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body overflow-y-auto" style=" overscroll-behavior-y: contain">
-            {% if user_comments < 1 or user.user_role == 'admin' %}
-                <div class="container mt-1 text-center">
-                    <form method="POST" action="">
-                        {{ form.hidden_tag() }}
-                        {{ form.rating.label(class = "form-label", style="font-size: 1rem;") }}
-                        <div class="rating">                            
-                            {% for i in range(1,8) %}                             
-                                <input type="radio" id="star{{ i }}" name="rating" value="{{ 8-i }}" {% if form.rating.data == i|string %}checked{% endif %}>
-                                <label for="star{{ i }}"><i class="bi bi-star-fill"></i></label>
-                            {% endfor %}
-                        </div>
-                        {{ form.text_content(class = "form-control", placeholder="Enter comment... (optional)", rows="5") }}
-                        {{ form.comment(class = "btn custom-btn btn-lg m-3", style="width: 80%") }}
-                    </form>
-                </div>
-            {% elif not user.id %}
-                <div class="container mt-1 text-center">
-                    <h5>You need to be a subscriber to comment</h5>
-                </div>
-            {% else %}
-                <div class="container mt-1 text-center">
-                    <h5>You have already commented on this post</h5>
-                </div>
-            {% endif %}
-            <br><br>
-            {% for comment in comment_list %}
-                <div class="comment-box">
-                    <div class="d-flex align-items-center" style="word-wrap: break-word;">
-                        <i class="bi bi-person-circle" style="font-size: 1.6rem;"></i>&emsp;<span style="font-weight: bold; font-size: 1.1rem;">{{ comment.commentator.username }}</span>
-                        <p class="text-body-secondary ms-auto">{{ comment.date }}</p>
+            {% if user_comments < 1 or user.user_role=='admin' %} <div class="container mt-1 text-center">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    {{ form.rating.label(class = "form-label", style="font-size: 1rem;") }}
+                    <div class="rating">
+                        {% for i in range(1,8) %}
+                        <input type="radio" id="star{{ i }}" name="rating" value="{{ 8-i }}" {% if
+                            form.rating.data==i|string %}checked{% endif %}>
+                        <label for="star{{ i }}"><i class="bi bi-star-fill"></i></label>
+                        {% endfor %}
                     </div>
-                    <div class="d-flex mt-2">
-                        {% if comment.rating != None %}
-                            {% for i in range(1, 8) %}
-                                <i class="bi bi-star{{ '-fill' if i <= comment.rating else '' }}"></i>
-                            {% endfor %}
-                        {% endif %}
-                        {% if user == comment.commentator or user.user_role == 'admin' %}
-                            <a type="button" class="text-body-secondary ms-auto delete-comment" data-comment-id="{{ comment.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Delete comment"><i class="bi bi-trash3"></i></a>
-                        {% endif %}
-                    </div>
-                    <div class="mt-3">
-                        {{ comment.text_content }}
-                    </div>
-                </div>               
-            {% endfor %}
+                    {{ form.text_content(class = "form-control", placeholder="Enter comment... (optional)", rows="5") }}
+                    {{ form.comment(class = "btn custom-btn btn-lg m-3", style="width: 80%") }}
+                </form>
         </div>
+        {% elif not user.id %}
+        <div class="container mt-1 text-center">
+            <h5>You need to be a subscriber to comment</h5>
+        </div>
+        {% else %}
+        <div class="container mt-1 text-center">
+            <h5>You have already commented on this post</h5>
+        </div>
+        {% endif %}
+        <br><br>
+        {% for comment in comment_list %}
+        <div class="comment-box">
+            <div class="d-flex align-items-center" style="word-wrap: break-word;">
+                <i class="bi bi-person-circle" style="font-size: 1.6rem;"></i>&emsp;<span
+                    style="font-weight: bold; font-size: 1.1rem;">{{ comment.commentator.username }}</span>
+                <p class="text-body-secondary ms-auto">{{ comment.date }}</p>
+            </div>
+            <div class="d-flex mt-2">
+                {% if comment.rating != None %}
+                {% for i in range(1, 8) %}
+                <i class="bi bi-star{{ '-fill' if i <= comment.rating else '' }}"></i>
+                {% endfor %}
+                {% endif %}
+                {% if user == comment.commentator or user.user_role == 'admin' %}
+                <a type="button" class="text-body-secondary ms-auto delete-comment" data-comment-id="{{ comment.id }}"
+                    data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Delete comment"><i
+                        class="bi bi-trash3"></i></a>
+                {% endif %}
+            </div>
+            <div class="mt-3">
+                {{ comment.text_content }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container img-container" style="max-width: 750px; position: relative;">
+    <img src="{{ url_for('.static', filename='011-Learn_python_in_7_days_day4.webp') }}" style="width:100%;"
+        alt="Loops - for & while" id="post_banner">
+</div>
+
+
+<div class="container" style="max-width: 750px; text-align: start;">
+    <div
+        style="background: linear-gradient(135deg,  rgba(208, 0, 255, 0.2), rgba(144, 0, 255, 0.3), rgba(208, 0, 255, 0.4)); border-color: #9000FF; border-style: solid; border-width: 0px; border-radius: 10px; margin: 2rem 0; padding: 1.5rem; word-wrap: break-word">
+        <h4>List of contents:</h4>
+        <ol>
+            <a href="#for" style="color: inherit;">
+                <li>For loop</li>
+            </a>
+            <a href="#while" style="color: inherit;">
+                <li>While loop</li>
+            </a>
+            <a href="#more" style="color: inherit;">
+                <li>More to know</li>
+            </a>
+        </ol>
     </div>
 
-    <div class="container img-container" style="max-width: 750px; position: relative;">
-        <img src="{{ url_for('.static', filename='011-Learn_python_in_7_days_day4.webp') }}" style="width:100%;" alt="Loops - for & while" id="post_banner">
-    </div> 
+    <p class="paragraph-indent">One of the major advantages of computers is that they can perform boring actions many
+        many times and with consistent results. In Python, to perform actions repeatedly, you can use Loops. As the name
+        suggests, they loop through a block of code based on certain conditions. There are two main types of loops in
+        Python: <em>for loop</em> and <em>while loop</em></p>
 
-
-    <div class="container" style="max-width: 750px; text-align: start;">
-        <div style="background: linear-gradient(135deg,  rgba(208, 0, 255, 0.2), rgba(144, 0, 255, 0.3), rgba(208, 0, 255, 0.4)); border-color: #9000FF; border-style: solid; border-width: 0px; border-radius: 10px; margin: 2rem 0; padding: 1.5rem; word-wrap: break-word">
-            <h4>List of contents:</h4>
-            <ol>
-                <a href="#for" style="color: inherit;"><li>For loop</li></a>
-                <a href="#while" style="color: inherit;"><li>While loop</li></a>
-                <a href="#more" style="color: inherit;"><li>More to know</li></a>
-            </ol>
-        </div>
-
-        <p class="paragraph-indent">One of the major advantages of computers is that they can perform boring actions many many times and with consistent results. In Python, to perform actions repeatedly, you can use Loops. As the name suggests, they loop through a block of code based on certain conditions. There are two main types of loops in Python: <em>for loop</em> and <em>while loop</em></p>
-
-        <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="for">For loop</h3>
-        <p class="paragraph-indent">A for loop is a loop that repeats "for" a fixed number of times. That number is based on an iterable item that is passed to the loop. An iterable is simply a type of object that can iterated through, or looped through. Think, a list; you can loop through every element in the list. A list is an iterable, so is a string and a tuple and a set. The syntax declares a dynamic variable which changes for each loop. Here is an example:</p>
-        <pre><code class="language-python">
+    <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="for">For loop</h3>
+    <p class="paragraph-indent">A for loop is a loop that repeats "for" a fixed number of times. That number is based on
+        an iterable item that is passed to the loop. An iterable is simply a type of object that can iterated through,
+        or looped through. Think, a list; you can loop through every element in the list. A list is an iterable, so is a
+        string and a tuple and a set. The syntax declares a dynamic variable which changes for each loop. Here is an
+        example:</p>
+    <pre><code class="language-python">
 fruits: list = ['Apple', 'Banana', 'Cherry', 'Duran']
 
-#A for loop that iterates through the list fruits.
-#The word after the keyword for is the variable that will change for each loop.
+# A for loop that iterates through the list fruits.
+# The word after the keyword for is the variable that will change for each loop.
 for fruit in fruits:
     print(f"{fruit} is yummy!")
         </code></pre>
 
-        <p class="paragraph">Note that loops too follow the classic indentation in Python. In this loop, the for loop iterates through the list of fruits, and for each iteration, the variable fruit is changed into one of the elements in the list. The loop will run for a fixed number of times, i.e., the number of elements in the iterable, in this case, the list. Suprisingly, a number is not an iterable. This will not work: <code>for num in 10:</code>. To use a number in a for loop, we can make use of the range function which creates an iterator (a bit complicated, just know the word for now).</p>
-        <pre><code class="language-python">
+    <p class="paragraph">Note that loops too follow the classic indentation in Python. In this loop, the for loop
+        iterates through the list of fruits, and for each iteration, the variable fruit is changed into one of the
+        elements in the list. The loop will run for a fixed number of times, i.e., the number of elements in the
+        iterable, in this case, the list. Surprisingly, a number is not an iterable. This will not work:
+        <code>for num in 10:</code>. To use a number in a for loop, we can make use of the range function which creates
+        an iterator (a bit complicated, just know the word for now).</p>
+    <pre><code class="language-python">
 for i in range(10):
     print(i)
-#The counting starts from 0. It prints 10 numbers, but not 10 itself as it starts from 0. So the number given is excluded
+# The counting starts from 0. It prints 10 numbers, but not 10 itself as it starts from 0. So the number given is excluded
 
 for i in range(1, 11):
     print(i)
-#You can also give the starting number to the range() function. Since 11 is excluded, it prints 1 to 10.
+# You can also give the starting number to the range() function. Since 11 is excluded, it prints 1 to 10.
 
 for i in range(2, 11, 2):
     print(i)
-#The range function also takes a step as an input. It is just the number of steps to take after each iteration.
-#Starting from 2, it prints every second number until 10; the even numbers.
+# The range function also takes a step as an input. It is just the number of steps to take after each iteration.
+# Starting from 2, it prints every second number until 10; the even numbers.
         </code></pre>
 
-        <p class="paragraph">Another cool iterable is a dictionary. For this, two dynamic variables are declared, one for the key and one for the value.</p>
-        <pre><code class="language-python">
+    <p class="paragraph">Another cool iterable is a dictionary. For this, two dynamic variables are declared, one for
+        the key and one for the value.</p>
+    <pre><code class="language-python">
 insects: dict = {'A': 'Ant', 'B': 'Beetle', 'C': 'Cicada', 'D': 'Dragonfly'}
 
 for alphabet, insect in insects.items():
     print(f"{alphabet} is for {insect}")
 
-#The items() method is actually converting the dictionary into a list of tuples. The above dictionary becomes:
-#    [('A', 'Ant'), ('B', 'Beetle'), ('C', 'Cicada'), ('D', 'Dragonfly')]
-#Meaning, you can have any number of dynamic variables, as long as the number of variables is equal to the number of elements in the iterables in the itareble.
+# The items() method is actually converting the dictionary into a list of tuples. The above dictionary becomes:
+#   [('A', 'Ant'), ('B', 'Beetle'), ('C', 'Cicada'), ('D', 'Dragonfly')]
+# Meaning, you can have any number of dynamic variables, as long as the number of variables is equal to the number of elements in the iterables in the iterable.
 
 candidates: list[tuple] = [('Aarav', 26, 'Tamil Nadu'), ('Bilal', 30, 'Uttar Pradesh'), ('Chaitanya', 28, 'Assam')]
 
@@ -159,8 +212,11 @@ for name, age, state in candidates:
     print(f"{name} is {age} years old and is from {state}.")
         </code></pre>
 
-        <p class="paragraph-indent">It is not necessary that a for loop should finish all its iterations. You can manually break a loop with the, <code>break</code> keyword. Another useful keyword is the <code>continue</code> keyword that skips the current iteration, meaning it just prevents the following code from being executed for that ONE loop and then continue with the next iteration.</p>
-        <pre><code class="language-python">
+    <p class="paragraph-indent">It is not necessary that a for loop should finish all its iterations. You can manually
+        break a loop with the, <code>break</code> keyword. Another useful keyword is the <code>continue</code> keyword
+        that skips the current iteration, meaning it just prevents the following code from being executed for that ONE
+        loop and then continue with the next iteration.</p>
+    <pre><code class="language-python">
 party_popper: str = "Yusuf"
 
 guests: list = ["Waseem", "Xavier", "Yusuf", "Zayan"]
@@ -170,8 +226,8 @@ for guest in guests:
         break
     print(f"Welcome to the party {guest}!")
 
-#We do not have to specify an else statement because the code after the if condition will run if it evaluates to False.
-#If it evaluates to True, the program will not reach the welcome text because it breaks out of the loop.
+# We do not have to specify an else statement because the code after the if condition will run if it evaluates to False.
+# If it evaluates to True, the program will not reach the welcome text because it breaks out of the loop.
 
 owner: str = "Rachel"
 
@@ -182,23 +238,28 @@ for customer in customers:
         continue
     print(f"Hmm, let me check. That will be 85 Rs., {customer}.")
 
-#Even though the last print statement is not locked behind any conditional statement, it will not be executed for the owner, because that loop is skipped
+# Even though the last print statement is not locked behind any conditional statement,
+# it will not be executed for the owner, because that loop is skipped
         </code></pre>
 
-        <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="while">While loop</h3>
-        <p class="paragraph-indent">A while loop is a loop that repeats as long as or "while" something is True. That something is again an operator that returns True or False. It must be taken care that you don't create an unintentional infinite loop by passing a condition that will always return True. It will not terminate till the program is externally stopped.</p>
-        <pre><code class="language-python">
+    <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="while">While loop</h3>
+    <p class="paragraph-indent">A while loop is a loop that repeats as long as or "while" something is True. That
+        something is again an operator that returns True or False. It must be taken care that you don't create an
+        unintentional infinite loop by passing a condition that will always return True. It will not terminate till the
+        program is externally stopped.</p>
+    <pre><code class="language-python">
 i: int = 0
 
 while i < 10:
     print(i)
     i += 1
 
-#At the end of each loop, one is added to the counting variable i so that at some point, i < 10 will be false.
+# At the end of each loop, one is added to the counting variable i so that at some point, i < 10 will be false.
         </code></pre>
 
-        <p class="paragraph">The while loop can also make use of the <code>break</code> and <code>continue</code> keywords.</p>
-        <pre><code class="language-python">
+    <p class="paragraph">The while loop can also make use of the <code>break</code> and <code>continue</code> keywords.
+    </p>
+    <pre><code class="language-python">
 i: int = 0
 
 while True:
@@ -207,7 +268,7 @@ while True:
     print(i)
     i += 1
 
-#We can safely create an infinite loop because we are breaking out of it when i == 11.
+# We can safely create an infinite loop because we are breaking out of it when i == 11.
 
 j: int = 1
 
@@ -217,22 +278,29 @@ while j <= 10:
         continue
     print(j)
     j += 1
-#The continue keyword is used to skip the even numbers.
+# The continue keyword is used to skip the even numbers.
         </code></pre>
 
-        <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="more">More to know</h3>
-        <ul>
-            <li class="paragraph">You can nest loops; meaning you can place loops within loops. Here is an example that creates all possible 2-digit binary numbers:</li>
-            <pre><code class="language-python">
+    <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="more">More to know</h3>
+    <ul>
+        <li class="paragraph">You can nest loops; meaning you can place loops within loops. Here is an example that
+            creates all possible 2-digit binary numbers:</li>
+        <pre><code class="language-python">
 for i in [0, 1]:
     for j in [0, 1]:
         print(i,j)
-#For every digit in [0, 1], it prints it with every digit in [0, 1].
-#Nesting more loops creates more digits. Increasing list size changes the base from binary to ternary to quaternary, etc.
+# For every digit in [0, 1], it prints it with every digit in [0, 1].
+# Nesting more loops creates more digits. Increasing list size changes the base from binary to ternary to quaternary, etc.
             </code></pre>
-            <li class="paragraph">If you do not care about the index/number of the current iteration in a for loop, or you don't use the variable in the loop but just do an action for a number of times, you can use an underscore <code>_</code> instead of a variable to make it a tad bit more efficient, but you can't access it like a variable.</li>
-            <li class="paragraph">Astonishingly, loops can also have else statements. The block under the else statement is executed only if the loop finishes completely. If the loop is broken by a <code>break</code> keyword, the else block will not be run. So, if you want to know whether a loop ended because it looped through all the elements or because it was stopped by a break trigger, you can use it.</li>
-        </ul>
-    </div>
+        <li class="paragraph">If you do not care about the index/number of the current iteration in a for loop, or you
+            don't use the variable in the loop but just do an action for a number of times, you can use an underscore
+            <code>_</code> instead of a variable to make it a tad bit more efficient, but you can't access it like a
+            variable.</li>
+        <li class="paragraph">Astonishingly, loops can also have else statements. The block under the else statement is
+            executed only if the loop finishes completely. If the loop is broken by a <code>break</code> keyword, the
+            else block will not be run. So, if you want to know whether a loop ended because it looped through all the
+            elements or because it was stopped by a break trigger, you can use it.</li>
+    </ul>
+</div>
 </div>
 {% endblock %}
