@@ -1,125 +1,375 @@
-{% extends "base.html" %}
-{% block title %}Story Analysis of The Homecoming | Shetty777{% endblock %}
-{% block description %}A simple story analysis of The Homecoming by Rabindranath Tagore. Have a unique insight into the story of Phatik Chakravorti{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Story Analysis of The Homecoming |
+Shetty777{% endblock %} {% block description %}A simple story analysis of The
+Homecoming by Rabindranath Tagore. Have a unique insight into the story of
+Phatik Chakravorti{% endblock %} {% block content %}
 <div class="container">
-    <div id="progress-scroll-bar"></div>
+  <div id="progress-scroll-bar"></div>
 
-    <div class="container" style="max-width: 750px; text-align: start; padding: 20px 5px 5px 5px;">
-        <h1 style="font-family: LibreFranklin-Black; font-size: 3rem;" id="post_title">Story Analysis of The Homecoming, by Rabindranath Tagore</h1>
-    </div>
-    <div class="container d-flex" style="max-width: 750px; text-align: start; padding: 5px 25px 25px 25px; align-items: center;">
-        <img src="{{ url_for('static', filename='images/'+author+'.webp') }}"  id="author_img" alt= "{{author}}" class="img-fluid" style="float: left; border-radius: 50em;" width=55rem>
-        <h6 style="overflow: hidden; padding: 15px; font-family: Roboto;">{{ author }}</h6>
-    </div>
+  <div
+    class="container"
+    style="max-width: 750px; text-align: start; padding: 20px 5px 5px 5px"
+  >
+    <h1
+      style="font-family: LibreFranklin-Black; font-size: 3rem"
+      id="post_title"
+    >
+      Story Analysis of The Homecoming, by Rabindranath Tagore
+    </h1>
+  </div>
+  <div
+    class="container d-flex"
+    style="
+      max-width: 750px;
+      text-align: start;
+      padding: 5px 25px 25px 25px;
+      align-items: center;
+    "
+  >
+    <img
+      src="{{ url_for('static', filename='images/'+author+'.webp') }}"
+      id="author_img"
+      alt="{{author}}"
+      class="img-fluid"
+      style="float: left; border-radius: 50em"
+      width="55rem"
+    />
+    <h6 style="overflow: hidden; padding: 15px; font-family: Roboto">
+      {{ author }}
+    </h6>
+  </div>
 
-    <div class="container d-flex mb-4" style="max-width: 750px; text-align: start; padding: 10px; border-width: 2px 0px 2px 0px; border-style: solid; border-color: #7F8387;">
-        <div class="text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" data-bs-toggle="offcanvas" href="#commentSection" role="button" aria-controls="commentSection"><i class="bi bi-chat-left-text-fill" style="font-size:1.5rem" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Comment section"></i></a>
-        </div>
-        &ensp;
-        <div class="me-auto text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary text-start my-0 d-inline-block align-middle" style="font-size: 1.1rem; line-height: normal;" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Average rating of post">Rating: {{ avg_rating }} / 7</a>
-        </div>
-        <div class="ms-auto text-center" style="line-height: 40px; height: 40px">
-        {% if user.marked_posts and current_post in user.marked_posts %}
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="unmark-post" data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="This post is marked"><i class="bi bi-bookmark-check-fill" style="font-size:1.5rem"></i></a>
-        {% else %}
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="mark-post" data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Mark this post"><i class="bi bi-bookmark-plus" style="font-size:1.5rem"></i></a>
-        {% endif %}
-        </div>
-        <div class="share-buttons text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share-fill" style="font-size:1.5rem"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end p-3" style="margin-right:-100px;">
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button whatsapp text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button facebook text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Facebook"><i class="bi bi-facebook"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button x text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="X (Twitter)"><i class="bi bi-twitter-x"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button threads text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Threads"><i class="bi bi-threads"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button mail text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="E-mail"><i class="bi bi-envelope-open"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button copy text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Copy URL"><i class="bi bi-copy"></i></a></li>
-            </ul>
-        </div>
+  <div
+    class="container d-flex mb-4"
+    style="
+      max-width: 750px;
+      text-align: start;
+      padding: 10px;
+      border-width: 2px 0px 2px 0px;
+      border-style: solid;
+      border-color: #7f8387;
+    "
+  >
+    <div class="text-center" style="line-height: 40px; height: 40px">
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        data-bs-toggle="offcanvas"
+        href="#commentSection"
+        role="button"
+        aria-controls="commentSection"
+        ><i
+          class="bi bi-chat-left-text-fill"
+          style="font-size: 1.5rem"
+          data-bs-custom-class="themed-tooltip"
+          data-bs-toggle="tooltip"
+          data-bs-title="Comment section"
+        ></i
+      ></a>
     </div>
+    &ensp;
+    <div class="me-auto text-center" style="line-height: 40px; height: 40px">
+      <a
+        class="text-body-secondary text-start my-0 d-inline-block align-middle"
+        style="font-size: 1.1rem; line-height: normal"
+        data-bs-custom-class="themed-tooltip"
+        data-bs-toggle="tooltip"
+        data-bs-title="Average rating of post"
+        >Rating: {{ avg_rating }} / 7</a
+      >
+    </div>
+    <div class="ms-auto text-center" style="line-height: 40px; height: 40px">
+      {% if user.marked_posts and current_post in user.marked_posts %}
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        type="button"
+        id="unmark-post"
+        data-postid="{{ current_post.id }}"
+        data-userid="{{ user.id }}"
+        data-bs-custom-class="themed-tooltip"
+        data-bs-toggle="tooltip"
+        data-bs-title="This post is marked"
+        ><i class="bi bi-bookmark-check-fill" style="font-size: 1.5rem"></i
+      ></a>
+      {% else %}
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        type="button"
+        id="mark-post"
+        data-postid="{{ current_post.id }}"
+        data-userid="{{ user.id }}"
+        data-bs-custom-class="themed-tooltip"
+        data-bs-toggle="tooltip"
+        data-bs-title="Mark this post"
+        ><i class="bi bi-bookmark-plus" style="font-size: 1.5rem"></i
+      ></a>
+      {% endif %}
+    </div>
+    <div
+      class="share-buttons text-center"
+      style="line-height: 40px; height: 40px"
+    >
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        ><i class="bi bi-share-fill" style="font-size: 1.5rem"></i
+      ></a>
+      <ul
+        class="dropdown-menu dropdown-menu-end p-3"
+        style="margin-right: -100px"
+      >
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button whatsapp text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="WhatsApp"
+            ><i class="bi bi-whatsapp"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button facebook text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Facebook"
+            ><i class="bi bi-facebook"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button x text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="X (Twitter)"
+            ><i class="bi bi-twitter-x"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button threads text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Threads"
+            ><i class="bi bi-threads"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button mail text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="E-mail"
+            ><i class="bi bi-envelope-open"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button copy text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Copy URL"
+            ><i class="bi bi-copy"></i
+          ></a>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="commentSection" aria-labelledby="commentSectionLabel">
-        <div class="offcanvas-header">
-          <h4 class="offcanvas-title" id="commentSectionLabel">Comment section</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body overflow-y-auto" style=" overscroll-behavior-y: contain">
-            {% if user_comments < 1 or user.user_role == 'admin' %}
-                <div class="container mt-1 text-center">
-                    <form method="POST" action="">
-                        {{ form.hidden_tag() }}
-                        {{ form.rating.label(class = "form-label", style="font-size: 1rem;") }}
-                        <div class="rating">                            
-                            {% for i in range(1,8) %}                             
-                                <input type="radio" id="star{{ i }}" name="rating" value="{{ 8-i }}" {% if form.rating.data == i|string %}checked{% endif %}>
-                                <label for="star{{ i }}"><i class="bi bi-star-fill"></i></label>
-                            {% endfor %}
-                        </div>
-                        {{ form.text_content(class = "form-control", placeholder="Enter comment... (optional)", rows="5") }}
-                        {{ form.comment(class = "btn custom-btn btn-lg m-3", style="width: 80%") }}
-                    </form>
-                </div>
-            {% elif not user.id %}
-                <div class="container mt-1 text-center">
-                    <h5>You need to be a subscriber to comment</h5>
-                </div>
-            {% else %}
-                <div class="container mt-1 text-center">
-                    <h5>You have already commented on this post</h5>
-                </div>
-            {% endif %}
-            <br><br>
-            {% for comment in comment_list %}
-                <div class="comment-box">
-                    <div class="d-flex align-items-center" style="word-wrap: break-word;">
-                        <i class="bi bi-person-circle" style="font-size: 1.6rem;"></i>&emsp;<span style="font-weight: bold; font-size: 1.1rem;">{{ comment.commentator.username }}</span>
-                        <p class="text-body-secondary ms-auto">{{ comment.date }}</p>
-                    </div>
-                    <div class="d-flex mt-2">
-                        {% if comment.rating != None %}
-                            {% for i in range(1, 8) %}
-                                <i class="bi bi-star{{ '-fill' if i <= comment.rating else '' }}"></i>
-                            {% endfor %}
-                        {% endif %}
-                        {% if user == comment.commentator or user.user_role == 'admin' %}
-                            <a type="button" class="text-body-secondary ms-auto delete-comment" data-comment-id="{{ comment.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Delete comment"><i class="bi bi-trash3"></i></a>
-                        {% endif %}
-                    </div>
-                    <div class="mt-3">
-                        {{ comment.text_content }}
-                    </div>
-                </div>               
+  <div
+    class="offcanvas offcanvas-start"
+    tabindex="-1"
+    id="commentSection"
+    aria-labelledby="commentSectionLabel"
+  >
+    <div class="offcanvas-header">
+      <h4 class="offcanvas-title" id="commentSectionLabel">Comment section</h4>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div
+      class="offcanvas-body overflow-y-auto"
+      style="overscroll-behavior-y: contain"
+    >
+      {% if user_comments < 1 or user.user_role == 'admin' %}
+      <div class="container mt-1 text-center">
+        <form method="POST" action="">
+          {{ form.hidden_tag() }} {{ form.rating.label(class = "form-label",
+          style="font-size: 1rem;") }}
+          <div class="rating">
+            {% for i in range(1,8) %} <input type="radio" id="star{{ i }}"
+            name="rating" value="{{ 8-i }}" {% if form.rating.data == i|string
+            %}checked{% endif %}>
+            <label for="star{{ i }}"><i class="bi bi-star-fill"></i></label>
             {% endfor %}
+          </div>
+          {{ form.text_content(class = "form-control", placeholder="Enter
+          comment... (optional)", rows="5") }} {{ form.comment(class = "btn
+          custom-btn btn-lg m-3", style="width: 80%") }}
+        </form>
+      </div>
+      {% elif not user.id %}
+      <div class="container mt-1 text-center">
+        <h5>You need to be a subscriber to comment</h5>
+      </div>
+      {% else %}
+      <div class="container mt-1 text-center">
+        <h5>You have already commented on this post</h5>
+      </div>
+      {% endif %}
+      <br /><br />
+      {% for comment in comment_list %}
+      <div class="comment-box">
+        <div class="d-flex align-items-center" style="word-wrap: break-word">
+          <i class="bi bi-person-circle" style="font-size: 1.6rem"></i
+          >&emsp;<span style="font-weight: bold; font-size: 1.1rem"
+            >{{ comment.commentator.username }}</span
+          >
+          <p class="text-body-secondary ms-auto">{{ comment.date }}</p>
         </div>
+        <div class="d-flex mt-2">
+          {% if comment.rating != None %} {% for i in range(1, 8) %}
+          <i class="bi bi-star{{ '-fill' if i <= comment.rating else '' }}"></i>
+          {% endfor %} {% endif %} {% if user == comment.commentator or
+          user.user_role == 'admin' %}
+          <a
+            type="button"
+            class="text-body-secondary ms-auto delete-comment"
+            data-comment-id="{{ comment.id }}"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Delete comment"
+            ><i class="bi bi-trash3"></i
+          ></a>
+          {% endif %}
+        </div>
+        <div class="mt-3">{{ comment.text_content }}</div>
+      </div>
+      {% endfor %}
     </div>
+  </div>
 
-    <div class="container img-container" style="max-width: 750px; position: relative;">
-        <img src="{{ url_for('.static', filename='002-story_analysis_of_the_homecoming.webp') }}" style="width:100%;" alt="Phatik Chakravorti" id="post_banner">
-        <a style="position: absolute; bottom: 3%; right: 3%; color: #2B3035">AI generated with DALL-E</a>
-    </div> 
+  <div
+    class="container img-container"
+    style="max-width: 750px; position: relative"
+  >
+    <img
+      src="{{ url_for('.static', filename='002-story_analysis_of_the_homecoming.webp') }}"
+      style="width: 100%"
+      alt="Phatik Chakravorti"
+      id="post_banner"
+    />
+    <a style="position: absolute; bottom: 3%; right: 3%; color: #2b3035"
+      >AI generated with DALL-E</a
+    >
+  </div>
 
-    <div class="container p-3 text-end" style="max-width: 750px;">
-        <audio class="d-inline-block" style="border-radius: 50vh;" controls>
-            <source src="{{ url_for('.static', filename='002-story_analysis_of_the_homecoming.ogg') }}" type="audio/ogg">
-            Your browser does not support the audio element.
-        </audio> 
-    </div>
-    
+  <div class="container p-3 text-end" style="max-width: 750px">
+    <audio class="d-inline-block" style="border-radius: 50vh" controls>
+      <source
+        src="{{ url_for('.static', filename='002-story_analysis_of_the_homecoming.ogg') }}"
+        type="audio/ogg"
+      />
+      Your browser does not support the audio element.
+    </audio>
+  </div>
 
-    <div class="container" style="max-width: 750px; text-align: start;">
-        <p class="paragraph-indent">Authored by Rabindranath Tagore, The Homecoming is a short story set in a small countryside village. The story begins by introducing the lead role, <i>Phatik Chakravorti</i>, who is a mischievous young lad in contrast with his brother, <i>Makhan</i>, who was his mother's dear boy. Phatik also had his gang, of which he was the tyrant leader. He was a youth of fourteen who was self-conscious and wanted to maintain his dignity and integrity in front of his followers. He used to get irked and enraged at small matters, which are all just consequences that come with his age. We can see that his mother is very much annoyed by him, being under the impression that he was a big nuisance. Coincidentally, his uncle, who had returned from Bombay, offered to take <i>Phatik</i> with him to Calcutta and tutor him with his three kids. His mother was relieved to get rid of this mischief and he was also joyed to leave with his uncle.</p>
-        <p class="paragraph-indent">But his aunt thought that <i>Bishamber</i>, his uncle, had made a thoughtless decision and was irritated by the inclusion of a new member. She opined that nothing was worse than a clumsy and awkward adolescent boy because he was neither a child nor a man. She mistreated, abandoned and neglected <i>Phatik</i> on every occasion. She forgot that she too went through the same phase in her life and failed to stand in his shoes. During this point, the author verbosely describes the hasty and fumbling mind of a 14-year-old boy.</p>
-        <p class="paragraph-indent">We also come to know that the writer is trying to tell us that this is the age when his heart is delicate; and that he is seeking love and attention which he didn't get from his disliking aunt. He felt very uncomfortable in the restricted environment of his aunt's house. His mother, being a single parent, had not only the responsibility of being a caring mother but also to stand in as his father to preserve and safeguard him. But she was successful at neither of those and failed to cognize of her son's feelings.</p>
-        <p class="paragraph-indent">He started to miss his village, his companions over whom he ruled and on the inside; he was craving his mother's love, even though he sensed that she had a prejudice in opposition to him. He felt like a fish out of water in the cramped surroundings of Calcutta. But, it is not his uncle to be blamed as he just wished for a better future for <i>Phatik</i>. He tells <i>Phatik</i> that he can go home in the holidays.</p>
-        <p class="paragraph-indent">One night, while returning from his school, he had a severe headache and started to feel that he was going to have a malarial attack. He became afraid that his aunt will get more infuriated and treat him as a burden and felt despised against himself. Thus, he took a hasty decision to walk back home. But the police brought him back and was treated by a doctor at his uncle's home, who told that his situation was concerning. The next day, his mother arrived and started to moan in agitation. But, she was late. He passed away after saying that the holidays have come, according to me, inferring that he was not only about to leave his uncle's house but the whole world.</p>
-        <p class="paragraph-indent">Lack of recognition and love for a young boy just because he was a little too mischievous, which is how a typical teenager would behave, indirectly took the life of a young fellow who had an entire life ahead of him. I would like to state that my takeaway is that we should try to understand what others feel and relate to others' situations before having a preconception about somebody. We should perceive what people are seeking and do what we can.</p>
-    </div>
+  <div class="container" style="max-width: 750px; text-align: start">
+    <p class="paragraph-indent">
+      Authored by Rabindranath Tagore, The Homecoming is a short story set in a
+      small countryside village. The story begins by introducing the lead role,
+      <i>Phatik Chakravorti</i>, who is a mischievous young lad in contrast with
+      his brother, <i>Makhan</i>, who was his mother's dear boy. Phatik also had
+      his gang, of which he was the tyrant leader. He was a youth of fourteen
+      who was self-conscious and wanted to maintain his dignity and integrity in
+      front of his followers. He used to get irked and enraged at small matters,
+      which are all just consequences that come with his age. We can see that
+      his mother is very much annoyed by him, being under the impression that he
+      was a big nuisance. Coincidentally, his uncle, who had returned from
+      Bombay, offered to take <i>Phatik</i> with him to Calcutta and tutor him
+      with his three kids. His mother was relieved to get rid of this mischief
+      and he was also joyed to leave with his uncle.
+    </p>
+    <p class="paragraph-indent">
+      But his aunt thought that <i>Bishamber</i>, his uncle, had made a
+      thoughtless decision and was irritated by the inclusion of a new member.
+      She opined that nothing was worse than a clumsy and awkward adolescent boy
+      because he was neither a child nor a man. She mistreated, abandoned and
+      neglected <i>Phatik</i> on every occasion. She forgot that she too went
+      through the same phase in her life and failed to stand in his shoes.
+      During this point, the author verbosely describes the hasty and fumbling
+      mind of a 14-year-old boy.
+    </p>
+    <p class="paragraph-indent">
+      We also come to know that the writer is trying to tell us that this is the
+      age when his heart is delicate; and that he is seeking love and attention
+      which he didn't get from his disliking aunt. He felt very uncomfortable in
+      the restricted environment of his aunt's house. His mother, being a single
+      parent, had not only the responsibility of being a caring mother but also
+      to stand in as his father to preserve and safeguard him. But she was
+      successful at neither of those and failed to cognize of her son's
+      feelings.
+    </p>
+    <p class="paragraph-indent">
+      He started to miss his village, his companions over whom he ruled and on
+      the inside; he was craving his mother's love, even though he sensed that
+      she had a prejudice in opposition to him. He felt like a fish out of water
+      in the cramped surroundings of Calcutta. But, it is not his uncle to be
+      blamed as he just wished for a better future for <i>Phatik</i>. He tells
+      <i>Phatik</i> that he can go home in the holidays.
+    </p>
+    <p class="paragraph-indent">
+      One night, while returning from his school, he had a severe headache and
+      started to feel that he was going to have a malarial attack. He became
+      afraid that his aunt will get more infuriated and treat him as a burden
+      and felt despised against himself. Thus, he took a hasty decision to walk
+      back home. But the police brought him back and was treated by a doctor at
+      his uncle's home, who told that his situation was concerning. The next
+      day, his mother arrived and started to moan in agitation. But, she was
+      late. He passed away after saying that the holidays have come, according
+      to me, inferring that he was not only about to leave his uncle's house but
+      the whole world.
+    </p>
+    <p class="paragraph-indent">
+      Lack of recognition and love for a young boy just because he was a little
+      too mischievous, which is how a typical teenager would behave, indirectly
+      took the life of a young fellow who had an entire life ahead of him. I
+      would like to state that my takeaway is that we should try to understand
+      what others feel and relate to others' situations before having a
+      preconception about somebody. We should perceive what people are seeking
+      and do what we can.
+    </p>
+  </div>
 
-    <div class="container mb-3" style="max-width: 900px; text-align: start; padding: 10px; border-width: 2px 0px 2px 0px; border-style: solid; border-color: #7F8387;">
-        <p class="text-body-secondary">Presented here is a very succinct analysis of a story written by Rabindranath Tagore in the 1890s, The Homecoming. This was written for my school competition a few years back. I don't know what all the fuss was about, but many were impressed by the usage of words! I mean....I use online tools to find synonyms.....but sure, I'll take the credits &#128513; Here is a <a href="https://www.teachingenglish.org.uk/sites/teacheng/files/Tagore_The_home-coming.pdf" class="p-link">link to the original story</a> if you would like to read it.</p>
-    </div>
+  <div
+    class="container mb-3"
+    style="
+      max-width: 900px;
+      text-align: start;
+      padding: 10px;
+      border-width: 2px 0px 2px 0px;
+      border-style: solid;
+      border-color: #7f8387;
+    "
+  >
+    <p class="text-body-secondary">
+      Presented here is a very succinct analysis of a story written by
+      Rabindranath Tagore in the 1890s, The Homecoming. This was written for my
+      school competition a few years back. I don't know what all the fuss was
+      about, but many were impressed by the usage of words! I mean....I use
+      online tools to find synonyms.....but sure, I'll take the credits
+      &#128513; Here is a
+      <a
+        href="https://www.teachingenglish.org.uk/sites/teacheng/files/Tagore_The_home-coming.pdf"
+        class="p-link"
+        >link to the original story</a
+      >
+      if you would like to read it.
+    </p>
+  </div>
 </div>
 {% endblock %}

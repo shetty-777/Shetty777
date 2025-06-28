@@ -1,164 +1,322 @@
-{% extends "base.html" %}
-{% block title %}Learn Python in 7 days: Day 5 - Functions & Error handlers | Shetty777{% endblock %}
-{% block description %}On day 5 of this course, you will learn the meaning and usage of functions in Python; how to
-define and call them. You will also be made familiar about the error handling techniques in Python.{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Learn Python in 7 days: Day 5 -
+Functions & Error handlers | Shetty777{% endblock %} {% block description %}On
+day 5 of this course, you will learn the meaning and usage of functions in
+Python; how to define and call them. You will also be made familiar about the
+error handling techniques in Python.{% endblock %} {% block content %}
 <div class="container">
-    <div id="progress-scroll-bar"></div>
-    <div class="container" style="max-width: 750px; text-align: start; padding: 20px 0px;">
-        <h1 style="font-family: LibreFranklin-Black; font-size: 3rem;" id="post_title">Learn Python in 7 days: Day 5 -
-            Functions & Error handlers</h1>
-    </div>
-    <div class="container d-flex"
-        style="max-width: 750px; text-align: start; padding: 5px 25px 25px 25px; align-items: center;">
-        <img src="{{ url_for('static', filename='images/'+author+'.webp') }}" id="author_img" alt="{{author}}"
-            class="img-fluid" style="float: left; border-radius: 50em;" width=55rem>
-        <h6 style="overflow: hidden; padding: 15px; font-family: Roboto;">{{ author }}</h6>
-    </div>
+  <div id="progress-scroll-bar"></div>
+  <div
+    class="container"
+    style="max-width: 750px; text-align: start; padding: 20px 0px"
+  >
+    <h1
+      style="font-family: LibreFranklin-Black; font-size: 3rem"
+      id="post_title"
+    >
+      Learn Python in 7 days: Day 5 - Functions & Error handlers
+    </h1>
+  </div>
+  <div
+    class="container d-flex"
+    style="
+      max-width: 750px;
+      text-align: start;
+      padding: 5px 25px 25px 25px;
+      align-items: center;
+    "
+  >
+    <img
+      src="{{ url_for('static', filename='images/'+author+'.webp') }}"
+      id="author_img"
+      alt="{{author}}"
+      class="img-fluid"
+      style="float: left; border-radius: 50em"
+      width="55rem"
+    />
+    <h6 style="overflow: hidden; padding: 15px; font-family: Roboto">
+      {{ author }}
+    </h6>
+  </div>
 
-    <div class="container d-flex mb-4"
-        style="max-width: 750px; text-align: start; padding: 10px; border-width: 2px 0px 2px 0px; border-style: solid; border-color: #7F8387;">
-        <div class="text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" data-bs-toggle="offcanvas"
-                href="#commentSection" role="button" aria-controls="commentSection"><i class="bi bi-chat-left-text-fill"
-                    style="font-size:1.5rem" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip"
-                    data-bs-title="Comment section"></i></a>
-        </div>
-        &ensp;
-        <div class="me-auto text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary text-start my-0 d-inline-block align-middle"
-                style="font-size: 1.1rem; line-height: normal;" data-bs-custom-class="themed-tooltip"
-                data-bs-toggle="tooltip" data-bs-title="Average rating of post">Rating: {{ avg_rating }} / 7</a>
-        </div>
-        <div class="ms-auto text-center" style="line-height: 40px; height: 40px">
-            {% if user.marked_posts and current_post in user.marked_posts %}
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="unmark-post"
-                data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip"
-                data-bs-toggle="tooltip" data-bs-title="This post is marked"><i class="bi bi-bookmark-check-fill"
-                    style="font-size:1.5rem"></i></a>
-            {% else %}
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="mark-post"
-                data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip"
-                data-bs-toggle="tooltip" data-bs-title="Mark this post"><i class="bi bi-bookmark-plus"
-                    style="font-size:1.5rem"></i></a>
-            {% endif %}
-        </div>
-        <div class="share-buttons text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false"><i class="bi bi-share-fill" style="font-size:1.5rem"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end p-3" style="margin-right:-100px;">
-                <li style="display: inline-block; padding: 0 0.5rem"><a
-                        class="share-button whatsapp text-body-secondary" data-bs-custom-class="themed-tooltip"
-                        data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a
-                        class="share-button facebook text-body-secondary" data-bs-custom-class="themed-tooltip"
-                        data-bs-toggle="tooltip" data-bs-title="Facebook"><i class="bi bi-facebook"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button x text-body-secondary"
-                        data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="X (Twitter)"><i
-                            class="bi bi-twitter-x"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button threads text-body-secondary"
-                        data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Threads"><i
-                            class="bi bi-threads"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button mail text-body-secondary"
-                        data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="E-mail"><i
-                            class="bi bi-envelope-open"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button copy text-body-secondary"
-                        data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Copy URL"><i
-                            class="bi bi-copy"></i></a></li>
-            </ul>
-        </div>
+  <div
+    class="container d-flex mb-4"
+    style="
+      max-width: 750px;
+      text-align: start;
+      padding: 10px;
+      border-width: 2px 0px 2px 0px;
+      border-style: solid;
+      border-color: #7f8387;
+    "
+  >
+    <div class="text-center" style="line-height: 40px; height: 40px">
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        data-bs-toggle="offcanvas"
+        href="#commentSection"
+        role="button"
+        aria-controls="commentSection"
+        ><i
+          class="bi bi-chat-left-text-fill"
+          style="font-size: 1.5rem"
+          data-bs-custom-class="themed-tooltip"
+          data-bs-toggle="tooltip"
+          data-bs-title="Comment section"
+        ></i
+      ></a>
     </div>
-
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="commentSection" aria-labelledby="commentSectionLabel">
-        <div class="offcanvas-header">
-            <h4 class="offcanvas-title" id="commentSectionLabel">Comment section</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body overflow-y-auto" style=" overscroll-behavior-y: contain">
-            {% if user_comments < 1 or user.user_role=='admin' %} <div class="container mt-1 text-center">
-                <form method="POST" action="">
-                    {{ form.hidden_tag() }}
-                    {{ form.rating.label(class = "form-label", style="font-size: 1rem;") }}
-                    <div class="rating">
-                        {% for i in range(1,8) %}
-                        <input type="radio" id="star{{ i }}" name="rating" value="{{ 8-i }}" {% if
-                            form.rating.data==i|string %}checked{% endif %}>
-                        <label for="star{{ i }}"><i class="bi bi-star-fill"></i></label>
-                        {% endfor %}
-                    </div>
-                    {{ form.text_content(class = "form-control", placeholder="Enter comment... (optional)", rows="5") }}
-                    {{ form.comment(class = "btn custom-btn btn-lg m-3", style="width: 80%") }}
-                </form>
-        </div>
-        {% elif not user.id %}
-        <div class="container mt-1 text-center">
-            <h5>You need to be a subscriber to comment</h5>
-        </div>
-        {% else %}
-        <div class="container mt-1 text-center">
-            <h5>You have already commented on this post</h5>
-        </div>
-        {% endif %}
-        <br /><br />
-        {% for comment in comment_list %}
-        <div class="comment-box">
-            <div class="d-flex align-items-center" style="word-wrap: break-word;">
-                <i class="bi bi-person-circle" style="font-size: 1.6rem;"></i>&emsp;<span
-                    style="font-weight: bold; font-size: 1.1rem;">{{ comment.commentor.username }}</span>
-                <p class="text-body-secondary ms-auto">{{ comment.date }}</p>
-            </div>
-            <div class="d-flex mt-2">
-                {% if comment.rating != None %}
-                {% for i in range(1, 8) %}
-                <i class="bi bi-star{{ '-fill' if i <= comment.rating else '' }}"></i>
-                {% endfor %}
-                {% endif %}
-                {% if user == comment.commentor or user.user_role == 'admin' %}
-                <a type="button" class="text-body-secondary ms-auto delete-comment" data-comment-id="{{ comment.id }}"
-                    data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Delete comment"><i
-                        class="bi bi-trash3"></i></a>
-                {% endif %}
-            </div>
-            <div class="mt-3">
-                {{ comment.text_content }}
-            </div>
-        </div>
-        {% endfor %}
+    &ensp;
+    <div class="me-auto text-center" style="line-height: 40px; height: 40px">
+      <a
+        class="text-body-secondary text-start my-0 d-inline-block align-middle"
+        style="font-size: 1.1rem; line-height: normal"
+        data-bs-custom-class="themed-tooltip"
+        data-bs-toggle="tooltip"
+        data-bs-title="Average rating of post"
+        >Rating: {{ avg_rating }} / 7</a
+      >
     </div>
-</div>
-<div class="container img-container" style="max-width: 750px; position: relative;">
-    <img src="{{ url_for('.static', filename='012-Learn_python_in_7_days_day5.webp') }}" style="width:100%;"
-        alt="Functions & Error handlers" id="post_banner">
-</div>
+    <div class="ms-auto text-center" style="line-height: 40px; height: 40px">
+      {% if user.marked_posts and current_post in user.marked_posts %}
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        type="button"
+        id="unmark-post"
+        data-postid="{{ current_post.id }}"
+        data-userid="{{ user.id }}"
+        data-bs-custom-class="themed-tooltip"
+        data-bs-toggle="tooltip"
+        data-bs-title="This post is marked"
+        ><i class="bi bi-bookmark-check-fill" style="font-size: 1.5rem"></i
+      ></a>
+      {% else %}
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        type="button"
+        id="mark-post"
+        data-postid="{{ current_post.id }}"
+        data-userid="{{ user.id }}"
+        data-bs-custom-class="themed-tooltip"
+        data-bs-toggle="tooltip"
+        data-bs-title="Mark this post"
+        ><i class="bi bi-bookmark-plus" style="font-size: 1.5rem"></i
+      ></a>
+      {% endif %}
+    </div>
+    <div
+      class="share-buttons text-center"
+      style="line-height: 40px; height: 40px"
+    >
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        ><i class="bi bi-share-fill" style="font-size: 1.5rem"></i
+      ></a>
+      <ul
+        class="dropdown-menu dropdown-menu-end p-3"
+        style="margin-right: -100px"
+      >
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button whatsapp text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="WhatsApp"
+            ><i class="bi bi-whatsapp"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button facebook text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Facebook"
+            ><i class="bi bi-facebook"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button x text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="X (Twitter)"
+            ><i class="bi bi-twitter-x"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button threads text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Threads"
+            ><i class="bi bi-threads"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button mail text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="E-mail"
+            ><i class="bi bi-envelope-open"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button copy text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Copy URL"
+            ><i class="bi bi-copy"></i
+          ></a>
+        </li>
+      </ul>
+    </div>
+  </div>
 
+  <div
+    class="offcanvas offcanvas-start"
+    tabindex="-1"
+    id="commentSection"
+    aria-labelledby="commentSectionLabel"
+  >
+    <div class="offcanvas-header">
+      <h4 class="offcanvas-title" id="commentSectionLabel">Comment section</h4>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div
+      class="offcanvas-body overflow-y-auto"
+      style="overscroll-behavior-y: contain"
+    >
+      {% if user_comments < 1 or user.user_role=='admin' %}
+      <div class="container mt-1 text-center">
+        <form method="POST" action="">
+          {{ form.hidden_tag() }} {{ form.rating.label(class = "form-label",
+          style="font-size: 1rem;") }}
+          <div class="rating">
+            {% for i in range(1,8) %} <input type="radio" id="star{{ i }}"
+            name="rating" value="{{ 8-i }}" {% if form.rating.data==i|string
+            %}checked{% endif %}>
+            <label for="star{{ i }}"><i class="bi bi-star-fill"></i></label>
+            {% endfor %}
+          </div>
+          {{ form.text_content(class = "form-control", placeholder="Enter
+          comment... (optional)", rows="5") }} {{ form.comment(class = "btn
+          custom-btn btn-lg m-3", style="width: 80%") }}
+        </form>
+      </div>
+      {% elif not user.id %}
+      <div class="container mt-1 text-center">
+        <h5>You need to be a subscriber to comment</h5>
+      </div>
+      {% else %}
+      <div class="container mt-1 text-center">
+        <h5>You have already commented on this post</h5>
+      </div>
+      {% endif %}
+      <br /><br />
+      {% for comment in comment_list %}
+      <div class="comment-box">
+        <div class="d-flex align-items-center" style="word-wrap: break-word">
+          <i class="bi bi-person-circle" style="font-size: 1.6rem"></i
+          >&emsp;<span style="font-weight: bold; font-size: 1.1rem"
+            >{{ comment.commentor.username }}</span
+          >
+          <p class="text-body-secondary ms-auto">{{ comment.date }}</p>
+        </div>
+        <div class="d-flex mt-2">
+          {% if comment.rating != None %} {% for i in range(1, 8) %}
+          <i class="bi bi-star{{ '-fill' if i <= comment.rating else '' }}"></i>
+          {% endfor %} {% endif %} {% if user == comment.commentor or
+          user.user_role == 'admin' %}
+          <a
+            type="button"
+            class="text-body-secondary ms-auto delete-comment"
+            data-comment-id="{{ comment.id }}"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Delete comment"
+            ><i class="bi bi-trash3"></i
+          ></a>
+          {% endif %}
+        </div>
+        <div class="mt-3">{{ comment.text_content }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div
+    class="container img-container"
+    style="max-width: 750px; position: relative"
+  >
+    <img
+      src="{{ url_for('.static', filename='012-Learn_python_in_7_days_day5.webp') }}"
+      style="width: 100%"
+      alt="Functions & Error handlers"
+      id="post_banner"
+    />
+  </div>
 
-<div class="container" style="max-width: 750px; text-align: start;">
+  <div class="container" style="max-width: 750px; text-align: start">
     <!--  Index/Contents  -->
     <div
-        style="background: linear-gradient(135deg,  rgba(208, 0, 255, 0.2), rgba(144, 0, 255, 0.3), rgba(208, 0, 255, 0.4)); border-color: #9000FF; border-style: solid; border-width: 0px; border-radius: 10px; margin: 2rem 0; padding: 1.5rem; word-wrap: break-word">
-        <h4>List of contents:</h4>
-        <ol>
-            <a href="#funcs" style="color: inherit;">
-                <li>Functions</li>
-            </a>
-            <a href="#errors" style="color: inherit;">
-                <li>Error Handlers</li>
-            </a>
-            <a href="#more" style="color: inherit;">
-                <li>More to know</li>
-            </a>
-        </ol>
+      style="
+        background: linear-gradient(
+          135deg,
+          rgba(208, 0, 255, 0.2),
+          rgba(144, 0, 255, 0.3),
+          rgba(208, 0, 255, 0.4)
+        );
+        border-color: #9000ff;
+        border-style: solid;
+        border-width: 0px;
+        border-radius: 10px;
+        margin: 2rem 0;
+        padding: 1.5rem;
+        word-wrap: break-word;
+      "
+    >
+      <h4>List of contents:</h4>
+      <ol>
+        <a href="#funcs" style="color: inherit">
+          <li>Functions</li>
+        </a>
+        <a href="#errors" style="color: inherit">
+          <li>Error Handlers</li>
+        </a>
+        <a href="#more" style="color: inherit">
+          <li>More to know</li>
+        </a>
+      </ol>
     </div>
 
-    <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="funcs">Functions</h3>
-    <p class="paragraph-indent" id="para">Functions are blocks of code that are executed only when you tell them to.
-        This "tell the computer to run a function" is called as "calling a function". What's great about functions is
-        that you can have certain variables (called parameters) which can easily be given different values (called
-        arguments) when calling them.</p>
-    <p class="paragraph">Functions are defined with the <code>def</code> keyword followed by a pair of brackets. These
-        brackets contain parameters, the variables that can be given different values. "Giving a value to a parameter of
-        a function" is called "passing an argument". Indentation is necessary in functions as well.</p>
+    <h3
+      style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem"
+      id="funcs"
+    >
+      Functions
+    </h3>
+    <p class="paragraph-indent" id="para">
+      Functions are blocks of code that are executed only when you tell them to.
+      This "tell the computer to run a function" is called as "calling a
+      function". What's great about functions is that you can have certain
+      variables (called parameters) which can easily be given different values
+      (called arguments) when calling them.
+    </p>
+    <p class="paragraph">
+      Functions are defined with the <code>def</code> keyword followed by a pair
+      of brackets. These brackets contain parameters, the variables that can be
+      given different values. "Giving a value to a parameter of a function" is
+      called "passing an argument". Indentation is necessary in functions as
+      well.
+    </p>
     <pre><code class="language-python">
 # Define a function named greet. Brackets are empty as this takes no arguments
 def greet():
@@ -187,11 +345,14 @@ cube(99)  # 99 is the argument
 # print(number)
         </code></pre>
 
-    <p class="paragraph-indent">Now, you may realise that you have already been using some functions.
-        <code>print()</code> and <code>type()</code> are functions as well. Just typing <code>type(something)</code>
-        will not give you anything; you have to print it: <code>print(type(something))</code>. Most functions have some
-        functionality and they do not print anything to the console. They "return" the result which can be used for
-        anything by the program. A simple way to think about it is the returned value takes place of the function call.
+    <p class="paragraph-indent">
+      Now, you may realise that you have already been using some functions.
+      <code>print()</code> and <code>type()</code> are functions as well. Just
+      typing <code>type(something)</code> will not give you anything; you have
+      to print it: <code>print(type(something))</code>. Most functions have some
+      functionality and they do not print anything to the console. They "return"
+      the result which can be used for anything by the program. A simple way to
+      think about it is the returned value takes place of the function call.
     </p>
     <pre><code class="language-python">
 # Factorial of a number is the product of all numbers from 1 to that number
@@ -209,7 +370,9 @@ print(factorial(6))  # We are printing the output of the function
 # Without the print statement, you won't see anything, even though the calculation has been completed
         </code></pre>
 
-    <p class="paragraph-indent">Function can take more than one parameters, and they can be of different types as well.
+    <p class="paragraph-indent">
+      Function can take more than one parameters, and they can be of different
+      types as well.
     </p>
     <pre><code class="language-python">
 def repeat(text: str, n: int) -> str:
@@ -223,10 +386,14 @@ print(repeat("Hello", 5))
 print(repeat(n = 3, text = "Ohh!"))
         </code></pre>
 
-    <p class="paragraph">The values passed directly are called arguments, <code>args</code> and the ones passed with the
-        parameter name are called keyword arguments, <code>kwargs</code>. If your functions expects an unknown number of
-        arguments, you can use the arbitrary arguments <code>*args</code> or the arbitrary keywords
-        <code>**kwargs</code>. It's not the word, it's the asterisks that makes them arbitrary.</p>
+    <p class="paragraph">
+      The values passed directly are called arguments, <code>args</code> and the
+      ones passed with the parameter name are called keyword arguments,
+      <code>kwargs</code>. If your functions expects an unknown number of
+      arguments, you can use the arbitrary arguments <code>*args</code> or the
+      arbitrary keywords <code>**kwargs</code>. It's not the word, it's the
+      asterisks that makes them arbitrary.
+    </p>
     <pre><code class="language-python">
 def cosplay_party(*guests, **details) -> None:
     print(f"Guests are received as {type(guests)}\nDetails are received as {type(details)}\n\n\n")
@@ -242,17 +409,31 @@ def cosplay_party(*guests, **details) -> None:
 cosplay_party("Ashok", "Bismil", "Chuck", Date="April 20, 2025", Time="6:00 PM", Location="221B Baker st.", Theme="Sherlock Holmes")
         </code></pre>
 
-    <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="errors">Error handlers</h3>
-    <p class="paragraph-indent">By now, you must have faced some errors. Errors, or "exceptions" as they are technically
-        called, occur when there is something wrong in the code. The great thing about computers is that 'Computers only
-        do WHAT WE TELL them to do'; the worst thing about computers is that 'Computers ONLY do what we tell them to
-        do'. They can't understand what you intend to do with the code and excuse some slight typo; they will throw an
-        error. It is our work as coders to instruct computers to execute our vision without any ambiguity.</p>
-    <p class="paragraph">Anyway, when the interpreter encounters some mistake, something it cannot execute successfully,
-        it will throw an exception and the program will terminate. It will tell you exactly where and what the problem
-        is. However, you might be handling some user input or non-reliable data that might cause an error but you want
-        the program to handle them safely, without crashing, and move on and report. That's where <code>try</code> and
-        <code>except</code> come in.</p>
+    <h3
+      style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem"
+      id="errors"
+    >
+      Error handlers
+    </h3>
+    <p class="paragraph-indent">
+      By now, you must have faced some errors. Errors, or "exceptions" as they
+      are technically called, occur when there is something wrong in the code.
+      The great thing about computers is that 'Computers only do WHAT WE TELL
+      them to do'; the worst thing about computers is that 'Computers ONLY do
+      what we tell them to do'. They can't understand what you intend to do with
+      the code and excuse some slight typo; they will throw an error. It is our
+      work as coders to instruct computers to execute our vision without any
+      ambiguity.
+    </p>
+    <p class="paragraph">
+      Anyway, when the interpreter encounters some mistake, something it cannot
+      execute successfully, it will throw an exception and the program will
+      terminate. It will tell you exactly where and what the problem is.
+      However, you might be handling some user input or non-reliable data that
+      might cause an error but you want the program to handle them safely,
+      without crashing, and move on and report. That's where
+      <code>try</code> and <code>except</code> come in.
+    </p>
     <pre><code class="language-python">
 # A function that returns the decimal value of the unit fraction (1/x)
 def unit_fraction(n: int) -> float:
@@ -263,10 +444,14 @@ while True:  # An infinite loop that asks for user input
     print(f"The unit fraction of {number} is {unit_fraction(int(number))}\n")
         </code></pre>
 
-    <p class="paragraph">Run the above code and give it some numbers like 3, 5, 45, etc.. Now punch in 0; basic maths
-        dictates that dividing by zero is not possible and you will get an exception. Run it again and type "BUG!"; and
-        it will throw another exception. You cannot convert a text into an integer. We can use error handling to handle
-        this problem without crashing the program when we receive incorrect input.</p>
+    <p class="paragraph">
+      Run the above code and give it some numbers like 3, 5, 45, etc.. Now punch
+      in 0; basic maths dictates that dividing by zero is not possible and you
+      will get an exception. Run it again and type "BUG!"; and it will throw
+      another exception. You cannot convert a text into an integer. We can use
+      error handling to handle this problem without crashing the program when we
+      receive incorrect input.
+    </p>
     <pre><code class="language-python">
 def unit_fraction(n: int) -> float:
     return round(1/n, 6)
@@ -279,15 +464,23 @@ while True:
         print(f"Uh oh! Something went wrong: {e}\n")
         </code></pre>
 
-    <p class="paragraph">Now, even if you put in incorrect values, it will just warn you and go on to ask for another
-        number (oh, type <code>Ctrl + C</code> if you want to end the program). An instance, with a particular error, of
-        the class called <code>Exception()</code> is created in the except clause (you'll understand it later) and it is
-        common convention to acquire it as <code>e</code>. This can be used to print out what the exception exactly is.
+    <p class="paragraph">
+      Now, even if you put in incorrect values, it will just warn you and go on
+      to ask for another number (oh, type <code>Ctrl + C</code> if you want to
+      end the program). An instance, with a particular error, of the class
+      called <code>Exception()</code> is created in the except clause (you'll
+      understand it later) and it is common convention to acquire it as
+      <code>e</code>. This can be used to print out what the exception exactly
+      is.
     </p>
-    <p class="paragraph-indent">In Python, we follow a principle called <abbr
-            data-title="Easier to Ask for Forgiveness than Permission">EAFP</abbr>. It differs from <abbr
-            data-title="Look Before You Leap">LBYL</abbr> used in many other languages. Here is an example to illustrate
-        LBYL:</p>
+    <p class="paragraph-indent">
+      In Python, we follow a principle called
+      <abbr data-title="Easier to Ask for Forgiveness than Permission"
+        >EAFP</abbr
+      >. It differs from
+      <abbr data-title="Look Before You Leap">LBYL</abbr> used in many other
+      languages. Here is an example to illustrate LBYL:
+    </p>
     <pre><code class="language-python">
 def unit_fraction(n: int) -> float:
     return round(1/n, 6)
@@ -299,21 +492,38 @@ while True:
     else:
         print(f"Uh oh! Something went wrong.\n")
         </code></pre>
-    <p class="paragraph">This works flawlessly! Yet, Python programmers don't really use this approach. Firstly, you can
-        only handle a fixed number of issues that you can predict, which in large functions might be unreasonable or
-        impossible. Secondly, checking the validity of something and then using it is just unnecessary. So, we assume
-        that everything is valid; but if we get something invalid, just warn and move ahead, Python-ers are lazy!</p>
-    <p class="paragraph-indent">The <code>try: except:</code> clause can also have a <code>finally:</code> block. Code
-        under this block will run NO MATTER WHAT. If the program crashes, it will finish the finally block and then
-        crash. It might not be useful in all cases, as the code after the except block will run even if it is not in a
-        finally block, but it is a way to absolutely ensure that it does happen; such as when there might be an error in
-        the except block itself. You can safely exit some application or close a file in the finally block.</p>
+    <p class="paragraph">
+      This works flawlessly! Yet, Python programmers don't really use this
+      approach. Firstly, you can only handle a fixed number of issues that you
+      can predict, which in large functions might be unreasonable or impossible.
+      Secondly, checking the validity of something and then using it is just
+      unnecessary. So, we assume that everything is valid; but if we get
+      something invalid, just warn and move ahead, Python-ers are lazy!
+    </p>
+    <p class="paragraph-indent">
+      The <code>try: except:</code> clause can also have a
+      <code>finally:</code> block. Code under this block will run NO MATTER
+      WHAT. If the program crashes, it will finish the finally block and then
+      crash. It might not be useful in all cases, as the code after the except
+      block will run even if it is not in a finally block, but it is a way to
+      absolutely ensure that it does happen; such as when there might be an
+      error in the except block itself. You can safely exit some application or
+      close a file in the finally block.
+    </p>
 
-    <h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem;" id="more">More to know</h3>
+    <h3
+      style="font-family: LibreFranklin; font-weight: bold; font-size: 2.1rem"
+      id="more"
+    >
+      More to know
+    </h3>
     <ul>
-        <li class="paragraph">You can directly unpack a list as args and dictionary as kwargs to pass arguments to a
-            function. This example might be a bit complex, but I want to give practical examples.</li>
-        <pre><code class="language-python">
+      <li class="paragraph">
+        You can directly unpack a list as args and dictionary as kwargs to pass
+        arguments to a function. This example might be a bit complex, but I want
+        to give practical examples.
+      </li>
+      <pre><code class="language-python">
  def fruit_type(*fruits, **fruit_types) -> dict:  # Takes any number of fruits and any number of types
     result: dict = {}  # Initialize result dictionary with empty lists for each fruit type
     for key in fruit_types.keys():
@@ -336,11 +546,15 @@ print(fruit_type(*basket, **fruit_types))
 # And the dictionary into the kwargs with **
             </code></pre>
 
-        <li class="paragraph">A mind-boggling thing you can do with functions is that you can call the function, from
-            the same function! This can a bit difficult to understand but trying trace the execution on paper might
-            help. The use case of recursions is fairly limited as they are easy to mess up and they are not very
-            efficient. Here is an example that calculates the factorial using recursion:</li>
-        <pre><code class="language-python">
+      <li class="paragraph">
+        A mind-boggling thing you can do with functions is that you can call the
+        function, from the same function! This can a bit difficult to understand
+        but trying trace the execution on paper might help. The use case of
+        recursions is fairly limited as they are easy to mess up and they are
+        not very efficient. Here is an example that calculates the factorial
+        using recursion:
+      </li>
+      <pre><code class="language-python">
 def factorial(n: int) -> int:
     if n >= 1:
         return n * factorial(n-1)
@@ -353,10 +567,13 @@ def factorial(n: int) -> int:
 print(factorial(5))
             </code></pre>
 
-        <li class="paragraph">Except blocks can be configured to handle specific exceptions. This is considered more
-            professional as it indicates that you know what kinds of exceptions might arise in a particular situation
-            and it gives proper information to the user as well.</li>
-        <pre><code class="language-python">
+      <li class="paragraph">
+        Except blocks can be configured to handle specific exceptions. This is
+        considered more professional as it indicates that you know what kinds of
+        exceptions might arise in a particular situation and it gives proper
+        information to the user as well.
+      </li>
+      <pre><code class="language-python">
 def unit_fraction(n: int) -> float:
     return round(1/n, 6)
 
@@ -372,6 +589,6 @@ while True:
         print(f"Uh oh! Something else went wrong: {e}\n")  # It is still recommended to have a general except block
             </code></pre>
     </ul>
-</div>
+  </div>
 </div>
 {% endblock %}

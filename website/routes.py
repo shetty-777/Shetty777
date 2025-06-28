@@ -257,11 +257,11 @@ def verify_email(token):
                     new_subscriber.verified = True
                     db.session.commit()
 
-                    login_user(new_subscriber, remember=True)
                     flash(
-                        "Congratulations! You are now subscribed to Shetty777",
+                         "Thank you for subscribing. You can now continue to login",
                         category="success",
                     )
+                    return redirect("/login")
 
                 elif new_subscriber.verified == True:
                     flash(

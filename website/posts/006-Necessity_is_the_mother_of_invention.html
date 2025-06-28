@@ -1,129 +1,389 @@
-{% extends "base.html" %}
-{% block title %}Necessity is the mother of invention | Shetty777{% endblock %}
-{% block description %}An article that extends the view of Necessity being the mother of invention. This lists some instances to advocate that today's innovations are driven by aspirations as well.{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Necessity is the mother of invention
+| Shetty777{% endblock %} {% block description %}An article that extends the
+view of Necessity being the mother of invention. This lists some instances to
+advocate that today's innovations are driven by aspirations as well.{% endblock
+%} {% block content %}
 <div class="container">
-    <div id="progress-scroll-bar"></div>
+  <div id="progress-scroll-bar"></div>
 
-    <div class="container" style="max-width: 750px; text-align: start; padding: 20px 0px;">
-        <h1 style="font-family: LibreFranklin-Black; font-size: 3rem;" id="post_title">Necessity is the Mother of Invention</h1>
+  <div
+    class="container"
+    style="max-width: 750px; text-align: start; padding: 20px 0px"
+  >
+    <h1
+      style="font-family: LibreFranklin-Black; font-size: 3rem"
+      id="post_title"
+    >
+      Necessity is the Mother of Invention
+    </h1>
+  </div>
+
+  <div
+    class="container d-flex"
+    style="
+      max-width: 750px;
+      text-align: start;
+      padding: 5px 25px 25px 25px;
+      align-items: center;
+    "
+  >
+    <img
+      src="{{ url_for('static', filename='images/'+author+'.webp') }}"
+      id="author_img"
+      alt="{{author}}"
+      class="img-fluid"
+      style="float: left; border-radius: 50em"
+      width="55rem"
+    />
+    <h6 style="overflow: hidden; padding: 15px; font-family: Roboto">
+      {{ author }}
+    </h6>
+  </div>
+
+  <div
+    class="container d-flex mb-4"
+    style="
+      max-width: 750px;
+      text-align: start;
+      padding: 10px;
+      border-width: 2px 0px 2px 0px;
+      border-style: solid;
+      border-color: #7f8387;
+    "
+  >
+    <div class="text-center" style="line-height: 40px; height: 40px">
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        data-bs-toggle="offcanvas"
+        href="#commentSection"
+        role="button"
+        aria-controls="commentSection"
+        ><i
+          class="bi bi-chat-left-text-fill"
+          style="font-size: 1.5rem"
+          data-bs-custom-class="themed-tooltip"
+          data-bs-toggle="tooltip"
+          data-bs-title="Comment section"
+        ></i
+      ></a>
     </div>
-
-    <div class="container d-flex" style="max-width: 750px; text-align: start; padding: 5px 25px 25px 25px; align-items: center;">
-        <img src="{{ url_for('static', filename='images/'+author+'.webp') }}" id="author_img" alt= "{{author}}" class="img-fluid" style="float: left; border-radius: 50em;" width=55rem>
-        <h6 style="overflow: hidden; padding: 15px; font-family: Roboto;">{{ author }}</h6>
+    &ensp;
+    <div class="me-auto text-center" style="line-height: 40px; height: 40px">
+      <a
+        class="text-body-secondary text-start my-0 d-inline-block align-middle"
+        style="font-size: 1.1rem; line-height: normal"
+        data-bs-custom-class="themed-tooltip"
+        data-bs-toggle="tooltip"
+        data-bs-title="Average rating of post"
+        >Rating: {{ avg_rating }} / 7</a
+      >
     </div>
-
-    <div class="container d-flex mb-4" style="max-width: 750px; text-align: start; padding: 10px; border-width: 2px 0px 2px 0px; border-style: solid; border-color: #7F8387;">
-        <div class="text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" data-bs-toggle="offcanvas" href="#commentSection" role="button" aria-controls="commentSection"><i class="bi bi-chat-left-text-fill" style="font-size:1.5rem" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Comment section"></i></a>
-        </div>
-        &ensp;
-        <div class="me-auto text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary text-start my-0 d-inline-block align-middle" style="font-size: 1.1rem; line-height: normal;" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Average rating of post">Rating: {{ avg_rating }} / 7</a>
-        </div>
-        <div class="ms-auto text-center" style="line-height: 40px; height: 40px">
-        {% if user.marked_posts and current_post in user.marked_posts %}
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="unmark-post" data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="This post is marked"><i class="bi bi-bookmark-check-fill" style="font-size:1.5rem"></i></a>
-        {% else %}
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" id="mark-post" data-postid="{{ current_post.id }}" data-userid="{{ user.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Mark this post"><i class="bi bi-bookmark-plus" style="font-size:1.5rem"></i></a>
-        {% endif %}
-        </div>
-        <div class="share-buttons text-center" style="line-height: 40px; height: 40px">
-            <a class="text-body-secondary mx-3 my-0 d-inline-block align-middle" type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-share-fill" style="font-size:1.5rem"></i></a>
-            <ul class="dropdown-menu dropdown-menu-end p-3" style="margin-right:-100px;">
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button whatsapp text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="WhatsApp"><i class="bi bi-whatsapp"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button facebook text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Facebook"><i class="bi bi-facebook"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button x text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="X (Twitter)"><i class="bi bi-twitter-x"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button threads text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Threads"><i class="bi bi-threads"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button mail text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="E-mail"><i class="bi bi-envelope-open"></i></a></li>
-                <li style="display: inline-block; padding: 0 0.5rem"><a class="share-button copy text-body-secondary" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Copy URL"><i class="bi bi-copy"></i></a></li>
-            </ul>
-        </div>
+    <div class="ms-auto text-center" style="line-height: 40px; height: 40px">
+      {% if user.marked_posts and current_post in user.marked_posts %}
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        type="button"
+        id="unmark-post"
+        data-postid="{{ current_post.id }}"
+        data-userid="{{ user.id }}"
+        data-bs-custom-class="themed-tooltip"
+        data-bs-toggle="tooltip"
+        data-bs-title="This post is marked"
+        ><i class="bi bi-bookmark-check-fill" style="font-size: 1.5rem"></i
+      ></a>
+      {% else %}
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        type="button"
+        id="mark-post"
+        data-postid="{{ current_post.id }}"
+        data-userid="{{ user.id }}"
+        data-bs-custom-class="themed-tooltip"
+        data-bs-toggle="tooltip"
+        data-bs-title="Mark this post"
+        ><i class="bi bi-bookmark-plus" style="font-size: 1.5rem"></i
+      ></a>
+      {% endif %}
     </div>
+    <div
+      class="share-buttons text-center"
+      style="line-height: 40px; height: 40px"
+    >
+      <a
+        class="text-body-secondary mx-3 my-0 d-inline-block align-middle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        ><i class="bi bi-share-fill" style="font-size: 1.5rem"></i
+      ></a>
+      <ul
+        class="dropdown-menu dropdown-menu-end p-3"
+        style="margin-right: -100px"
+      >
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button whatsapp text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="WhatsApp"
+            ><i class="bi bi-whatsapp"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button facebook text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Facebook"
+            ><i class="bi bi-facebook"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button x text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="X (Twitter)"
+            ><i class="bi bi-twitter-x"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button threads text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Threads"
+            ><i class="bi bi-threads"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button mail text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="E-mail"
+            ><i class="bi bi-envelope-open"></i
+          ></a>
+        </li>
+        <li style="display: inline-block; padding: 0 0.5rem">
+          <a
+            class="share-button copy text-body-secondary"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Copy URL"
+            ><i class="bi bi-copy"></i
+          ></a>
+        </li>
+      </ul>
+    </div>
+  </div>
 
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="commentSection" aria-labelledby="commentSectionLabel">
-        <div class="offcanvas-header">
-          <h4 class="offcanvas-title" id="commentSectionLabel">Comment section</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body overflow-y-auto" style=" overscroll-behavior-y: contain">
-            {% if user_comments < 1 or user.user_role == 'admin' %}
-                <div class="container mt-1 text-center">
-                    <form method="POST" action="">
-                        {{ form.hidden_tag() }}
-                        {{ form.rating.label(class = "form-label", style="font-size: 1rem;") }}
-                        <div class="rating">                            
-                            {% for i in range(1,8) %}                             
-                                <input type="radio" id="star{{ i }}" name="rating" value="{{ 8-i }}" {% if form.rating.data == i|string %}checked{% endif %}>
-                                <label for="star{{ i }}"><i class="bi bi-star-fill"></i></label>
-                            {% endfor %}
-                        </div>
-                        {{ form.text_content(class = "form-control", placeholder="Enter comment... (optional)", rows="5") }}
-                        {{ form.comment(class = "btn custom-btn btn-lg m-3", style="width: 80%") }}
-                    </form>
-                </div>
-            {% elif not user.id %}
-                <div class="container mt-1 text-center">
-                    <h5>You need to be a subscriber to comment</h5>
-                </div>
-            {% else %}
-                <div class="container mt-1 text-center">
-                    <h5>You have already commented on this post</h5>
-                </div>
-            {% endif %}
-            <br><br>
-            {% for comment in comment_list %}
-                <div class="comment-box">
-                    <div class="d-flex align-items-center" style="word-wrap: break-word;">
-                        <i class="bi bi-person-circle" style="font-size: 1.6rem;"></i>&emsp;<span style="font-weight: bold; font-size: 1.1rem;">{{ comment.commentator.username }}</span>
-                        <p class="text-body-secondary ms-auto">{{ comment.date }}</p>
-                    </div>
-                    <div class="d-flex mt-2">
-                        {% if comment.rating != None %}
-                            {% for i in range(1, 8) %}
-                                <i class="bi bi-star{{ '-fill' if i <= comment.rating else '' }}"></i>
-                            {% endfor %}
-                        {% endif %}
-                        {% if user == comment.commentator or user.user_role == 'admin' %}
-                            <a type="button" class="text-body-secondary ms-auto delete-comment" data-comment-id="{{ comment.id }}" data-bs-custom-class="themed-tooltip" data-bs-toggle="tooltip" data-bs-title="Delete comment"><i class="bi bi-trash3"></i></a>
-                        {% endif %}
-                    </div>
-                    <div class="mt-3">
-                        {{ comment.text_content }}
-                    </div>
-                </div>               
+  <div
+    class="offcanvas offcanvas-start"
+    tabindex="-1"
+    id="commentSection"
+    aria-labelledby="commentSectionLabel"
+  >
+    <div class="offcanvas-header">
+      <h4 class="offcanvas-title" id="commentSectionLabel">Comment section</h4>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+      ></button>
+    </div>
+    <div
+      class="offcanvas-body overflow-y-auto"
+      style="overscroll-behavior-y: contain"
+    >
+      {% if user_comments < 1 or user.user_role == 'admin' %}
+      <div class="container mt-1 text-center">
+        <form method="POST" action="">
+          {{ form.hidden_tag() }} {{ form.rating.label(class = "form-label",
+          style="font-size: 1rem;") }}
+          <div class="rating">
+            {% for i in range(1,8) %} <input type="radio" id="star{{ i }}"
+            name="rating" value="{{ 8-i }}" {% if form.rating.data == i|string
+            %}checked{% endif %}>
+            <label for="star{{ i }}"><i class="bi bi-star-fill"></i></label>
             {% endfor %}
+          </div>
+          {{ form.text_content(class = "form-control", placeholder="Enter
+          comment... (optional)", rows="5") }} {{ form.comment(class = "btn
+          custom-btn btn-lg m-3", style="width: 80%") }}
+        </form>
+      </div>
+      {% elif not user.id %}
+      <div class="container mt-1 text-center">
+        <h5>You need to be a subscriber to comment</h5>
+      </div>
+      {% else %}
+      <div class="container mt-1 text-center">
+        <h5>You have already commented on this post</h5>
+      </div>
+      {% endif %}
+      <br /><br />
+      {% for comment in comment_list %}
+      <div class="comment-box">
+        <div class="d-flex align-items-center" style="word-wrap: break-word">
+          <i class="bi bi-person-circle" style="font-size: 1.6rem"></i
+          >&emsp;<span style="font-weight: bold; font-size: 1.1rem"
+            >{{ comment.commentator.username }}</span
+          >
+          <p class="text-body-secondary ms-auto">{{ comment.date }}</p>
         </div>
+        <div class="d-flex mt-2">
+          {% if comment.rating != None %} {% for i in range(1, 8) %}
+          <i class="bi bi-star{{ '-fill' if i <= comment.rating else '' }}"></i>
+          {% endfor %} {% endif %} {% if user == comment.commentator or
+          user.user_role == 'admin' %}
+          <a
+            type="button"
+            class="text-body-secondary ms-auto delete-comment"
+            data-comment-id="{{ comment.id }}"
+            data-bs-custom-class="themed-tooltip"
+            data-bs-toggle="tooltip"
+            data-bs-title="Delete comment"
+            ><i class="bi bi-trash3"></i
+          ></a>
+          {% endif %}
+        </div>
+        <div class="mt-3">{{ comment.text_content }}</div>
+      </div>
+      {% endfor %}
     </div>
+  </div>
 
-    <div class="container img-container" style="max-width: 750px; position: relative;">
-        <img src="{{ url_for('.static', filename='006-Necessity_is_the_mother_of_invention.webp') }}" style="width:100%;" alt="Necessity is the mother of invention" id="post_banner">
-        <a style="position: absolute; bottom: 3%; right: 3%; color: #AEB2B6">Generated by AI(DALL-E)</a>
-    </div> 
+  <div
+    class="container img-container"
+    style="max-width: 750px; position: relative"
+  >
+    <img
+      src="{{ url_for('.static', filename='006-Necessity_is_the_mother_of_invention.webp') }}"
+      style="width: 100%"
+      alt="Necessity is the mother of invention"
+      id="post_banner"
+    />
+    <a style="position: absolute; bottom: 3%; right: 3%; color: #aeb2b6"
+      >Generated by AI(DALL-E)</a
+    >
+  </div>
 
+  <div class="container p-3 text-end" style="max-width: 750px">
+    <audio class="d-inline-block" style="border-radius: 50vh" controls>
+      <source
+        src="{{ url_for('.static', filename='006-Necessity_is_the_mother_of_invention.ogg') }}"
+        type="audio/ogg"
+      />
+      Your browser does not support the audio element.
+    </audio>
+  </div>
 
-    <div class="container p-3 text-end" style="max-width: 750px;">
-        <audio class="d-inline-block" style="border-radius: 50vh;" controls>
-            <source src="{{ url_for('.static', filename='006-Necessity_is_the_mother_of_invention.ogg') }}" type="audio/ogg">
-            Your browser does not support the audio element.
-        </audio> 
-    </div>
-    
+  <div class="container" style="max-width: 750px; text-align: start">
+    <p class="paragraph-indent">
+      Life has existed on planet Earth for about 4.2 billion years. Yet, it was
+      only 300,000 years ago that, arguably, the most astonishing creature
+      arrived on Earth, Modern Humans. He spread across the globe and reached
+      every corner of the world. He overpowered every other organism, defied the
+      food chain and stood above the apex predators, all because of his
+      heightened intelligence.
+    </p>
+    <p class="paragraph-indent">
+      The human brain is one of the most fascinating, if not the most
+      fascinating thing in the entire universe. Many aspects of it still baffle
+      scientists. It is by using this gift of evolution that humans became the
+      animal to influence environment the most by manipulating natural resources
+      and making new articles; for which the word given is “Invent”, derived
+      from the word <em>“invenire”</em> which, in Latin, means, “to come upon.”
+    </p>
+    <p class="paragraph-indent">
+      Our ancient primate ancestors evolved as omnivores and had to hunt down
+      animals. However, they needed some instrument to replace the huge sharp
+      teeth and claws that they lacked. And so, they made stone implements, the
+      first invention of the world. Then, as they needed protection from the
+      freezing cold and the wild animals; they learned to control the violent
+      <i>Red Flower</i>, fire. As a result, cooking became possible which made
+      their food safer. Later, they needed something to cover themselves, to
+      protect both their skin and their dignity; clothes were invented.
+    </p>
+    <p class="paragraph-indent">
+      Life would have been impossible without inventions like the wheel, animal
+      husbandry, agriculture and society. We can observe a clear fashion, people
+      needed something without which they couldn’t survive easily and then it
+      was invented to permit their survival. After millennia of many other
+      inventions, the hunger for energy led to the Industrial Revolution, which
+      revolutionized the world. Since then, humans have been advancing at an
+      unprecedented rate.
+    </p>
+    <p class="paragraph-indent">
+      To enable intercontinental communication, Samuel Morse invented
+      Telegraphy; Telephone was invented by Graham Bell to be able to talk with
+      anyone in the world; the Light bulb was made to keep the world lit, whose
+      invention has been credited to Thomas Edison; the invention of the
+      Television by John Baird made broadcasting information to the masses
+      possible. All these inventions made our lives better and easier, but were
+      they necessary for our survival? During the same period, inventions like
+      that of the vaccine and penicillin were life-saving. So, this could be the
+      transition phase.
+    </p>
+    <p class="paragraph-indent">
+      The 21<sup>st</sup> century is the technology era. Scientists have created
+      city-sized pieces of equipment to study subatomic particles; they can
+      expand our knowledge, but they don’t affect our everyday lives in any way.
+      Telephone calls were enough for communication, what was the “necessity” of
+      Smart Phones? Movies, the internet, plastic and even aeroplanes, all of
+      these make our lives easier and more comfortable, but none of them are
+      necessary for the survival of humans. These inventions are the result of a
+      desire for facilitating and luxurious life.
+    </p>
+    <p class="paragraph-indent">
+      Let us consider <del>what is coming next</del>, Artificial Intelligence,
+      Generative AI, Augmented and Virtual Reality, Quantum Computing, Brain
+      Implants, Artificial wombs and more. None of these contribute in any way
+      to the survival of mankind. And in unfortunate scenarios, they could even
+      become apocalyptic. But nothing or no one will stop them from being made
+      better, and they are not supposed to stop. Society has been evolving and
+      so is our way of inventing things. In this age, it isn’t necessary that
+      necessity should always be the mother of invention. Today’s inventions are
+      driven by wants, desires and aspirations. When all our needs are
+      satisfied, desires are the next step. And there is nothing unethical or
+      immoral, as it is the natural order. We just have to have control over our
+      inventions and make sure that the brainchildren of ours do not lead to our
+      demise.
+    </p>
+  </div>
 
-    <div class="container" style="max-width: 750px; text-align: start;">
-        <p class="paragraph-indent">Life has existed on planet Earth for about 4.2 billion years. Yet, it was only 300,000 years ago that, arguably, the most astonishing creature arrived on Earth, Modern Humans. He spread across the globe and reached every corner of the world. He overpowered every other organism, defied the food chain and stood above the apex predators, all because of his heightened intelligence.</p>
-        <p class="paragraph-indent">The human brain is one of the most fascinating, if not the most fascinating thing in the entire universe. Many aspects of it still baffle scientists. It is by using this gift of evolution that humans became the animal to influence environment the most by manipulating natural resources and making new articles; for which the word given is “Invent”, derived from the word <em>“invenire”</em> which, in Latin, means, “to come upon.”</p>
-        <p class="paragraph-indent">Our ancient primate ancestors evolved as omnivores and had to hunt down animals. However, they needed some instrument to replace the huge sharp teeth and claws that they lacked. And so, they made stone implements, the first invention of the world. Then, as they needed protection from the freezing cold and the wild animals; they learned to control the violent <i>Red Flower</i>, fire. As a result, cooking became possible which made their food safer. Later, they needed something to cover themselves, to protect both their skin and their dignity; clothes were invented.</p>
-        <p class="paragraph-indent">Life would have been impossible without inventions like the wheel, animal husbandry, agriculture and society. We can observe a clear fashion, people needed something without which they couldn’t survive easily and then it was invented to permit their survival. After millennia of many other inventions, the hunger for energy led to the Industrial Revolution, which revolutionized the world. Since then, humans have been advancing at an unprecedented rate.</p>
-        <p class="paragraph-indent">To enable intercontinental communication, Samuel Morse invented Telegraphy; Telephone was invented by Graham Bell to be able to talk with anyone in the world; the Light bulb was made to keep the world lit, whose invention has been credited to Thomas Edison; the invention of the Television by John Baird made broadcasting information to the masses possible. All these inventions made our lives better and easier, but were they necessary for our survival? During the same period, inventions like that of the vaccine and penicillin were life-saving. So, this could be the transition phase.</p>
-        <p class="paragraph-indent">The 21<sup>st</sup> century is the technology era. Scientists have created city-sized pieces of equipment to study subatomic particles; they can expand our knowledge, but they don’t affect our everyday lives in any way. Telephone calls were enough for communication, what was the “necessity” of Smart Phones? Movies, the internet, plastic and even aeroplanes, all of these make our lives easier and more comfortable, but none of them are necessary for the survival of humans. These inventions are the result of a desire for facilitating and luxurious life.</p>
-        <p class="paragraph-indent">Let us consider <del>what is coming next</del>, Artificial Intelligence, Generative AI, Augmented and Virtual Reality, Quantum Computing, Brain Implants, Artificial wombs and more. None of these contribute in any way to the survival of mankind. And in unfortunate scenarios, they could even become apocalyptic. But nothing or no one will stop them from being made better, and they are not supposed to stop. Society has been evolving and so is our way of inventing things. In this age, it isn’t necessary that necessity should always be the mother of invention. Today’s inventions are driven by wants, desires and aspirations. When all our needs are satisfied, desires are the next step. And there is nothing unethical or immoral, as it is the natural order. We just have to have control over our inventions and make sure that the brainchildren of ours do not lead to our demise.</p>
-    </div>
-
-    <div class="container mb-3" style="max-width: 900px; text-align: start; padding: 10px; border-width: 2px 0px 2px 0px; border-style: solid; border-color: #7F8387;">
-        <p class="text-body-secondary">This is a very simple take on the popular saying 'Necessity is the mother of invention.' Nothing fancy, in fact, it is a bit "immature". I wrote this fairly long ago and some statements and claims are rather questionable. This is however, a nice starting point for anyone of you to write a speech or an essay about something relevant.</p>
-        <p style="background-color: rgba(220, 53, 69, .6); padding: 2rem; border-radius: 15px;"><b>CAUTION:</b> Please be aware that certain parts of this article may be irrelevant or outdated due to the passage of time and changes in context. I advise you to cross-reference with more current sources for the most accurate information.</p>
-    </div>
+  <div
+    class="container mb-3"
+    style="
+      max-width: 900px;
+      text-align: start;
+      padding: 10px;
+      border-width: 2px 0px 2px 0px;
+      border-style: solid;
+      border-color: #7f8387;
+    "
+  >
+    <p class="text-body-secondary">
+      This is a very simple take on the popular saying 'Necessity is the mother
+      of invention.' Nothing fancy, in fact, it is a bit "immature". I wrote
+      this fairly long ago and some statements and claims are rather
+      questionable. This is however, a nice starting point for anyone of you to
+      write a speech or an essay about something relevant.
+    </p>
+    <p
+      style="
+        background-color: rgba(220, 53, 69, 0.6);
+        padding: 2rem;
+        border-radius: 15px;
+      "
+    >
+      <b>CAUTION:</b> Please be aware that certain parts of this article may be
+      irrelevant or outdated due to the passage of time and changes in context.
+      I advise you to cross-reference with more current sources for the most
+      accurate information.
+    </p>
+  </div>
 </div>
 {% endblock %}
