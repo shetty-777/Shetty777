@@ -1,531 +1,548 @@
 /*-----------------------------------------------Global styles----------------------------------------------------*/
-html{
-    scroll-behavior: smooth;
-    scroll-padding: 3rem;
-    overflow-y: scroll;
-    scrollbar-width: none;
+html {
+  scroll-behavior: smooth;
+  scroll-padding: 3rem;
+  overflow-y: scroll;
+  scrollbar-width: none;
 }
 
 body {
-    margin: 0px;
-    font-family: Roboto, Arial, sans-serif;
-    overflow-x: hidden;
+  margin: 0px;
+  font-family: Roboto, Arial, sans-serif;
+  overflow-x: hidden;
 }
 
 body::-webkit-scrollbar {
-    display: none;
+  display: none;
 }
 
 .fonts-loaded body {
-    font-family: Roboto, Arial, sans-serif;
-  }
+  font-family: Roboto, Arial, sans-serif;
+}
 
 /*-----------------------------------------------Fonts declarations----------------------------------------------------*/
 
-@font-face { 
-    font-family: RubikMaze;
-    src: url("fonts/RubikMaze/RubikMaze.woff2") format("woff2");
-    font-display: swap 
+@font-face {
+  font-family: RubikMaze;
+  src: url("fonts/RubikMaze/RubikMaze.woff2") format("woff2");
+  font-display: swap;
 }
 
-
-@font-face { 
-    font-family: Buttermilk;
-    src: url("fonts/Buttermilk/Buttermilk.woff2") format("woff2");
-    font-display: swap  
-}
-
-
-@font-face { 
-    font-family: IBMPlexMono;
-    src: url("fonts/IBMPlexMono/IBMPlexMono.woff2") format("woff2");
-    font-display: swap 
+@font-face {
+  font-family: Buttermilk;
+  src: url("fonts/Buttermilk/Buttermilk.woff2") format("woff2");
+  font-display: swap;
 }
 
-
 @font-face {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: normal;
-    src: url("fonts/Roboto/Roboto-Regular.woff2") format("woff2");
-    font-display: swap
-}
-@font-face {
-    font-family: Roboto;
-    font-style: italic;
-    font-weight: normal;
-    src: url("fonts/Roboto/Roboto-Italic.woff2") format("woff2");
-    font-display: swap
-}
-@font-face {
-    font-family: Roboto;
-    font-style: normal;
-    font-weight: bold;
-    src: url("fonts/Roboto/Roboto-Bold.woff2") format("woff2");
-    font-display: swap
-}
-@font-face {
-    font-family: Roboto-Light;
-    font-style: normal;
-    font-weight: normal;
-    src: url("fonts/Roboto/Roboto-Light.woff2") format("woff2");
-    font-display: swap
+  font-family: IBMPlexMono;
+  src: url("fonts/IBMPlexMono/IBMPlexMono.woff2") format("woff2");
+  font-display: swap;
 }
 
-
 @font-face {
-    font-family: Spectral;
-    font-style: normal;
-    font-weight: normal;
-    src: url("fonts/Spectral/Spectral-Regular.woff2") format("woff2");
-    font-display: swap
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/Roboto/Roboto-Regular.woff2") format("woff2");
+  font-display: swap;
 }
 @font-face {
-    font-family: Spectral;
-    font-style: italic;
-    font-weight: normal;
-    src: url("fonts/Spectral/Spectral-Italic.woff2") format("woff2");
-    font-display: swap
+  font-family: Roboto;
+  font-style: italic;
+  font-weight: normal;
+  src: url("fonts/Roboto/Roboto-Italic.woff2") format("woff2");
+  font-display: swap;
 }
 @font-face {
-    font-family: Spectral;
-    font-style: normal;
-    font-weight: bold;
-    src: url("fonts/Spectral/Spectral-Bold.woff2") format("woff2");
-    font-display: swap
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  src: url("fonts/Roboto/Roboto-Bold.woff2") format("woff2");
+  font-display: swap;
 }
 @font-face {
-    font-family: Spectral;
-    font-style: italic;
-    font-weight: bold;
-    src: url("fonts/Spectral/Spectral-BoldItalic.woff2") format("woff2");
-    font-display: swap
-}
-@font-face {
-    font-family: Spectral-Light;
-    font-style: normal;
-    font-weight: normal;
-    src: url("fonts/Spectral/Spectral-Light.woff2") format("woff2");
-    font-display: swap
-}
-@font-face {
-    font-family: Spectral-Light;
-    font-style: italic;
-    font-weight: normal;
-    src: url("fonts/Spectral/Spectral-LightItalic.woff2") format("woff2");
-    font-display: swap
-}
-@font-face {
-    font-family: Spectral-Black;
-    font-style: normal;
-    src: url("fonts/Spectral/Spectral-ExtraBold.woff2") format("woff2");
-    font-display: swap
+  font-family: Roboto-Light;
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/Roboto/Roboto-Light.woff2") format("woff2");
+  font-display: swap;
 }
 
+@font-face {
+  font-family: Spectral;
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/Spectral/Spectral-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Spectral;
+  font-style: italic;
+  font-weight: normal;
+  src: url("fonts/Spectral/Spectral-Italic.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Spectral;
+  font-style: normal;
+  font-weight: bold;
+  src: url("fonts/Spectral/Spectral-Bold.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Spectral;
+  font-style: italic;
+  font-weight: bold;
+  src: url("fonts/Spectral/Spectral-BoldItalic.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Spectral-Light;
+  font-style: normal;
+  font-weight: normal;
+  src: url("fonts/Spectral/Spectral-Light.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Spectral-Light;
+  font-style: italic;
+  font-weight: normal;
+  src: url("fonts/Spectral/Spectral-LightItalic.woff2") format("woff2");
+  font-display: swap;
+}
+@font-face {
+  font-family: Spectral-Black;
+  font-style: normal;
+  src: url("fonts/Spectral/Spectral-ExtraBold.woff2") format("woff2");
+  font-display: swap;
+}
 
 @font-face {
-    font-family: LibreFranklin;
-    font-style: normal;
-    src: url("fonts/LibreFranklin/LibreFranklin-Regular.woff2") format("woff2");
-    font-display: swap
+  font-family: LibreFranklin;
+  font-style: normal;
+  src: url("fonts/LibreFranklin/LibreFranklin-Regular.woff2") format("woff2");
+  font-display: swap;
 }
 @font-face {
-    font-family: LibreFranklin;
-    font-style: italic;
-    src: url("fonts/LibreFranklin/LibreFranklin-Italic.woff2") format("woff2");
-    font-display: swap
+  font-family: LibreFranklin;
+  font-style: italic;
+  src: url("fonts/LibreFranklin/LibreFranklin-Italic.woff2") format("woff2");
+  font-display: swap;
 }
 @font-face {
-    font-family: LibreFranklin;
-    font-style: normal;
-    font-weight: bold;
-    src: url("fonts/LibreFranklin/LibreFranklin-Bold.woff2") format("woff2");
-    font-display: swap
+  font-family: LibreFranklin;
+  font-style: normal;
+  font-weight: bold;
+  src: url("fonts/LibreFranklin/LibreFranklin-Bold.woff2") format("woff2");
+  font-display: swap;
 }
 @font-face {
-    font-family: LibreFranklin;
-    font-style: italic;
-    font-weight: bold;
-    src: url("fonts/LibreFranklin/LibreFranklin-BoldItalic.woff2") format("woff2");
-    font-display: swap
+  font-family: LibreFranklin;
+  font-style: italic;
+  font-weight: bold;
+  src: url("fonts/LibreFranklin/LibreFranklin-BoldItalic.woff2") format("woff2");
+  font-display: swap;
 }
 @font-face {
-    font-family: LibreFranklin-Black;
-    font-style: normal;
-    src: url("fonts/LibreFranklin/LibreFranklin-Black.woff2") format("woff2");
-    font-display: swap
+  font-family: LibreFranklin-Black;
+  font-style: normal;
+  src: url("fonts/LibreFranklin/LibreFranklin-Black.woff2") format("woff2");
+  font-display: swap;
 }
 @font-face {
-    font-family: LibreFranklin-Black;
-    font-style: italic;
-    src: url("fonts/LibreFranklin/LibreFranklin-BlackItalic.woff2") format("woff2");
-    font-display: swap
+  font-family: LibreFranklin-Black;
+  font-style: italic;
+  src: url("fonts/LibreFranklin/LibreFranklin-BlackItalic.woff2")
+    format("woff2");
+  font-display: swap;
 }
 @font-face {
-    font-family: Nudi-4k;
-    font-style: normal;
-    src: url("fonts/Nudi/Nudi-4k.woff2") format("woff2");
-    font-display: swap
+  font-family: Nudi-4k;
+  font-style: normal;
+  src: url("fonts/Nudi/Nudi-4k.woff2") format("woff2");
+  font-display: swap;
 }
 
 /*-----------------------------------------------Typography----------------------------------------------------*/
 
-
 a {
-    text-decoration: none;
-    font-family: Roboto, Arial, sans-serif;
-    font-style: normal;
-    font-weight: normal;
+  text-decoration: none;
+  font-family: Roboto, Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
 }
 :is(p ul ol li h1 h2 h3 h4 h5 h6) {
-    font-family: Roboto, Arial, sans-serif;
-    font-style: normal;
-    font-weight: normal;
+  font-family: Roboto, Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
 }
 
 abbr[data-title] {
-    position: relative;
-    text-decoration: underline dotted;
+  position: relative;
+  text-decoration: underline dotted;
 }
 abbr[data-title]:hover {
-    cursor: help;
-    text-decoration: underline solid;
+  cursor: help;
+  text-decoration: underline solid;
 }
 /*-----------------------------------------------------Miscellaneous----------------------------------------------------------*/
 
 .row {
-    margin: 0px;
+  margin: 0px;
 }
 
 .wrapper {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #9000FF, #D000FF);
-    background-size: 200% 100%;
-    animation: gradient 2s linear infinite alternate;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #9000ff, #d000ff);
+  background-size: 200% 100%;
+  animation: gradient 2s linear infinite alternate;
 }
 
-
 @keyframes gradient {
-    0%{background-position: 0%}
-    100%{background-position: 100%}
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 100%;
+  }
 }
 
 .list-group {
-    margin: 10px 0;
+  margin: 10px 0;
 }
 
 .list-group-item {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .alert {
-    margin: 0;
+  margin: 0;
 }
 
 .themed-tooltip {
-    --bs-tooltip-bg: var(--bs-body-bg);
-    --bs-tooltip-color: var(--bs-body-color);
+  --bs-tooltip-bg: var(--bs-body-bg);
+  --bs-tooltip-color: var(--bs-body-color);
 }
 
 .clickable-row a {
-    text-decoration: none;
-    color: inherit;
-    display: block;
+  text-decoration: none;
+  color: inherit;
+  display: block;
 }
 /*-----------------------------------------------------Gradient button----------------------------------------------------------*/
-.custom-btn{
-    border: none;
-    border-radius: 50vh;
-    background-size: 200%;
-    color: #ffffff;
-    transition: .5s;
-    background-image: linear-gradient(to left,#9000FF,#D000FF,#9000FF);
+.custom-btn {
+  border: none;
+  border-radius: 50vh;
+  background-size: 200%;
+  color: #ffffff;
+  transition: 0.5s;
+  background-image: linear-gradient(to left, #9000ff, #d000ff, #9000ff);
 }
 
-.custom-btn:hover{
-    background-position: right;
-    color: #ffffff;
+.custom-btn:hover {
+  background-position: right;
+  color: #ffffff;
 }
 
 /*-----------------------------------------------------Gradient border----------------------------------------------------------*/
-.custom-border{
-    display: inline-block;
-    position: relative;
-    z-index: 0;
-  }
-  .custom-border:before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    inset: 0;
-    padding: 4px;
-    border-radius: 1.9rem;
-    background: linear-gradient(135deg, #9000FF, #D000FF);
-    background-clip: padding-box;
-    margin: -1px;
-    -webkit-mask: 
-       linear-gradient(#fff 0 0) content-box, 
-       linear-gradient(#fff 0 0);
-            mask: 
-       linear-gradient(#fff 0 0) content-box, 
-       linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude; 
+.custom-border {
+  display: inline-block;
+  position: relative;
+  z-index: 0;
+}
+.custom-border:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  padding: 4px;
+  border-radius: 1.9rem;
+  background: linear-gradient(135deg, #9000ff, #d000ff);
+  background-clip: padding-box;
+  margin: -1px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 
 /*-----------------------------------------------------Input box----------------------------------------------------------*/
-.custom-input{
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #9000FF;
-    background: transparent;
+.custom-input {
+  border-radius: 0;
+  border: none;
+  border-bottom: 3px solid #9000ff;
+  background: transparent;
 }
-.custom-input:focus{
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #D000FF;
-    background: transparent;
-    box-shadow: none;
+.custom-input:focus {
+  border-radius: 0;
+  border: none;
+  border-bottom: 3px solid #d000ff;
+  background: transparent;
+  box-shadow: none;
 }
-.input-group-text{
-    border-radius: 0;
-    border: none;
-    border-bottom: 3px solid #9000FF;
-    background: transparent;
+.input-group-text {
+  border-radius: 0;
+  border: none;
+  border-bottom: 3px solid #9000ff;
+  background: transparent;
 }
 
 .input-group:focus-within .input-group-text {
-    border-bottom: 3px solid #D000FF;
+  border-bottom: 3px solid #d000ff;
 }
 .custom-input:focus {
-    border-image: linear-gradient(to left, #9000FF, #D000FF);
-    border-image-slice: 1;
+  border-image: linear-gradient(to left, #9000ff, #d000ff);
+  border-image-slice: 1;
 }
 
 .input-group-text:focus {
-    border-image: linear-gradient(to left, #9000FF, #D000FF);
-    border-image-slice: 1;
+  border-image: linear-gradient(to left, #9000ff, #d000ff);
+  border-image-slice: 1;
 }
 
 /*-----------------------------------------------------Navbar----------------------------------------------------------*/
 .navbar-toggler {
-    box-shadow: none;
-    border: none
+  box-shadow: none;
+  border: none;
 }
 
 .navbar-toggler:focus {
-    box-shadow: none;
-    border: none
+  box-shadow: none;
+  border: none;
 }
 
-.vertical-separator{
-    width: 1px;
-    height: auto;
-    background-color: #7F8387;
-    margin: 0 10px
+.vertical-separator {
+  width: 1px;
+  height: auto;
+  background-color: #7f8387;
+  margin: 0 10px;
 }
 
-.form-check-input:focus{
-    box-shadow: none
+.form-check-input:focus {
+  box-shadow: none;
 }
 
-.scrolled-down{
-    transform: translateY(-100%); transition: all .2s ease-in-out;
+.scrolled-down {
+  transform: translateY(-100%);
+  transition: all 0.2s ease-in-out;
 }
-.scrolled-up{
-    transform: translateY(0); transition: all .2s ease-in-out;
+.scrolled-up {
+  transform: translateY(0);
+  transition: all 0.2s ease-in-out;
 }
 
 /*-----------------------------------------------------Image container----------------------------------------------------------*/
-.img-container{
-    container-type: inline-size;
-    container-name: img-container;
+.img-container {
+  container-type: inline-size;
+  container-name: img-container;
 }
 
-.img-container a{
-    font-size: .6rem;
+.img-container a {
+  font-size: 0.6rem;
 }
 
-@container img-container (min-width: 600px){
-    .img-container a{font-size: .8rem;}
+@container img-container (min-width: 600px) {
+  .img-container a {
+    font-size: 0.8rem;
+  }
 }
 
 /*-----------------------------------------------------... overflow in card----------------------------------------------------------*/
 .post-card-title {
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-            line-clamp: 2; 
-    -webkit-box-orient: vertical;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
 /*-----------------------------------------------------Carousel and cards----------------------------------------------------------*/
 .carousel {
-    max-width: 100%;
+  max-width: 100%;
 }
-  
+
 .carousel__inner {
-    padding-block: 1rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
+  padding-block: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
-  
+
 .carousel[data-animated="true"] {
-    overflow: hidden;
+  overflow: hidden;
 }
-  
+
 .carousel[data-animated="true"] .carousel__inner {
-    width: max-content;
-    flex-wrap: nowrap;
-    animation: scroll 100s forwards linear infinite;
+  width: max-content;
+  flex-wrap: nowrap;
+  animation: scroll 100s forwards linear infinite;
 }
 
 .carousel__inner:has(.carousel-card:hover) {
-    animation-play-state: paused;
+  animation-play-state: paused;
 }
 
-.carousel-card{
-    margin: .5rem;
-    width:20rem;
-    background-color: rgba(255, 255, 255, 0);
-    border-radius: 20px;
-    box-shadow: 1px 1px 5px rgba(0, 0, 0, .500);
-    backdrop-filter: blur(12px) brightness(120%) saturate(130%);
-    -webkit-backdrop-filter: blur(12px);
-    transition: transform .3s ease-out, box-shadow .3s ease-out, backdrop-filter .3s ease-out, background-color .3s ease-out;
+.carousel-card {
+  margin: 0.5rem;
+  width: 20rem;
+  background-color: rgba(255, 255, 255, 0);
+  border-radius: 20px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px) brightness(120%) saturate(130%);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out,
+    backdrop-filter 0.3s ease-out, background-color 0.3s ease-out;
 }
 
-.carousel-card:hover{
-    background-color: rgba(255, 255, 255, .35);
-    box-shadow: 5px 5px 17px rgba(0, 0, 0, .500);
-    z-index: +1;
-    transform: scale(1.09);
-    backdrop-filter: blur(40px) brightness(110%) saturate(110%);
-    -webkit-backdrop-filter: blur(40px) brightness(110%) saturate(110%);
+.carousel-card:hover {
+  background-color: rgba(255, 255, 255, 0.35);
+  box-shadow: 5px 5px 17px rgba(0, 0, 0, 0.5);
+  z-index: +1;
+  transform: scale(1.09);
+  backdrop-filter: blur(40px) brightness(110%) saturate(110%);
+  -webkit-backdrop-filter: blur(40px) brightness(110%) saturate(110%);
 }
- 
+
 @keyframes scroll {
-    to {transform: translate(calc(-50% - .5rem));}
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
 }
 
-
-.pop-up-card{
-    transition: transform .2s ease-out, box-shadow .2s ease-out;
+.pop-up-card {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 
 .pop-up-card:hover {
-    position: relative;
-    z-index: +1;
-    transform: scale(1.05);
-    box-shadow: 3px 3px 30px rgba(0, 0, 0, .500)
-  }
-  .pop-up-card:hover:before {
-    content: "";
-    position: absolute;
-    z-index: 0;
-    inset: 0;
-    padding: 2px;
-    border-radius: 20px;
-    background: linear-gradient(135deg, #9000FF, #D000FF);
-    background-clip: padding-box;
-    margin: -1px;
-    -webkit-mask: 
-       linear-gradient(#fff 0 0) content-box, 
-       linear-gradient(#fff 0 0);
-            mask: 
-       linear-gradient(#fff 0 0) content-box, 
-       linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
+  position: relative;
+  z-index: +1;
+  transform: scale(1.05);
+  box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.5);
+}
+.pop-up-card:hover:before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  padding: 2px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #9000ff, #d000ff);
+  background-clip: padding-box;
+  margin: -1px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
 }
 
 /*-----------------------------------------------------Progess/Scroll bar----------------------------------------------------------*/
-#progress-scroll-bar{
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 10px;
-    height: 0;
-    border-bottom-right-radius: 10px;
-    border-bottom-left-radius: 10px;
-    background: linear-gradient(to bottom, #9000FF, #D000FF);
+#progress-scroll-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 0;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background: linear-gradient(to bottom, #9000ff, #d000ff);
 }
 
 /*-----------------------------------------------------Comment section (comment box and rating)----------------------------------------------------------*/
 .rating {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: center;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
 }
 .rating input {
-    display: none;
+  display: none;
 }
 .rating label {
-    font-size: 1.5rem;
-    color: #cccccc;
-    padding: .5rem;
-    cursor: pointer;
-    transition: transform .1s linear, text-shadow .1s linear;
+  font-size: 1.5rem;
+  color: #cccccc;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.1s linear, text-shadow 0.1s linear;
 }
 .rating input:checked ~ label,
 .rating label:hover,
 .rating label:hover ~ label {
-    color: transparent;
-    background-clip: text;
-    background-image: linear-gradient(135deg, #9000FF, #D000FF);
-    text-shadow: 0 0 10px #D000FF;
-    transform: scale(1.3);
+  color: transparent;
+  background-clip: text;
+  background-image: linear-gradient(135deg, #9000ff, #d000ff);
+  text-shadow: 0 0 10px #d000ff;
+  transform: scale(1.3);
 }
 
-.comment-box{
-    padding: 1rem;
-    margin: 1.5rem 0rem;
-    border-radius: 10px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, .300);
-    background-color: var(--bs-secondary-bg);
+.comment-box {
+  padding: 1rem;
+  margin: 1.5rem 0rem;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  background-color: var(--bs-secondary-bg);
 }
 
-
-.offcanvas, .offcanvas-xxl, .offcanvas-xl, .offcanvas-lg, .offcanvas-md, .offcanvas-sm { 
-    --bs-offcanvas-width: 500px; 
+.offcanvas,
+.offcanvas-xxl,
+.offcanvas-xl,
+.offcanvas-lg,
+.offcanvas-md,
+.offcanvas-sm {
+  --bs-offcanvas-width: 500px;
 }
 
 /*-----------------------------------------------------CallToAction button----------------------------------------------------------*/
-.cta-btn{
-    filter: brightness(90%);
-    padding: 1rem 2.8rem;
-    font-size: calc(1rem + .8vw);
-    width: fit-content;
-    box-shadow: 4px 4px 40px rgb(208, 0, 255);
+.cta-btn {
+  filter: brightness(90%);
+  padding: 1rem 2.8rem;
+  font-size: calc(1rem + 0.8vw);
+  width: fit-content;
+  box-shadow: 4px 4px 40px rgb(208, 0, 255);
 }
 
-.cta-btn:hover{
-    filter: brightness(130%);
-    padding: 1.5rem 3.5rem;
-    font-size: calc(1rem + 1vw);
-    box-shadow: 5px 5px 100px rgb(208, 0, 255);
+.cta-btn:hover {
+  filter: brightness(130%);
+  padding: 1.5rem 3.5rem;
+  font-size: calc(1rem + 1vw);
+  box-shadow: 5px 5px 100px rgb(208, 0, 255);
 }
 
 /*-----------------------------------------------------Typography in posts----------------------------------------------------------*/
 
-.paragraph-indent{
-    text-indent: 3rem;
-    font-size: 1.3rem;
-    font-family: Spectral;
+.paragraph-indent {
+  text-indent: 3rem;
+  font-size: 1.3rem;
+  font-family: Spectral;
 }
-.paragraph{
-    font-size: 1.3rem;
-    font-family: Spectral;
+.paragraph {
+  font-size: 1.3rem;
+  font-family: Spectral;
 }
-.paragraph-kannada{
-    font-family: Nudi-4k;
+.paragraph-kannada {
+  font-family: Nudi-4k;
 }
-.p-link{
-    font-size: inherit;
-    font-family: inherit;
-    text-decoration: underline dotted;
-    color: inherit
+.p-link {
+  font-size: inherit;
+  font-family: inherit;
+  text-decoration: underline dotted;
+  color: inherit;
+}
+
+/*-----------------------------------------------------Index in posts----------------------------------------------------------*/
+.index-div {
+  background: linear-gradient(
+    135deg,
+    rgba(208, 0, 255, 0.2),
+    rgba(144, 0, 255, 0.3),
+    rgba(208, 0, 255, 0.4)
+  );
+  border-color: #9000ff;
+  border-style: solid;
+  border-width: 0px;
+  border-radius: 10px;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  word-wrap: break-word;
 }
