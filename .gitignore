@@ -1,4 +1,4 @@
 __pycache__/
-venv/
+.venv/
 website/__pycache__/
 .env

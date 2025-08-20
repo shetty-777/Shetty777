@@ -663,7 +663,7 @@ def post():
         post_url_exists = Post.query.filter_by(url=url).first()
 
         if post_url_exists:
-            flash("A post with this URL already exists", category="werror")
+            flash("A post with this URL already exists", category="error")
         elif "category" in form.errors:
             flash("Category must be 'Article' or 'Project' or 'Blog'", category="error")
         elif "author" in form.errors:
