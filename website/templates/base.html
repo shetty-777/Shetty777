@@ -1,115 +1,173 @@
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <meta
+      name="google-site-verification"
+      content="z4xGoS1AWreRN0o7C0vFF0v5CYn8qyYc5MZaUfoQ5S8"
+    />
+    <meta name="robots" content="index, follow" />
 
-<head>
-  <meta charset="UTF-8" >
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" >
-  <meta name="google-site-verification" content="z4xGoS1AWreRN0o7C0vFF0v5CYn8qyYc5MZaUfoQ5S8" >
-  <meta name="robots" content="index, follow" >
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
 
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark-dimmed.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+      type="text/css"
+    />
+    <link
+      rel="shortcut icon"
+      href="{{ url_for('static', filename='favicon.ico') }}"
+    />
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous" >
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" >
-  <link rel="stylesheet"
-    href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/atom-one-dark.min.css" >
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css" >
-  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" >
+    <title>{% block title %}Shetty777{% endblock %}</title>
+    <meta
+      name="description"
+      content="{% block description %}This is Shashank Shetty's blog site, featuring articles, essays, tutorials and robotics & IoT adventures.{% endblock %}"
+    />
+  </head>
 
-  <title>{% block title %}Shetty777{% endblock %}</title>
-  <meta name="description"
-    content="{% block description %}This is Shashank Shetty's official blog site, featuring articles, essays, tutorials and robotics & IoT adventures.{% endblock %}" >
-</head>
+  <body class="bg-body-secondary">
+    {% include "navbar.html" %} {% with messages =
+    get_flashed_messages(with_categories=True) %} {% if messages %} {% for
+    category, message in messages %}
+    <li class="list-group-item" style="width: 100%">
+      {% if category == 'error' %}
+      <div
+        class="alert alert-danger alter-dismissible fade show text-bg-danger bg-danger border border-danger-subtle border-2"
+        role="alert"
+        style="position: absolute; width: 100%"
+      >
+        {{message}}<button
+          style="float: right"
+          type="button"
+          class="btn-close ms-auto"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% elif category == 'success' %}
+      <div
+        class="alert alert-success alter-dismissible fade show text-bg-success bg-success border border-success-subtle border-2"
+        role="alert"
+        style="position: absolute; width: 100%"
+      >
+        {{message}}<button
+          style="float: right"
+          type="button"
+          class="btn-close ms-auto"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% elif category == 'info' %}
+      <div
+        class="alert alert-info alter-dismissible fade show text-bg-info bg-info border border-info-subtle border-2"
+        role="alert"
+        style="position: absolute; width: 100%"
+      >
+        {{message}}<button
+          style="float: right"
+          type="button"
+          class="btn-close ms-auto"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% elif category == 'warning' %}
+      <div
+        class="alert alert-warning alter-dismissible fade show text-bg-warning bg-warning border border-warning-subtle border-2"
+        role="alert"
+        style="position: absolute; width: 100%"
+      >
+        {{message}}<button
+          style="float: right"
+          type="button"
+          class="btn-close ms-auto"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endif %}
+    </li>
+    {% endfor %} {% endif %} {% endwith %}
+    <div>{% block content %}{% endblock %}</div>
+    {% include "footer.html" %}
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+    <script>
+      hljs.highlightAll();
+    </script>
+    <script src="{{ url_for('static', filename='highlightjs-badge.min.js') }}"></script>
+    <script>
+      // apply HighlightJS
+      var pres = document.querySelectorAll("pre>code");
+      for (var i = 0; i < pres.length; i++) {
+        hljs.highlightBlock(pres[i]);
+      }
 
-<body class="bg-body-secondary">
-  {% include "navbar.html" %} {% with messages =
-  get_flashed_messages(with_categories=True) %} {% if messages %} {% for
-  category, message in messages %}
-  <li class="list-group-item" style="width: 100%">
-    {% if category == 'error' %}
-    <div
-      class="alert alert-danger alter-dismissible fade show text-bg-danger bg-danger border border-danger-subtle border-2"
-      role="alert" style="position: absolute; width: 100%">
-      {{message}}<button style="float: right" type="button" class="btn-close ms-auto" data-bs-dismiss="alert"
-        aria-label="Close"></button>
-    </div>
-    {% elif category == 'success' %}
-    <div
-      class="alert alert-success alter-dismissible fade show text-bg-success bg-success border border-success-subtle border-2"
-      role="alert" style="position: absolute; width: 100%">
-      {{message}}<button style="float: right" type="button" class="btn-close ms-auto" data-bs-dismiss="alert"
-        aria-label="Close"></button>
-    </div>
-    {% elif category == 'info' %}
-    <div class="alert alert-info alter-dismissible fade show text-bg-info bg-info border border-info-subtle border-2"
-      role="alert" style="position: absolute; width: 100%">
-      {{message}}<button style="float: right" type="button" class="btn-close ms-auto" data-bs-dismiss="alert"
-        aria-label="Close"></button>
-    </div>
-    {% elif category == 'warning' %}
-    <div
-      class="alert alert-warning alter-dismissible fade show text-bg-warning bg-warning border border-warning-subtle border-2"
-      role="alert" style="position: absolute; width: 100%">
-      {{message}}<button style="float: right" type="button" class="btn-close ms-auto" data-bs-dismiss="alert"
-        aria-label="Close"></button>
-    </div>
-    {% endif %}
-  </li>
-  {% endfor %} {% endif %} {% endwith %}
-  <div>{% block content %}{% endblock %}</div>
-  {% include "footer.html" %}
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
-  <script>
-    hljs.highlightAll();
-  </script>
-  <script src="{{ url_for('static', filename='highlightjs-badge.min.js') }}"></script>
-  <script>
-    // apply HighlightJS
-    var pres = document.querySelectorAll("pre>code");
-    for (var i = 0; i < pres.length; i++) {
-      hljs.highlightBlock(pres[i]);
-    }
+      // add HighlightJS-badge (options are optional)
+      var options = {
+        // optional
+        templateSelector: "#CodeBadgeTemplate",
+        contentSelector: "body",
+        loadDelay: 0,
+        copyIconClass: "bi bi-clipboard", // Use Bootstrap icon class for copy
+        copyIconContent: "",
+        checkIconClass: "bi bi-check2", // Use Bootstrap icon class for check
+        checkIconContent: "",
+        onBeforeCodeCopied: null,
+      };
+      window.highlightJsBadge(options);
 
-    // add HighlightJS-badge (options are optional)
-    var options = {
-      // optional
-      templateSelector: "#CodeBadgeTemplate",
-      contentSelector: "body",
-      loadDelay: 0,
-      copyIconClass: "bi bi-clipboard", // Use Bootstrap icon class for copy
-      copyIconContent: "",
-      checkIconClass: "bi bi-check2", // Use Bootstrap icon class for check
-      checkIconContent: "",
-      onBeforeCodeCopied: null,
-    };
-    window.highlightJsBadge(options);
+      // enable tooltips
+      const tooltipTriggerList = document.querySelectorAll(
+        '[data-bs-toggle="tooltip"]'
+      );
+      const tooltipList = [...tooltipTriggerList].map(
+        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+      );
 
-    // enable tooltips
-    const tooltipTriggerList = document.querySelectorAll(
-      '[data-bs-toggle="tooltip"]'
-    );
-    const tooltipList = [...tooltipTriggerList].map(
-      (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-    );
-
-    //scroll -progress bar
-    $(window).scroll(function () {
-      var scroll = $(window).scrollTop(),
-        dh = $(document).height(),
-        wh = $(window).height();
-      scrollPercent = (scroll / (dh - wh)) * 100;
-      $("#progress-scroll-bar").css("height", scrollPercent + "%");
-    });
-  </script>
-  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
-</body>
-
+      //scroll -progress bar
+      $(window).scroll(function () {
+        var scroll = $(window).scrollTop(),
+          dh = $(document).height(),
+          wh = $(window).height();
+        scrollPercent = (scroll / (dh - wh)) * 100;
+        $("#progress-scroll-bar").css("height", scrollPercent + "%");
+      });
+    </script>
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+  </body>
 </html>
