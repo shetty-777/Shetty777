@@ -198,7 +198,7 @@ def subscribe() -> str | Response:
                     subject="E-mail verification for Shetty777",
                     receivers=email_id,
                     body_params={
-                        "token": generate_token.generate_token(email_id, "Fresh", 10)
+                        "token": generate_token.generate_token(email_id, "Fresh", 20)
                     },
                     html_template="email/verify.html",
                 )
@@ -228,7 +228,7 @@ def send_manual_verification():
         email.send(
             subject="E-mail verification for Shetty777",
             receivers=email_id,
-            body_params={"token": generate_token.generate_token(email_id, "Fresh", 10)},
+            body_params={"token": generate_token.generate_token(email_id, "Fresh", 20)},
             html_template="email/verify_refreshed.html",
         )
         flash("Verification E-mail sent to", category="success")
@@ -403,7 +403,7 @@ def forgot_password():
                 subject="Password Reset for you subscription at Shetty777",
                 receivers=email_id,
                 body_params={
-                    "token": generate_token.generate_token(email_id, "Reset", 5)
+                    "token": generate_token.generate_token(email_id, "Reset", 10)
                 },
                 html_template="email/password_reset.html",
             )
