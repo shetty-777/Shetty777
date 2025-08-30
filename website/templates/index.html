@@ -1,131 +1,243 @@
-{% extends "base.html" %}
-{% block title %}Shetty777 | Homepage{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Shetty777 | Homepage{% endblock %} {%
+block content %}
 <div class="wrapper text-center">
-	<img src="{{ url_for('static', filename='images/logo_text_white.webp') }}" alt="Shetty777" class="img-fluid"
-		style="width: 75%; max-width: 450px">
+  <img
+    src="{{ url_for('static', filename='images/logo_text_white.webp') }}"
+    alt="Shetty777"
+    class="img-fluid"
+    style="width: 75%; max-width: 450px"
+  />
 </div>
 
-<br><br>
+<br /><br />
 <div class="container justify-content-center align-items-center">
-	<div class="col-sm-12 p-sm-1 p-md-1 p-lg-5">
-		<div class="card rounded-5 mb-3 custom-border"
-			style="box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500); width: 100%">
-			<div class="row g-0">
-				<div class="col-md-5 justify-content-center d-flex align-items-center">
-					<img src="{{ url_for('static', filename='images/Writing.webp') }}"
-						class="card-img mx-auto img-fluid" alt="Articles" style="width: calc(15rem + 7vw)">
-				</div>
-				<div class="col-md-7 justify-content-center d-flex align-items-center">
-					<div class="card-body" style="margin: 1rem">
-						<h1 class="card-title" style="font-family:Buttermilk; font-size: 3.5rem;">Explore thoughtful
-							content</h1>
-						<p class="card-text justify-content-start align-items-start d-flex">Dive into a collection of
-							articles, essays, and debates written in English and Kannada. Even though they are composed
-							mostly for academic purposes, I am sure you'll find something worth your time.</p>
-						<ul>
-							<li><b>Articles:</b> Engaging and informational pieces on diverse topics.</li>
-							<li><b>Debates:</b> Unique perspectives and balanced narrations on simple debates.</li>
-							<li><b>Essays:</b> Well-researched and well-crafted narratives on numerous topics.</li>
-						</ul>
-						<p>I've got audio versions as well! So whether you prefer reading or listening, plunge in and
-							let your mind wander!</p>
-						<br><br>
-						<div class="container d-flex justify-content-center align-items-center">
-							<a href="{{ url_for('routes.articles') }}" class="btn btn-lg custom-btn"
-								style="width:90%; max-width: 15rem;">Explore now&emsp;<i
-									class="bi bi-arrow-right"></i></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-12 p-sm-1 p-md-1 p-lg-5">
-		<div class="card rounded-5 mb-3 custom-border"
-			style="box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.500); width: 100%">
-			<div class="row g-0">
-				<div class="col-md-7 justify-content-center d-flex align-items-center">
-					<div class="card-body" style="margin: 2rem">
-						<h1 class="card-title" style="font-family:Buttermilk; font-size: 3.5rem;">Programming:
-							Beginner's expeditions</h1>
-						<p class="card-text justify-content-start align-items-start d-flex">Welcome to my digital
-							workshop, where "Python" slithers. As a self-taught beginner, I'm thrilled to share my
-							humble Raspberry Pi experiments and coding adventures; Epic-ness assured!</p>
-						<ul>
-							<li><b>Circuits and Code:</b> Detailed circuit diagrams and code snippets for you to follow.
-							</li>
-							<li><b>Tutorials and courses:</b> Understand the fundamental concepts of programming
-								intuitively.</li>
-						</ul>
-						<p>So grab your toolbox and embark on this tinkering journey! Remember, every line of code is a
-							victory.</p>
-						<br><br>
-						<div class="container d-flex justify-content-center align-items-center">
-							<a href="{{ url_for('routes.projects') }}" class="btn btn-lg custom-btn"
-								style="width:90%; max-width: 15rem;">Explore now&emsp;<i
-									class="bi bi-arrow-right"></i></a>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-5 justify-content-center d-flex align-items-center">
-					<img src="{{ url_for('static', filename='images/IoT.webp') }}" class="card-img mx-auto img-fluid"
-						alt="Projects" style="width: calc(15rem + 7vw)">
-				</div>
-			</div>
-		</div>
-	</div>
-	<br>
+  <div class="col-sm-12 p-sm-1 p-md-1 p-lg-5">
+    <div
+      class="card rounded-5 mb-3 custom-border"
+      style="box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.5); width: 100%"
+    >
+      <div class="row g-0">
+        <div class="col-md-5 justify-content-center d-flex align-items-center">
+          <img
+            src="{{ url_for('static', filename='images/Writing.webp') }}"
+            class="card-img mx-auto img-fluid"
+            alt="Articles"
+            style="width: calc(15rem + 7vw)"
+          />
+        </div>
+        <div class="col-md-7 justify-content-center d-flex align-items-center">
+          <div class="card-body" style="margin: 1rem">
+            <h1
+              class="card-title"
+              style="font-family: Buttermilk; font-size: 3.5rem"
+            >
+              Explore thoughtful content
+            </h1>
+            <p class="card-text justify-content-start align-items-start d-flex">
+              Dive into a collection of articles, essays, and debates written in
+              English and Kannada. Even though they are composed mostly for
+              academic purposes, I am sure you'll find something worth your
+              time.
+            </p>
+            <ul>
+              <li>
+                <b>Articles:</b> Engaging and informational pieces on diverse
+                topics.
+              </li>
+              <li>
+                <b>Debates:</b> Unique perspectives and balanced narrations on
+                simple debates.
+              </li>
+              <li>
+                <b>Essays:</b> Well-researched and well-crafted narratives on
+                numerous topics.
+              </li>
+            </ul>
+            <p>
+              I've got audio versions as well! So whether you prefer reading or
+              listening, plunge in and let your mind wander!
+            </p>
+            <br /><br />
+            <div
+              class="container d-flex justify-content-center align-items-center"
+            >
+              <a
+                href="{{ url_for('routes.articles') }}"
+                class="btn btn-lg custom-btn"
+                style="width: 90%; max-width: 15rem"
+                >Explore now&emsp;<i class="bi bi-arrow-right"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-12 p-sm-1 p-md-1 p-lg-5">
+    <div
+      class="card rounded-5 mb-3 custom-border"
+      style="box-shadow: 3px 3px 30px rgba(0, 0, 0, 0.5); width: 100%"
+    >
+      <div class="row g-0">
+        <div class="col-md-7 justify-content-center d-flex align-items-center">
+          <div class="card-body" style="margin: 2rem">
+            <h1
+              class="card-title"
+              style="font-family: Buttermilk; font-size: 3.5rem"
+            >
+              Programming: Beginner's expeditions
+            </h1>
+            <p class="card-text justify-content-start align-items-start d-flex">
+              Welcome to my digital workshop, where "Python" slithers. As a
+              self-taught beginner, I'm thrilled to share my humble Raspberry Pi
+              experiments and coding adventures; Epic-ness assured!
+            </p>
+            <ul>
+              <li>
+                <b>Circuits and Code:</b> Detailed circuit diagrams and code
+                snippets for you to follow.
+              </li>
+              <li>
+                <b>Tutorials and courses:</b> Understand the fundamental
+                concepts of programming intuitively.
+              </li>
+            </ul>
+            <p>
+              So grab your toolbox and embark on this tinkering journey!
+              Remember, every line of code is a victory.
+            </p>
+            <br /><br />
+            <div
+              class="container d-flex justify-content-center align-items-center"
+            >
+              <a
+                href="{{ url_for('routes.projects') }}"
+                class="btn btn-lg custom-btn"
+                style="width: 90%; max-width: 15rem"
+                >Explore now&emsp;<i class="bi bi-arrow-right"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-5 justify-content-center d-flex align-items-center">
+          <img
+            src="{{ url_for('static', filename='images/IoT.webp') }}"
+            class="card-img mx-auto img-fluid"
+            alt="Projects"
+            style="width: calc(15rem + 7vw)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <br />
 </div>
 
 {% if not user.is_authenticated %}
 <div class="container py-5">
-	<div class="row g-0">
-		<div class="col-md-8">
-			<h3 style="font-family: LibreFranklin; font-weight: bold; font-size: 4.3rem">Subscribe to Shetty777</h3>
-			<p style="font-size: 1.25rem">Subscribe now to enjoy awesome perks!
-			<ul class="list-unstyled" style="font-size: 1.25rem">
-				<li><i class="bi bi-check2-all"></i>&ensp;Get notified about latest posts via E-mail</li>
-				<li><i class="bi bi-check2-all"></i>&ensp;Rate posts and comment on them</li>
-				<li><i class="bi bi-check2-all"></i>&ensp;Mark your favourite posts to see them in one place</li>
-			</ul>
-			<div class="container text-center py-4">
-				<a class="custom-btn d-inline-block cta-btn" href="{{ url_for('routes.subscribe') }}">SUBSCRIBE NOW
-					&ensp; <i class='bi bi-bell-fill'></i></a>
-			</div>
-		</div>
+  <div class="row g-0">
+    <div class="col-md-8">
+      <h3
+        style="font-family: LibreFranklin; font-weight: bold; font-size: 4.3rem"
+      >
+        Subscribe to Shetty777
+      </h3>
+      <p style="font-size: 1.25rem">Subscribe now to enjoy awesome perks!</p>
+      <ul class="list-unstyled" style="font-size: 1.25rem">
+        <li>
+          <i class="bi bi-check2-all"></i>&ensp;Get notified about latest posts
+          via E-mail
+        </li>
+        <li>
+          <i class="bi bi-check2-all"></i>&ensp;Rate posts and comment on them
+        </li>
+        <li>
+          <i class="bi bi-check2-all"></i>&ensp;Mark your favourite posts to see
+          them in one place
+        </li>
+      </ul>
+      <div class="container text-center py-4">
+        <a
+          class="custom-btn d-inline-block cta-btn"
+          href="{{ url_for('routes.subscribe') }}"
+          >SUBSCRIBE NOW &ensp; <i class="bi bi-bell-fill"></i
+        ></a>
+      </div>
+    </div>
 
-		<div class="col-md-4">
-			<img src="{{ url_for('static', filename='images/Newsletter.webp') }}" class="card-img mx-auto img-fluid"
-				alt="Subscription" style="width: 25rem">
-		</div>
-	</div>
+    <div class="col-md-4">
+      <img
+        src="{{ url_for('static', filename='images/Newsletter.webp') }}"
+        class="card-img mx-auto img-fluid"
+        alt="Subscription"
+        style="width: 25rem"
+      />
+    </div>
+  </div>
 </div>
 {% endif %}
 
-<div class="d-flex flex-column"
-	style="background-image:url('/static/images/carousel-bg.webp'); background-size: cover; background-position: center;">
-	<h1 class="card-title"
-		style="font-family:Buttermilk; font-size: 3rem; margin: 20px 0px 0px 20px; text-align: left; color: #212529;">
-		Newly posted content on Shetty777</h1>
-	<div class="carousel">
-		<div class="carousel__inner">
-			{% for recent_post in recent_posts_list %}
-			<div class="card carousel-card">
-				<img src="{{ url_for('.static', filename = recent_post.banner) }}" class="card-img-top"
-					alt="{{recent_post.title}}"
-					style="object-fit: cover; height:12rem; padding: 10px; border-radius: 25px;">
-				<div class="card-body">
-					<h5 class="card-title post-card-title"
-						style="font-family: LibreFranklin; font-weight: bold; color: #212529;">{{ recent_post.title }}
-					</h5>
-					<a class="stretched-link" href="{{ url_for('routes.web_posts', post_url=recent_post.url) }}"></a>
-					<p class="card-text"><small style="color: #343A40;">Posted on: {{ recent_post.date }}</small></p>
-				</div>
-			</div>
-			{% endfor %}
-		</div>
-	</div>
+<div
+  class="d-flex flex-column"
+  style="
+    background-image: url('/static/images/carousel-bg.webp');
+    background-size: cover;
+    background-position: center;
+  "
+>
+  <h1
+    class="card-title"
+    style="
+      font-family: LibreFranklin;
+      font-weight: bold;
+      font-size: 3rem;
+      margin: 20px 0px 0px 20px;
+      text-align: left;
+      color: #212529;
+    "
+  >
+    Newly posted content on Shetty777
+  </h1>
+  <div class="carousel">
+    <div class="carousel__inner">
+      {% for recent_post in recent_posts_list %}
+      <div class="card carousel-card">
+        <img
+          src="{{ url_for('.static', filename = recent_post.banner) }}"
+          class="card-img-top"
+          alt="{{recent_post.title}}"
+          style="
+            object-fit: fill;
+            height: 12rem;
+            padding: 10px;
+            border-radius: 25px;
+          "
+        />
+        <div class="card-body">
+          <h5
+            class="card-title post-card-title"
+            style="
+              font-family: LibreFranklin;
+              font-weight: bold;
+              color: #212529;
+            "
+          >
+            {{ recent_post.title }}
+          </h5>
+          <a
+            class="stretched-link"
+            href="{{ url_for('routes.web_posts', post_url=recent_post.url) }}"
+          ></a>
+          <p class="card-text">
+            <small style="color: #343a40"
+              >Posted on: {{ recent_post.date }}</small
+            >
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 
 {% endblock %}
