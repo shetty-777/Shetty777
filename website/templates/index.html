@@ -64,7 +64,7 @@ block content %}
               <a
                 href="{{ url_for('routes.articles') }}"
                 class="btn btn-lg custom-btn"
-                style="width: 90%; max-width: 15rem; padding: 1rem"
+                style="width: 90%; max-width: 15rem"
                 >Explore now&emsp;<i class="bi bi-arrow-right"></i
               ></a>
             </div>
@@ -113,7 +113,7 @@ block content %}
               <a
                 href="{{ url_for('routes.projects') }}"
                 class="btn btn-lg custom-btn"
-                style="width: 90%; max-width: 15rem; padding: 1rem"
+                style="width: 90%; max-width: 15rem"
                 >Explore now&emsp;<i class="bi bi-arrow-right"></i
               ></a>
             </div>
@@ -188,7 +188,8 @@ block content %}
   <h1
     class="card-title"
     style="
-      font-family: Buttermilk;
+      font-family: LibreFranklin;
+      font-weight: bold;
       font-size: 3rem;
       margin: 20px 0px 0px 20px;
       text-align: left;
@@ -206,7 +207,7 @@ block content %}
           class="card-img-top"
           alt="{{recent_post.title}}"
           style="
-            object-fit: cover;
+            object-fit: fill;
             height: 12rem;
             padding: 10px;
             border-radius: 25px;
@@ -228,13 +229,9 @@ block content %}
             href="{{ url_for('routes.web_posts', post_url=recent_post.url) }}"
           ></a>
           <p class="card-text">
-            <a><small style="color: #343a40">{{ recent_post.date }}</small></a>
-            <a class="float-end"
-              ><small style="color: #343a40"
-                >{{ recent_post.rating }} / 7&ensp;<i
-                  class="bi bi-star-fill"
-                ></i></small
-            ></a>
+            <small style="color: #343a40"
+              >Posted on: {{ recent_post.date }}</small
+            >
           </p>
         </div>
       </div>
