@@ -111,9 +111,16 @@ def index():
         banner = soup.find(id="post_banner").get("src")
         banner = re.search(r"""='(.*?)'\)""", str(banner)).group(1).strip()
         date = format_datetime(recent_post.date_created, "Asia/Kolkata", "%d %b, %Y")
+        avg_rating = get_avg_rating(recent_post)["avg_rating"]
 
         recent_posts_list.append(
-            {"title": title, "banner": banner, "url": recent_post.url, "date": date}
+            {
+                "title": title,
+                "banner": banner,
+                "url": recent_post.url,
+                "date": date,
+                "rating": avg_rating,
+            }
         )
     return render_template(
         "index.html", user=current_user, recent_posts_list=recent_posts_list
@@ -258,7 +265,7 @@ def verify_email(token):
                     db.session.commit()
 
                     flash(
-                         "Thank you for subscribing. You can now continue to login",
+                        "Thank you for subscribing. You can now continue to login",
                         category="success",
                     )
                     return redirect("/login")
@@ -818,6 +825,40 @@ def post():
 # ---------------------------------oooo000oooo--------------------------------------#
 
 
+def get_avg_rating(post):
+    comments = (
+        db.session.query(Comment)
+        .filter_by(post_id=post.id)
+        .order_by(Comment.date_created.desc())
+        .all()
+    )
+    comment_list = []
+    if comments:
+        for comment in comments:
+            commentator = (
+                db.session.query(AllUsers).filter_by(id=comment.commentator).first()
+            )
+            comment_list.append(
+                {
+                    "id": comment.id,
+                    "commentator": commentator,
+                    "rating": comment.rating,
+                    "text_content": comment.text_content,
+                    "date": format_datetime(
+                        comment.date_created, "Asia/Kolkata", "%d %b, %Y"
+                    ),
+                }
+            )
+
+    ratings = [item["rating"] for item in comment_list if item["rating"] is not None]
+    if len(ratings) != 0:
+        avg_rating = round(sum(ratings) / len(ratings), 1)
+    else:
+        avg_rating = "-"
+
+    return {"comment_list": comment_list, "avg_rating": avg_rating}
+
+
 @routes.route("/web_posts/<post_url>", methods=["POST", "GET"])
 def web_posts(post_url):
     try:
@@ -835,37 +876,8 @@ def web_posts(post_url):
         post_file = str(post.html_file).replace("<FileStorage: '", "")
         post_file = post_file.replace("' ('text/html')>", "")
 
-        comments = (
-            db.session.query(Comment)
-            .filter_by(post_id=post.id)
-            .order_by(Comment.date_created.desc())
-            .all()
-        )
-        comment_list = []
-        if comments:
-            for comment in comments:
-                commentator = (
-                    db.session.query(AllUsers).filter_by(id=comment.commentator).first()
-                )
-                comment_list.append(
-                    {
-                        "id": comment.id,
-                        "commentator": commentator,
-                        "rating": comment.rating,
-                        "text_content": comment.text_content,
-                        "date": format_datetime(
-                            comment.date_created, "Asia/Kolkata", "%d %b, %Y"
-                        ),
-                    }
-                )
-
-        ratings = [
-            item["rating"] for item in comment_list if item["rating"] is not None
-        ]
-        if len(ratings) != 0:
-            avg_rating = round(sum(ratings) / len(ratings), 1)
-        else:
-            avg_rating = "No ratings"
+        comment_list = get_avg_rating(post)["comment_list"]
+        avg_rating = get_avg_rating(post)["avg_rating"]
 
         if hasattr(current_user, "id"):
             user_comments = Comment.query.filter_by(
