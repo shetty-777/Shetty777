@@ -229,9 +229,13 @@ block content %}
             href="{{ url_for('routes.web_posts', post_url=recent_post.url) }}"
           ></a>
           <p class="card-text">
-            <small style="color: #343a40"
-              >Posted on: {{ recent_post.date }}</small
-            >
+            <a><small style="color: #343a40">{{ recent_post.date }}</small></a>
+            <a class="float-end"
+              ><small style="color: #343a40"
+                >{{ recent_post.rating }} / 7&ensp;<i
+                  class="bi bi-star-fill"
+                ></i></small
+            ></a>
           </p>
         </div>
       </div>
