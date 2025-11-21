@@ -1026,7 +1026,7 @@ def unmark_post(userid, postid):
 def subscriber_list():
     subscriber_list = Subscriber.query.order_by(Subscriber.date_subscribed)
     return render_template(
-        "subscriber_list.html", subscriber_list=subscriber_list, user=current_user
+        "subscriber_list.html", subscriber_num=subscriber_list.count(), subscriber_list=subscriber_list, user=current_user
     )
 
 
